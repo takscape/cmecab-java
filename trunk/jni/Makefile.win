@@ -1,0 +1,24 @@
+CMECAB_INCLUDE=/I"c:\Program Files\Java\jdk1.6.0_03\include" \
+               /I"c:\Program Files\Java\jdk1.6.0_03\include\win32" \
+               /I"c:\Program Files\MeCab\sdk"
+CMECAB_SRC=mecab.cpp
+CMECAB_TARGET=CMeCab.dll
+CMECAB_LIB="c:\Program Files\MeCab\sdk\libmecab.lib"
+
+CXX=cl
+CXXFLAGS=/DDLL_IMPORT /EHsc /Ox $(CMECAB_INCLUDE)
+LDFLAGS=/LD
+
+all:
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) /Fe$(CMECAB_TARGET) $(CMECAB_SRC) $(CMECAB_LIB)
+
+javah:
+	javah -classpath ../bin/classes \
+	  net.moraleboost.mecab.Tagger \
+	  net.moraleboost.mecab.Node
+
+clean:
+	del *.dll
+	del *.obj
+	del *.lib
+	del *.exp

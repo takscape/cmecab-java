@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CMeCab" default="dist" basedir=".">
+  <description>
+    Yet Another Java Binding for MeCab.
+  </description>
+
+  <property name="src" location="src"/>
+  <property name="dist" location="bin"/>
+  <property name="version" value="1.0"/>
+
+  <target name="init">
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${dist}/classes"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac
+       sourcepath=""
+       srcdir="${src}"
+       destdir="${dist}/classes">
+      <include name="**/*.java"/>
+      <exclude name="**/.svn/"/>
+      <exclude name="**/*Test.java"/>
+    </javac>
+  </target>
+
+  <target name="dist" depends="compile">
+    <jar
+       destfile="${dist}/cmecab-${version}.jar"
+       basedir="${dist}/classes"
+       excludes="**/.svn/">
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete dir="${dist}"/>
+  </target>
+</project>
