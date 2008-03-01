@@ -1,3 +1,19 @@
+/*
+**
+**  Mar. 1, 2008
+**
+**  The author disclaims copyright to this source code.
+**  In place of a legal notice, here is a blessing:
+**
+**    May you do good and not evil.
+**    May you find forgiveness for yourself and forgive others.
+**    May you share freely, never taking more than you give.
+**
+**                                         Stolen from SQLite :-)
+**  Any feedback is welcome.
+**  Kohei TAKETA <k-tak@void.in>
+**
+*/
 package net.moraleboost.mecab;
 
 import java.nio.charset.CharacterCodingException;
@@ -35,6 +51,12 @@ public class Tagger
     private Node node = null;
     private long handle = 0;
 
+    /**
+     * 形態素解析器を構築する。
+     * @param dicCharset MeCabの辞書の文字コード。WindowsではShift_JIS、UNIX系ではEUC-JPであることが多いであろう。
+     * @param arg MeCabに与える引数。MeCab::createTagger(const char*)の引数として与えられる。
+     * @throws MeCabException ネイティブライブラリの内部エラー
+     */
     public Tagger(String dicCharset, String arg)
     throws MeCabException
     {
@@ -54,6 +76,10 @@ public class Tagger
         close();
     }
 
+    /**
+     * 形態素解析器を破棄し、リソースを解放する。
+     * parse()の呼び出しにより返された既存のNodeは無効化される。
+     */
     public void close()
     {
         if (node != null) {
@@ -67,6 +93,13 @@ public class Tagger
         }
     }
 
+    /**
+     * 形態素解析を行う。
+     * @param text 解析対象文字列
+     * @return Nodeオブジェクト
+     * @throws CharacterCodingException textをバイト列にエンコードできなかった
+     * @throws MeCabException ネイティブライブラリの内部エラー
+     */
     public Node parse(CharSequence text)
     throws CharacterCodingException, MeCabException
     {
@@ -86,6 +119,10 @@ public class Tagger
         return node;
     }
     
+    /**
+     * バージョン文字列を取得する
+     * @return バージョン文字列
+     */
     public static String version()
     {
         return new String(_version());
