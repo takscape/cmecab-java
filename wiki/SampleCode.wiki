@@ -1,7 +1,7 @@
 #summary One-sentence summary of this page.
 
 = Details =
-{{{{Java}
+{{{
 public static void main(String[] args) throws Exception
 {
 	// バージョン文字列を取得
