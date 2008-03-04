@@ -48,7 +48,7 @@ public class MeCabTokenizer extends Tokenizer
 			return null;
 		}
 		
-		String tokenString = node.next();
+		String tokenString = node.nextMorpheme();
 		return new Token(tokenString, 0, tokenString.length());
 	}
 	
