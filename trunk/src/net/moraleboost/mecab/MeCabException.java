@@ -16,7 +16,9 @@
 */
 package net.moraleboost.mecab;
 
-public class MeCabException extends Exception
+import java.io.IOException;
+
+public class MeCabException extends IOException
 {
     public MeCabException()
     {
