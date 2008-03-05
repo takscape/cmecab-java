@@ -11,7 +11,7 @@
 == ネイティブライブラリの構築 ==
 配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
 
-添付のmakefileは、WindowsではMicrosoft Visual Studio、LinuxではgccをC++コンパイラとして仮定している。異なるコンパイラを用いる場合は適宜修正すること。また、インクルードディレクトリやMeCabのライブラリの場所も必要に応じて編集すること。
+添付のmakefileは、WindowsではMicrosoft Visual Studio、LinuxではgccをC++コンパイラとして仮定している。異なるコンパイラを用いる場合は適宜修正すること。また、インクルードディレクトリや!MeCabのライブラリの場所も必要に応じて編集すること。
 
 Windowsでの例
 {{{
