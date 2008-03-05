@@ -22,6 +22,7 @@ public class MeCabTokenizer extends Tokenizer
 	private CharBuffer tmpBuffer = null;
 	private Tagger tagger = null;
 	private Node node = null;
+	private int offset = 0;
 	
 	public MeCabTokenizer(Reader in, String dicCharset, String arg) throws IOException
 	{
@@ -33,6 +34,7 @@ public class MeCabTokenizer extends Tokenizer
 		parse();
 	}
 	
+	@Override
 	public void close() throws IOException
 	{
 		if (tagger != null) {
@@ -42,6 +44,7 @@ public class MeCabTokenizer extends Tokenizer
 		super.close();
 	}
 	
+	@Override
 	public Token next() throws java.io.IOException
 	{
 		if (node == null || !node.hasNext()) {
@@ -49,7 +52,11 @@ public class MeCabTokenizer extends Tokenizer
 		}
 		
 		String tokenString = node.nextMorpheme();
-		return new Token(tokenString, 0, tokenString.length());
+		int start = offset;
+		int end = start + tokenString.length();
+		offset = end;
+		
+		return new MeCabToken(tokenString, node.feature(), start, end);
 	}
 	
 	private void parse() throws IOException
