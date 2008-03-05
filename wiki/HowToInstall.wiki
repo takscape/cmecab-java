@@ -1,0 +1,55 @@
+#インストール方法
+
+= インストール方法 =
+
+ 1. ネイティブライブラリの構築
+ 1. Javaライブラリの構築
+
+の順に行う。
+
+== ネイティブライブラリの構築 ==
+配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
+
+添付のmakefileは、WindowsではMicrosoft Visual Studio、LinuxではgccをC++コンパイラとして仮定している。異なるコンパイラを用いる場合は適宜修正すること。また、インクルードディレクトリやMeCabのライブラリの場所も必要に応じて編集すること。
+
+Windowsでの例
+{{{
+cd jni
+nmake -f makefile.win
+}}}
+
+ビルドが完了すると、同ディレクトリにCMeCab.dll（Windowsの場合）もしくはlibCMeCab.so（UNIX系の場合）が作成されているはず。これをJavaのライブラリパス(プロパティjava.library.pathで指定されているパス）の通った場所に置く。
+
+== Javaライブラリの構築 ==
+配布アーカイブのルートディレクトリでantを実行。
+
+成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
+
+== 実行テスト ==
+Taggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。
+
+{{{
+java -cp cmecab-1.0.jar net.moraleboost.mecab.Tagger EUC-JP 本日は晴天なり。
+}}}
+
+第一引数には、!MeCabの辞書の文字コード、第二引数には解析対象文字列を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
+{{{
+MeCab version is 0.97
+
+Original text: 本日は晴天なり。
+
+Morphemes:
+本日    名詞,副詞可能,*,*,*,*,本日,ホンジツ,ホンジツ
+は      助詞,係助詞,*,*,*,*,は,ハ,ワ
+晴天    名詞,一般,*,*,*,*,晴天,セイテン,セイテン
+なり    助動詞,*,*,*,文語・ナリ,基本形,なり,ナリ,ナリ
+。      記号,句点,*,*,*,*,。,。,。
+}}}
+
+動作しない場合は、以下を確認。
+ * CMeCab.dllもしくはlibCMeCab.soに、Javaのライブラリパスが通っているか。
+   * Windowsの場合、システムパスとJavaのライブラリパスは一致する。
+   * Linuxの場合、LD_LIBRARY_PATH環境変数とJavaのライブラリパスは一致する。
+   * java起動時に、-Djava.library.path=/usr/local/lib/cmecab-java のようにコマンドラインで指定することもできる。
+ * !MeCabのライブラリにパスが通っているか。
+   * Javaのライブラリパスではなく、OSのパスを通す必要がある。つまり、WindowsではPath環境変数、Linuxではld.so.confやLD_LIBRARY_PATHで指定した場所。
