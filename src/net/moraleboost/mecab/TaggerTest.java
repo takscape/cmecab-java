@@ -21,15 +21,17 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TaggerTest {
+	public static final String DIC_ENCODING =
+		System.getProperty("net.moraleboost.mecab.encoding");
 
 	@Test
 	public void testParse() {
 		try {
-			Tagger tagger = new Tagger("Shift_JIS", "");
+			Tagger tagger = new Tagger(DIC_ENCODING, "");
 			Node node = tagger.parse("本日は晴天なり。");
 			
 			while (node.hasNext()) {
-				node.next();
+				System.out.println(node.next());
 			}
 			tagger.close();
 		} catch (Exception e) {
@@ -40,7 +42,7 @@ public class TaggerTest {
 	@Test
 	public void testParse2() {
 		try {
-			Tagger tagger = new Tagger("Shift_JIS", "");
+			Tagger tagger = new Tagger(DIC_ENCODING, "");
 			Node node = tagger.parse("本日は晴天なり。");
 			tagger.close();
 			
@@ -54,7 +56,7 @@ public class TaggerTest {
 	@Test
 	public void testParse3() {
 		try {
-			Tagger tagger = new Tagger("Shift_JIS", "");
+			Tagger tagger = new Tagger(DIC_ENCODING, "");
 			Node node1 = tagger.parse("本日は晴天なり。");
 			Node node2 = tagger.parse("働けども働けども我が暮し楽にならざりぢっと手を見る.");
 

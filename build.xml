@@ -1,38 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="CMeCab" default="dist" basedir=".">
-  <description>
-    Yet Another Java Binding for MeCab.
-  </description>
+	<description>
+		Yet Another Java Binding for MeCab.
+	</description>
 
-  <property name="src" location="src"/>
-  <property name="dist" location="bin"/>
-  <property name="version" value="1.0"/>
+	<property name="src" location="src"/>
+	<property name="lib" location="lib"/>
+	<property name="jni" location="jni"/>
+	<property name="dist" location="bin"/>
+	<property name="version" value="1.0"/>
+	
+	<path id="compile.classpath">
+		<fileset dir="${lib}">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement path="${java.class.path}"/>
+	</path>
+	
+	<path id="test.classpath">
+		<path refid="compile.classpath"/>
+		<pathelement path="${dist}/classes"/>
+	</path>
+	
+	<path id="test.library.path">
+		<pathelement path="${java.library.path}"/>
+		<pathelement location="${jni}"/>
+	</path>
 
-  <target name="init">
-    <mkdir dir="${dist}"/>
-    <mkdir dir="${dist}/classes"/>
-  </target>
+	<target name="init">
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${dist}/classes"/>
+	</target>
 
-  <target name="compile" depends="init">
-    <javac
-       sourcepath=""
-       srcdir="${src}"
-       destdir="${dist}/classes">
-      <include name="**/*.java"/>
-      <exclude name="**/.svn/"/>
-      <exclude name="**/*Test.java"/>
-    </javac>
-  </target>
+	<target name="compile" depends="init">
+		<javac
+			sourcepath=""
+			encoding="utf-8"
+			classpathref="compile.classpath"
+			srcdir="${src}"
+			destdir="${dist}/classes">
+			<include name="**/*.java"/>
+			<exclude name="**/.svn/"/>
+		</javac>
+	</target>
+	
+	<property name="test.path" refid="test.library.path"/>
+	<property name="test.encoding" value="Shift_JIS"/>
+	<target name="test" depends="compile">
+		<junit fork="yes" printsummary="yes" haltonfailure="yes">
+			<classpath refid="test.classpath"/>
+			<jvmarg value="-Djava.library.path=${test.path}"/>
+			<jvmarg value="-Dnet.moraleboost.mecab.encoding=${test.encoding}"/>
+			<formatter type="plain"/>
+			<batchtest>
+				<fileset dir="${src}">
+					<include name="**/*Test.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
 
-  <target name="dist" depends="compile">
-    <jar
-       destfile="${dist}/cmecab-${version}.jar"
-       basedir="${dist}/classes"
-       excludes="**/.svn/">
-    </jar>
-  </target>
+	<target name="dist" depends="compile">
+		<jar
+			destfile="${dist}/cmecab-${version}.jar"
+			basedir="${dist}/classes">
+			<exclude name="**/.svn/"/>
+			<exclude name="**/*Test.class"/>
+		</jar>
+	</target>
 
-  <target name="clean">
-    <delete dir="${dist}"/>
-  </target>
+	<target name="clean">
+		<delete dir="${dist}"/>
+	</target>
 </project>
