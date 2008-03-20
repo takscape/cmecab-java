@@ -40,7 +40,7 @@ public class MeCabAnalyzer extends Analyzer
 		try {
 			return new MeCabTokenizer(reader, dicCharset, mecabArg);
 		} catch (IOException e) {
-			return null;
+			throw new MeCabTokenizerException(e);
 		}
 	}
 }

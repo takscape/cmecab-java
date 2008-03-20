@@ -26,6 +26,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizer;
+import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
 public class MeCabTokenizerFactory extends BaseTokenizerFactory
 {
@@ -60,7 +61,7 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 		try {
 			return new MeCabTokenizer(reader, dicCharset, mecabArg);
 		} catch (IOException e) {
-			return null;
+			throw new MeCabTokenizerException(e);
 		}
 	}
 }
