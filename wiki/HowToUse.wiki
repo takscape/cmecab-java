@@ -6,10 +6,42 @@
  * Solrから使用する
 
 == 単体で使用する ==
+ * Taggerクラスをインスタンス化し、parseを呼び出す。
+{{{
+import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.Node;
 
+public static void main(String[] args) throws Exception
+{
+    // バージョン文字列を取得
+    System.out.println("MeCab version: " + Tagger.version());
+    System.out.println();
+
+    String text = "本日は晴天なり。";
+    System.out.println("Original text: " + text);
+    System.out.println();
+
+    System.out.println("Morphemes:");
+    // Taggerを構築。
+    // 第一引数には、MeCabの辞書の文字コードを与える。
+    // 第二引数には、MeCabのcreateTagger()関数に与える引数を与える。
+    Tagger tagger = new Tagger("Shift_JIS", "");
+
+    // tagger.parse()を呼び出して、文字列を形態素解析する。
+    // 返されるオブジェクトは、Iterator<String>を実装している。
+    Node node = tagger.parse(text);
+
+    // 一つずつ形態素をたどりながら、表層形と素性を出力
+    while (node.hasNext()) {
+        String surface = node.next();
+        String feature = node.feature();
+        System.out.println(surface + "\t" + feature);
+    }
+}
+}}}
 
 == Luceneから使用する ==
- * MeCabAnalzyer、MeCabTokenizer、FeatureRegexFilterをインスタンス化して利用。
+ * !MeCabAnalzyer、!MeCabTokenizer、!FeatureRegexFilterをインスタンス化して利用。
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/MeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
