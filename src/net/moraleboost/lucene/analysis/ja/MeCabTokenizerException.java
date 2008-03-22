@@ -11,12 +11,12 @@ public class MeCabTokenizerException extends RuntimeException
     {
         super(msg);
     }
-    
+
     public MeCabTokenizerException(Throwable e)
     {
         super(e);
     }
-    
+
     public MeCabTokenizerException(String msg, Throwable e)
     {
         super(msg, e);

@@ -26,6 +26,7 @@ public class MeCabAnalyzer extends Analyzer
 {
 	private String dicCharset = null;
 	private String mecabArg = null;
+	private String[] stopPatterns = null;
 	
 	public MeCabAnalyzer(String dicCharset, String mecabArg)
 	{
@@ -34,11 +35,25 @@ public class MeCabAnalyzer extends Analyzer
 		this.mecabArg = mecabArg;
 	}
 
+	public MeCabAnalyzer(String dicCharset, String mecabArg, String[] stopPatterns)
+	{
+		super();
+		this.dicCharset = dicCharset;
+		this.mecabArg = mecabArg;
+		this.stopPatterns = stopPatterns;
+	}
+
 	@Override
 	public TokenStream tokenStream(String fieldName, Reader reader)
 	{
 		try {
-			return new MeCabTokenizer(reader, dicCharset, mecabArg);
+			TokenStream stream = new MeCabTokenizer(reader, dicCharset, mecabArg);
+			
+			if (stopPatterns != null) {
+				stream = new FeatureRegexFilter(stream, stopPatterns);
+			}
+
+			return stream;
 		} catch (IOException e) {
 			throw new MeCabTokenizerException(e);
 		}
