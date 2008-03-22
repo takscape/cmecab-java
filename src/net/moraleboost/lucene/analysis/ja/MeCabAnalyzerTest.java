@@ -18,15 +18,12 @@ package net.moraleboost.lucene.analysis.ja;
 
 import static org.junit.Assert.fail;
 
-import java.util.Iterator;
-
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.Hit;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
