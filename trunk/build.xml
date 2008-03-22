@@ -8,6 +8,7 @@
 	<property name="lib" location="lib"/>
 	<property name="jni" location="jni"/>
 	<property name="dist" location="bin"/>
+	<property name="doc" location="doc"/>
 	<property name="test" location="test"/>
 	<property name="version" value="1.0"/>
 	
@@ -32,7 +33,7 @@
 		<mkdir dir="${dist}"/>
 		<mkdir dir="${dist}/classes"/>
 	</target>
-
+	
 	<target name="compile" depends="init">
 		<javac
 			sourcepath=""
@@ -59,6 +60,17 @@
 				</fileset>
 			</batchtest>
 		</junit>
+	</target>
+
+	<target name="javadoc">
+		<javadoc
+			packagenames="net.moraleboost.*"
+			sourcepath="${src}"
+			destdir="${doc}/api"
+			classpathref="compile.classpath"
+			encoding="utf-8"
+			charset="utf-8">
+		</javadoc>
 	</target>
 
 	<target name="dist" depends="compile">

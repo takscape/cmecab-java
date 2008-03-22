@@ -28,6 +28,14 @@ public class MeCabAnalyzer extends Analyzer
 	private String mecabArg = null;
 	private String[] stopPatterns = null;
 	
+	/**
+     * MeCabTokenizerをTokenizerとして用いるAnalyzerを構築する。
+     * 
+     * @param dicCharset
+     *            MeCabの辞書の文字コード
+     * @param mecabArg
+     *            MeCabに与えるオプション
+     */
 	public MeCabAnalyzer(String dicCharset, String mecabArg)
 	{
 		super();
@@ -35,6 +43,17 @@ public class MeCabAnalyzer extends Analyzer
 		this.mecabArg = mecabArg;
 	}
 
+	/**
+     * MeCabTokenizerによって分かち書きされたトークンを
+     * FeatureRegexFilterによってフィルタリングするAnalyzerを構築する。
+     * 
+     * @param dicCharset
+     *            MeCabの辞書の文字コード
+     * @param mecabArg
+     *            MeCabに与えるオプション
+     * @param stopPatterns
+     *            FeatureRegexFilterに与える正規表現の配列
+     */
 	public MeCabAnalyzer(String dicCharset, String mecabArg, String[] stopPatterns)
 	{
 		super();
