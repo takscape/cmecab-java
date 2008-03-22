@@ -1,19 +1,19 @@
 /*
-**
-**  Mar. 5, 2008
-**
-**  The author disclaims copyright to this source code.
-**  In place of a legal notice, here is a blessing:
-**
-**    May you do good and not evil.
-**    May you find forgiveness for yourself and forgive others.
-**    May you share freely, never taking more than you give.
-**
-**                                         Stolen from SQLite :-)
-**  Any feedback is welcome.
-**  Kohei TAKETA <k-tak@void.in>
-**
-*/
+ **
+ **  Mar. 5, 2008
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.lucene.analysis.ja;
 
 import java.io.Reader;
@@ -29,73 +29,74 @@ import net.moraleboost.mecab.Node;
 
 public class MeCabTokenizer extends Tokenizer
 {
-	public static final int BUFFER_INITIAL_SIZE 	= 4096;
-	public static final int BUFFER_SHRINK_THRESOLD 	= 5 * 1024 * 1024;
-	public static final int BUFFER_SHRINK_TARGET 	= 1024 * 1024;
-	public static final int BUFFER_MAX_SIZE 		= 10 * 1024 * 1024;
-	
-	private StringBuilder buffer = null;
-	private CharBuffer tmpBuffer = null;
-	private Tagger tagger = null;
-	private Node node = null;
-	private int offset = 0;
-	
-	public MeCabTokenizer(Reader in, String dicCharset, String arg) throws IOException
-	{
-		super(in);
-		buffer = new StringBuilder(BUFFER_INITIAL_SIZE);
-		tmpBuffer = CharBuffer.allocate(BUFFER_INITIAL_SIZE);
-		tagger = new Tagger(dicCharset, arg);
-		
-		parse();
-	}
-	
-	@Override
-	public void close() throws IOException
-	{
-		if (tagger != null) {
-			tagger.close();
-		}
-		node = null;
-		super.close();
-	}
-	
-	@Override
-	public Token next() throws java.io.IOException
-	{
-		if (node == null || !node.hasNext()) {
-			return null;
-		}
-		
-		String tokenString = node.nextMorpheme();
-		int start = offset;
-		int end = start + tokenString.length();
-		offset = end;
-		
-		return new MeCabToken(tokenString, node.feature(), start, end);
-	}
-	
-	private void parse() throws IOException
-	{
-		// drain input
-		int nread = 0;
-		buffer.setLength(0);
-		tmpBuffer.clear();
-		while ((nread=input.read(tmpBuffer)) > 0) {
-			tmpBuffer.rewind();
-			buffer.append(tmpBuffer, 0, nread);
-			tmpBuffer.clear();
-			if (buffer.length() < BUFFER_MAX_SIZE) {
-				throw new MeCabException("Buffer overflow");
-			}
-		}
-		
-		// parse
-		node = tagger.parse(buffer);
-		
-		// shrink buffer if exceeded BUFFER_SHRINK_THRESOLD
-		if (buffer.length() > BUFFER_SHRINK_THRESOLD) {
-			buffer = new StringBuilder(BUFFER_SHRINK_TARGET);
-		}
-	}
+    public static final int BUFFER_INITIAL_SIZE = 4096;
+    public static final int BUFFER_SHRINK_THRESOLD = 5 * 1024 * 1024;
+    public static final int BUFFER_SHRINK_TARGET = 1024 * 1024;
+    public static final int BUFFER_MAX_SIZE = 10 * 1024 * 1024;
+
+    private StringBuilder buffer = null;
+    private CharBuffer tmpBuffer = null;
+    private Tagger tagger = null;
+    private Node node = null;
+    private int offset = 0;
+
+    public MeCabTokenizer(Reader in, String dicCharset, String arg)
+    throws IOException
+    {
+        super(in);
+        buffer = new StringBuilder(BUFFER_INITIAL_SIZE);
+        tmpBuffer = CharBuffer.allocate(BUFFER_INITIAL_SIZE);
+        tagger = new Tagger(dicCharset, arg);
+
+        parse();
+    }
+
+    @Override
+    public void close() throws IOException
+    {
+        if (tagger != null) {
+            tagger.close();
+        }
+        node = null;
+        super.close();
+    }
+
+    @Override
+    public Token next() throws java.io.IOException
+    {
+        if (node == null || !node.hasNext()) {
+            return null;
+        }
+
+        String tokenString = node.nextMorpheme();
+        int start = offset;
+        int end = start + tokenString.length();
+        offset = end;
+
+        return new MeCabToken(tokenString, node.feature(), start, end);
+    }
+
+    private void parse() throws IOException
+    {
+        // drain input
+        int nread = 0;
+        buffer.setLength(0);
+        tmpBuffer.clear();
+        while ((nread = input.read(tmpBuffer)) > 0) {
+            tmpBuffer.rewind();
+            buffer.append(tmpBuffer, 0, nread);
+            tmpBuffer.clear();
+            if (buffer.length() > BUFFER_MAX_SIZE) {
+                throw new MeCabException("Buffer overflow");
+            }
+        }
+
+        // parse
+        node = tagger.parse(buffer);
+
+        // shrink buffer if exceeded BUFFER_SHRINK_THRESOLD
+        if (buffer.length() > BUFFER_SHRINK_THRESOLD) {
+            buffer = new StringBuilder(BUFFER_SHRINK_TARGET);
+        }
+    }
 }

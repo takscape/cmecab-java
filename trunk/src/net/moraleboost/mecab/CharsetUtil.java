@@ -1,19 +1,19 @@
 /*
-**
-**  Mar. 1, 2008
-**
-**  The author disclaims copyright to this source code.
-**  In place of a legal notice, here is a blessing:
-**
-**    May you do good and not evil.
-**    May you find forgiveness for yourself and forgive others.
-**    May you share freely, never taking more than you give.
-**
-**                                         Stolen from SQLite :-)
-**  Any feedback is welcome.
-**  Kohei TAKETA <k-tak@void.in>
-**
-*/
+ **
+ **  Mar. 1, 2008
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.mecab;
 
 import java.nio.charset.Charset;
@@ -24,7 +24,6 @@ import java.nio.CharBuffer;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.UnsupportedCharsetException;
-
 
 /**
  * 文字コード変換用のヘルパークラス。
@@ -54,10 +53,10 @@ public abstract class CharsetUtil
         CharsetEncoder encoder = cset.newEncoder();
         encoder.onMalformedInput(malformedInputAction);
         encoder.onUnmappableCharacter(unmappableCharacterAction);
-        
+
         return encoder;
     }
-    
+
     /**
      * 指定した文字コードからUnicodeへの変換器を作成する。
      * @param charset 文字コード
@@ -100,7 +99,7 @@ public abstract class CharsetUtil
         byte[] ret = null;
         if (terminateWithNull) {
             // \0を追加する。
-            ret = new byte[size+1];
+            ret = new byte[size + 1];
             buf.get(ret, 0, size);
             ret[size] = 0;
         } else {
@@ -110,7 +109,7 @@ public abstract class CharsetUtil
 
         return ret;
     }
-    
+
     /**
      * 指定したデコーダを用いて、バイト配列をUnicode文字列にデコードする。
      * @param decoder デコーダ
@@ -118,7 +117,9 @@ public abstract class CharsetUtil
      * @return Unicode文字列
      * @throws CharacterCodingException 変換エラーの発生
      */
-    public static String decode(CharsetDecoder decoder, byte[] rawText)
+    public static String decode(
+            CharsetDecoder decoder,
+            byte[] rawText)
     throws CharacterCodingException
     {
         CharBuffer buf = decoder.decode(ByteBuffer.wrap(rawText));
