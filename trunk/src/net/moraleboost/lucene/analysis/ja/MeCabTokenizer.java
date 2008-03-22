@@ -91,7 +91,18 @@ public class MeCabTokenizer extends Tokenizer
             int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
     throws IOException
     {
+        super(in);
+
+        bufferInitialSize = initialSize;
+        bufferShrinkThreshold = shrinkThreshold;
+        bufferShrinkTarget = shrinkTarget;
+        bufferMaxSize = maxSize;
         
+        buffer = new StringBuilder(bufferInitialSize);
+        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
+        tagger = new Tagger(dicCharset, arg);
+
+        parse();
     }
     
     @Override

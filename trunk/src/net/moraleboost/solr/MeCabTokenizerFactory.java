@@ -94,7 +94,8 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
     public TokenStream create(Reader reader)
     {
         try {
-            return new MeCabTokenizer(reader, dicCharset, mecabArg);
+            return new MeCabTokenizer(reader, dicCharset, mecabArg,
+                    initialSize, shrinkThreshold, shrinkTarget, maxSize);
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }
