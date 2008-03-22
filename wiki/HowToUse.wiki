@@ -1,3 +1,4 @@
+#labels Featured
 = 使用方法 =
 
  * 単体で使用する
@@ -9,11 +10,7 @@
 
 == Luceneから使用する ==
  * MeCabAnalzyer、MeCabTokenizer、FeatureRegexFilterをインスタンス化して利用。
-
-{{{
-import 
-}}}
-
+ * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/MeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
  * schema.xmlに、!MeCabTokenizerFactoryおよび!FeatureRegexFilterFactoryを記述。
