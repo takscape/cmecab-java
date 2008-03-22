@@ -1,0 +1,27 @@
+= 使用方法 =
+
+ * 単体で使用する
+ * Luceneから使用する
+ * Solrから使用する
+
+== 単体で使用する ==
+
+
+== Luceneから使用する ==
+ * MeCabAnalzyer、MeCabTokenizer、FeatureRegexFilterをインスタンス化して利用。
+
+{{{
+import 
+}}}
+
+
+== Solrから使用する ==
+ * schema.xmlに、!MeCabTokenizerFactoryおよび!FeatureRegexFilterFactoryを記述。
+
+{{{
+<fieldType name="text" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="org.moraleboost.solr.MeCabTokenizerFactory"/>
+    </analyzer>
+</fieldType>
+}}}
