@@ -29,28 +29,71 @@ import net.moraleboost.mecab.Node;
 
 public class MeCabTokenizer extends Tokenizer
 {
-    public static final int BUFFER_INITIAL_SIZE = 4096;
-    public static final int BUFFER_SHRINK_THRESOLD = 5 * 1024 * 1024;
-    public static final int BUFFER_SHRINK_TARGET = 1024 * 1024;
-    public static final int BUFFER_MAX_SIZE = 10 * 1024 * 1024;
+    public static final int DEFAULT_BUFFER_INITIAL_SIZE     = 4096;
+    public static final int DEFAULT_BUFFER_SHRINK_THRESHOLD = 5 * 1024 * 1024;
+    public static final int DEFAULT_BUFFER_SHRINK_TARGET    = 1024 * 1024;
+    public static final int DEFAULT_BUFFER_MAX_SIZE         = 10 * 1024 * 1024;
 
+    private int bufferInitialSize = DEFAULT_BUFFER_INITIAL_SIZE;
+    private int bufferShrinkThreshold = DEFAULT_BUFFER_SHRINK_THRESHOLD;
+    private int bufferShrinkTarget = DEFAULT_BUFFER_SHRINK_TARGET;
+    private int bufferMaxSize = DEFAULT_BUFFER_MAX_SIZE;
+    
     private StringBuilder buffer = null;
     private CharBuffer tmpBuffer = null;
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
 
+    /**
+     * MeCabを用いて入力を分かち書きするTokenizerを構築する。
+     * 
+     * @param in
+     *            入力
+     * @param dicCharset
+     *            MeCabの辞書の文字コード
+     * @param arg
+     *            MeCabに与えるオプション
+     * @throws IOException
+     */
     public MeCabTokenizer(Reader in, String dicCharset, String arg)
     throws IOException
     {
         super(in);
-        buffer = new StringBuilder(BUFFER_INITIAL_SIZE);
-        tmpBuffer = CharBuffer.allocate(BUFFER_INITIAL_SIZE);
+        buffer = new StringBuilder(bufferInitialSize);
+        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
         tagger = new Tagger(dicCharset, arg);
 
         parse();
     }
 
+    /**
+     * MeCabを用いて入力を分かち書きするTokenizerを構築する。
+     * 
+     * @param in
+     *            入力
+     * @param dicCharset
+     *            MeCabの辞書の文字コード
+     * @param arg
+     *            MeCabに与えるオプション
+     * @param initialSize
+     *            入力を吸い上げるための一時バッファの初期サイズ
+     * @param shrinkThreshold
+     *            一時バッファのサイズがこの値を超えると、shrinkTargetまで縮小される。
+     * @param shrinkTarget
+     *            一時バッファのサイズがshrinkThresholdを超えると、このサイズまで縮小される。
+     * @param maxSize
+     *            一時バッファのサイズがこの値を超えると、解析は失敗し、MeCabExceptionが発生する。
+     * @throws IOException
+     */
+    public MeCabTokenizer(
+            Reader in, String dicCharset, String arg,
+            int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
+    throws IOException
+    {
+        
+    }
+    
     @Override
     public void close() throws IOException
     {
@@ -86,7 +129,7 @@ public class MeCabTokenizer extends Tokenizer
             tmpBuffer.rewind();
             buffer.append(tmpBuffer, 0, nread);
             tmpBuffer.clear();
-            if (buffer.length() > BUFFER_MAX_SIZE) {
+            if (buffer.length() > bufferMaxSize) {
                 throw new MeCabException("Buffer overflow");
             }
         }
@@ -95,8 +138,8 @@ public class MeCabTokenizer extends Tokenizer
         node = tagger.parse(buffer);
 
         // shrink buffer if exceeded BUFFER_SHRINK_THRESOLD
-        if (buffer.length() > BUFFER_SHRINK_THRESOLD) {
-            buffer = new StringBuilder(BUFFER_SHRINK_TARGET);
+        if (buffer.length() > bufferShrinkThreshold) {
+            buffer = new StringBuilder(bufferShrinkTarget);
         }
     }
 }
