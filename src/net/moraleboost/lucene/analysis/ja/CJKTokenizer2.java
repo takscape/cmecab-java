@@ -77,6 +77,7 @@ public final class CJKTokenizer2 extends Tokenizer
                     
                     if (Character.isLetterOrDigit(c) || (c == '_') || (c == '+') || (c == '#')) {
                         charType = CHARTYPE_SINGLE;
+                        c = Character.toLowerCase(c);
                     } else {
                         charType = CHARTYPE_SYMBOL;
                     }

@@ -14,7 +14,7 @@ public class CJKTokenizer2Test
     public void testTokenize()
     {
         try {
-            String str = "this_book's落丁、乱丁  はabcd.defお取替えします。";
+            String str = "this_ＢＯＯＫ’s落丁、乱丁  はaBCd.defお取替えします。";
             StringReader reader = new StringReader(str);
             CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
             Token token;
