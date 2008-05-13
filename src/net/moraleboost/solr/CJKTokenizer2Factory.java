@@ -18,6 +18,7 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
     
     public void init(Map<String, String> args)
     {
+        super.init(args);
         // 初期化項目なし
     }
 
