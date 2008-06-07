@@ -59,7 +59,6 @@ public final class CJKTokenizer2 extends Tokenizer
         while (true) {
             corg = pbinput.read();
             c = corg;
-            char thiChar = (char)c;
 
             // 文字種の調査
             prevCharType = charType;

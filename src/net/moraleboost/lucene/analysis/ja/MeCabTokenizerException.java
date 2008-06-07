@@ -18,6 +18,8 @@ package net.moraleboost.lucene.analysis.ja;
 
 public class MeCabTokenizerException extends RuntimeException
 {
+    private static final long serialVersionUID = 1790249223369360070L;
+
     public MeCabTokenizerException()
     {
         super();
