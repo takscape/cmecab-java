@@ -14,7 +14,7 @@
  **  Kohei TAKETA <k-tak@void.in>
  **
  */
-package net.moraleboost.mecab;
+package net.moraleboost.mecab.util;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;

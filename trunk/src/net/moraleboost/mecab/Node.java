@@ -21,6 +21,8 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.Iterator;
 
+import net.moraleboost.mecab.util.CharsetUtil;
+
 public class Node implements Iterator<String>
 {
     private CharsetDecoder decoder = null;

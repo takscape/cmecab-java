@@ -1,5 +1,5 @@
-CMECAB_INCLUDE=/I"c:\Program Files\Java\jdk1.6.0_05\include" \
-               /I"c:\Program Files\Java\jdk1.6.0_05\include\win32" \
+CMECAB_INCLUDE=/I"c:\Program Files\Java\jdk1.6.0_11\include" \
+               /I"c:\Program Files\Java\jdk1.6.0_11\include\win32" \
                /I"c:\Program Files\MeCab\sdk"
 CMECAB_SRC=mecab.cpp
 CMECAB_TARGET=CMeCab.dll
