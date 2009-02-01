@@ -1,3 +1,19 @@
+/*
+ **
+ **  Feb. 1, 2009
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.mecab.util;
 
 /**
@@ -10,12 +26,12 @@ public class CodePointIterator
 	/**
 	 * 不正なサロゲートペアを置換する文字の既定値。
 	 */
-	public static final int DEFAULT_ALTERNATIVE_CODEPOINT = '〓';
+	public static final int DEFAULT_ALTERNATION_CODEPOINT = '〓';
 
 	private CharSequence sequence = null;
 	private int maxCharIndex = 0;
 	private int charIndex = 0;
-	private int alternativeCodepoint = DEFAULT_ALTERNATIVE_CODEPOINT;
+	private int alternationCodepoint = DEFAULT_ALTERNATION_CODEPOINT;
 
 	/**
 	 * コードポイントイテレータを構築する。
@@ -35,9 +51,9 @@ public class CodePointIterator
 	 * @param cp
 	 *            代替文字のコードポイント
 	 */
-	public void setAlternativeCodepoint(int cp)
+	public void setAlternationCodepoint(int cp)
 	{
-		this.alternativeCodepoint = cp;
+		this.alternationCodepoint = cp;
 	}
 
 	/**
@@ -45,9 +61,9 @@ public class CodePointIterator
 	 * 
 	 * @return 代替文字のコードポイント
 	 */
-	public int getAlternativeCodepoint()
+	public int getAlternationCodepoint()
 	{
-		return alternativeCodepoint;
+		return alternationCodepoint;
 	}
 
 	/**
@@ -69,17 +85,17 @@ public class CodePointIterator
 				} else {
 					// high surrogateに続くcharが、low surrogateでない。
 					// 代替文字を返す。
-					return alternativeCodepoint;
+					return alternationCodepoint;
 				}
 			} else {
 				// シーケンスがhigh surrogateで終わっている。
 				// 代替文字を返す。
-				return alternativeCodepoint;
+				return alternationCodepoint;
 			}
 		} else if (Character.isLowSurrogate(c)) {
 			// 単独で存在するlow surrogateを発見。
 			// 代替文字を返す。
-			return alternativeCodepoint;
+			return alternationCodepoint;
 		} else {
 			// 基本文字。そのまま返す。
 			return c;
