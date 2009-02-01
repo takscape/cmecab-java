@@ -21,6 +21,8 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
 
+import net.moraleboost.mecab.util.CharsetUtil;
+
 public class Tagger
 {
     static {

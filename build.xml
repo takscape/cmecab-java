@@ -40,14 +40,16 @@
 			encoding="utf-8"
 			classpathref="compile.classpath"
 			srcdir="${src}"
-			destdir="${dist}/classes">
+			destdir="${dist}/classes"
+			source="1.5"
+			target="1.5">
 			<include name="**/*.java"/>
 			<exclude name="**/.svn/"/>
 		</javac>
 	</target>
 	
 	<property name="test.path" refid="test.library.path"/>
-	<property name="test.encoding" value="Shift_JIS"/>
+	<property name="test.encoding" value="UTF-8"/>
 	<target name="test" depends="compile">
 		<junit fork="yes" printsummary="yes" haltonfailure="yes">
 			<classpath refid="test.classpath"/>
