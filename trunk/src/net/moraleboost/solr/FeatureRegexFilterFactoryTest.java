@@ -65,6 +65,7 @@ public class FeatureRegexFilterFactoryTest
         Token token;
         while ((token = stream.next()) != null) {
             String termText = token.termText();
+            System.out.println("token: " + termText);
             if (termText.equals("は") || termText.equals("なり")) {
                 fail("Filter not working.");
             }
