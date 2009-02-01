@@ -48,9 +48,10 @@ public class TaggerTest
         try {
             Tagger tagger = new Tagger(DIC_ENCODING, "");
             Node node = tagger.parse("本日は晴天なり。");
-            tagger.close();
 
             // taggerが閉じられたあとは、nodeは無効化されなくてはならない。
+            tagger.close();
+
             assertFalse(node.hasNext());
         } catch (Exception e) {
             fail(e.toString());
@@ -63,9 +64,10 @@ public class TaggerTest
         try {
             Tagger tagger = new Tagger(DIC_ENCODING, "");
             Node node1 = tagger.parse("本日は晴天なり。");
-            Node node2 = tagger.parse("働けども働けども我が暮し楽にならざりぢっと手を見る.");
 
-            // 次にparseを呼び出した時点で、node1は無効化されなければならない。
+            // ここでparse()を呼び出した時点で、古い形態素解析結果であるnode1は無効化されなければならない。
+            tagger.parse("働けども働けども我が暮し楽にならざりぢっと手を見る.");
+
             assertFalse(node1.hasNext());
         } catch (Exception e) {
             fail(e.toString());

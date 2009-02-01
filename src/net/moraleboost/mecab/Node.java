@@ -26,6 +26,7 @@ import net.moraleboost.mecab.util.CharsetUtil;
 public class Node implements Iterator<String>
 {
     private CharsetDecoder decoder = null;
+    @SuppressWarnings("unused")
     private CharsetEncoder encoder = null;
     private long prevHandle = 0;
     private long handle = 0;
