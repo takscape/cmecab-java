@@ -52,7 +52,7 @@ public static void main(String[] args) throws Exception
 {{{
 <fieldType name="text" class="solr.TextField">
     <analyzer>
-        <tokenizer class="org.moraleboost.solr.MeCabTokenizerFactory"/>
+        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory"/>
     </analyzer>
 </fieldType>
 }}}
