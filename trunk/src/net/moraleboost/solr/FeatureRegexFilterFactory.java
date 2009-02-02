@@ -61,7 +61,7 @@ public class FeatureRegexFilterFactory extends BaseTokenFilterFactory
             isr = new InputStreamReader(fis, charset);
             br = new BufferedReader(isr);
             while ((regex = br.readLine()) != null) {
-                if (!regex.isEmpty()) {
+                if (!regex.equals("")) {
                     regexList.add(regex);
                 }
             }

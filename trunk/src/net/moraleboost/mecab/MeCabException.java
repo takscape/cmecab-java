@@ -20,9 +20,9 @@ import java.io.IOException;
 
 public class MeCabException extends IOException
 {
-    private static final long serialVersionUID = -4778845306462579544L;
+	private static final long serialVersionUID = -4839770152212702083L;
 
-    public MeCabException()
+	public MeCabException()
     {
         super();
     }
@@ -34,11 +34,13 @@ public class MeCabException extends IOException
 
     public MeCabException(Throwable e)
     {
-        super(e);
+    	super();
+    	initCause(e);
     }
 
     public MeCabException(String msg, Throwable e)
     {
-        super(msg, e);
+    	super(msg);
+    	initCause(e);
     }
 }
