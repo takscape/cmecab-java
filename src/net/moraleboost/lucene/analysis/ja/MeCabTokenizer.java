@@ -57,7 +57,7 @@ public class MeCabTokenizer extends Tokenizer
      * @throws IOException
      */
     public MeCabTokenizer(Reader in, String dicCharset, String arg)
-    throws IOException
+    throws MeCabException, IOException
     {
         super(in);
         buffer = new StringBuilder(bufferInitialSize);
@@ -89,7 +89,7 @@ public class MeCabTokenizer extends Tokenizer
     public MeCabTokenizer(
             Reader in, String dicCharset, String arg,
             int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
-    throws IOException
+    throws MeCabException, IOException
     {
         super(in);
 
@@ -116,7 +116,7 @@ public class MeCabTokenizer extends Tokenizer
     }
 
     @Override
-    public Token next() throws java.io.IOException
+    public Token next() throws MeCabException, IOException
     {
         if (node == null || !node.hasNext()) {
             return null;
@@ -130,7 +130,7 @@ public class MeCabTokenizer extends Tokenizer
         return new MeCabToken(tokenString, node.feature(), start, end);
     }
 
-    private void parse() throws IOException
+    private void parse() throws MeCabException, IOException
     {
         // drain input
         int nread = 0;

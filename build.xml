@@ -85,7 +85,7 @@
 	</target>
 
 	<target name="clean">
-		<delete includeemptydirs="true">
+		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${dist}" includes="**/*"/>
 			<fileset dir="${doc}" includes="**/*"/>
 			<fileset dir="." includes="TEST-*.txt"/>
