@@ -240,16 +240,14 @@ public final class CJKTokenizer2 extends Tokenizer
     {
         tokenInfo.clear();
         
-        while (true) {
+        do {
         	charInfo.read(pbinput);
         	tokenInfo.handleChar(charInfo);
-        	if (tokenInfo.isComplete()) {
-        		if (tokenInfo.shouldPushback()) {
-        	    	pbinput.unread(
-        	    			charInfo.codePoint, (int)(charInfo.end-charInfo.start));
-        		}
-        		break;
-        	}
+        } while (!tokenInfo.isComplete());
+        
+        if (tokenInfo.shouldPushback()) {
+	    	pbinput.unread(
+	    			charInfo.codePoint, (int)(charInfo.end-charInfo.start));
         }
 
         return tokenInfo.toToken();
