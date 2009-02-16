@@ -1,5 +1,6 @@
 package net.moraleboost.lucene.analysis.ja;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
 import java.io.StringReader;
@@ -23,7 +24,9 @@ public class CJKTokenizer2Test
                     "this_book",
                     "s",
                     "落丁",
+                    "丁",
                     "乱丁",
+                    "丁",
                     "は",
                     "abcd",
                     "def",
@@ -32,14 +35,34 @@ public class CJKTokenizer2Test
                     "替え",
                     "えし",
                     "しま",
-                    "ます"
+                    "ます",
+                    "す"
+            };
+            
+            int [][] offsets = {
+            		{0,9},   // this_book
+            		{10,11}, // s
+            		{11,13}, // 落丁
+            		{12,13}, // 丁
+            		{14,16}, // 乱丁
+            		{15,16}, // 丁
+            		{18,19}, // は
+            		{19,23}, // abcd
+            		{24,27}, // def
+            		{27,29}, // お取
+            		{28,30}, // 取替
+            		{29,31}, // 替え
+            		{30,32}, // えし
+            		{31,33}, // しま
+            		{32,34}, // ます
+            		{33,34}  // す
             };
             
             int i=0;
             while ((token=tokenizer.next()) != null) {
-                if (!token.termText().equals(tokens[i])) {
-                    fail("Wrong token: " + token.termText());
-                }
+            	assertEquals(tokens[i], token.termText());
+            	assertEquals("Wrong start offset", offsets[i][0], token.startOffset());
+            	assertEquals("Wrong end offset", offsets[i][1], token.endOffset());
                 ++i;
             }
         } catch (Exception e) {

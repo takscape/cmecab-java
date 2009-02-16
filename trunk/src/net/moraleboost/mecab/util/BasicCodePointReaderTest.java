@@ -9,7 +9,7 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-public class CodePointReaderTest
+public class BasicCodePointReaderTest
 {
     @Test
     public void testBasic()
@@ -17,8 +17,9 @@ public class CodePointReaderTest
     {
         String str = "あaいbうcえdお";
         int[] answer = getCodePoints(str);
-        CodePointReader reader = new CodePointReader(new StringReader(str));
-        if (!match(reader, answer)) {
+        long[] positions = getPositions(str);
+        CodePointReader reader = new BasicCodePointReader(new StringReader(str));
+        if (!match(reader, answer, positions)) {
             fail("コードポイントが一致しません。");
         }
     }
@@ -31,10 +32,13 @@ public class CodePointReaderTest
         int[] answer = new int[] {
                 scp, 'あ', 'a', 'い', scp, scp, 'd', 'お', scp
         };
+        long[] positions = new long[] {
+        		0, 2, 3, 4, 5, 7, 9, 10, 11, 13
+        };
         
         String str = new String(answer, 0, answer.length);
-        CodePointReader reader = new CodePointReader(new StringReader(str));
-        if (!match(reader, answer)) {
+        CodePointReader reader = new BasicCodePointReader(new StringReader(str));
+        if (!match(reader, answer, positions)) {
             fail("コードポイントが一致しません。");
         }
     }
@@ -53,10 +57,12 @@ public class CodePointReaderTest
         writer.write(highSurrogate);
         
         int[] answer = getCodePoints(
-        		base + (char)CodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
+        		base + (char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
+        long[] positions = getPositions(
+        		base + (char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
         CodePointReader reader =
-        	new CodePointReader(new CharArrayReader(writer.toCharArray()));
-        if (!match(reader, answer)) {
+        	new BasicCodePointReader(new CharArrayReader(writer.toCharArray()));
+        if (!match(reader, answer, positions)) {
         	fail("コードポイントが一致しません。");
         }
     }
@@ -75,10 +81,12 @@ public class CodePointReaderTest
         writer.write(lowSurrogate);
         
         int[] answer = getCodePoints(
-        		base + (char)CodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
+        		base + (char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
+        long[] positions = getPositions(
+        		base + (char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT);
         CodePointReader reader =
-        	new CodePointReader(new CharArrayReader(writer.toCharArray()));
-        if (!match(reader, answer)) {
+        	new BasicCodePointReader(new CharArrayReader(writer.toCharArray()));
+        if (!match(reader, answer, positions)) {
         	fail("コードポイントが一致しません。");
         }
     }
@@ -97,10 +105,12 @@ public class CodePointReaderTest
         writer.write(base);
         
         int[] answer = getCodePoints(
-        		(char)CodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
+        		(char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
+        long[] positions = getPositions(
+        		(char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
         CodePointReader reader =
-        	new CodePointReader(new CharArrayReader(writer.toCharArray()));
-        if (!match(reader, answer)) {
+        	new BasicCodePointReader(new CharArrayReader(writer.toCharArray()));
+        if (!match(reader, answer, positions)) {
         	fail("コードポイントが一致しません。");
         }
     }
@@ -119,10 +129,12 @@ public class CodePointReaderTest
         writer.write(base);
         
         int[] answer = getCodePoints(
-        		(char)CodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
+        		(char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
+        long[] positions = getPositions(
+        		(char)BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT + base);
         CodePointReader reader =
-        	new CodePointReader(new CharArrayReader(writer.toCharArray()));
-        if (!match(reader, answer)) {
+        	new BasicCodePointReader(new CharArrayReader(writer.toCharArray()));
+        if (!match(reader, answer, positions)) {
         	fail("コードポイントが一致しません。");
         }
     }
@@ -138,14 +150,26 @@ public class CodePointReaderTest
         // high surrogateを破壊した場合の正解
         int[] answer1 = new int[] {
                 'あ', 'a', 'い',
-                'a', CodePointReader.DEFAULT_ALTERNATION_CODEPOINT,
+                'a', BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT,
                 scp, 'd', 'お'
+        };
+        long[] positions1 = new long[] {
+        		0,
+        		1, 2, 3,
+        		4, 5,
+        		7, 8, 9
         };
         // low surrogateを破壊した場合の正解
         int[] answer2 = new int[] {
                 'あ', 'a', 'い',
-                CodePointReader.DEFAULT_ALTERNATION_CODEPOINT, 'a',
+                BasicCodePointReader.DEFAULT_ALTERNATION_CODEPOINT, 'a',
                 scp, 'd', 'お'
+        };
+        long[] positions2 = new long[] {
+        		0,
+        		1, 2, 3,
+        		4, 5,
+        		7, 8, 9
         };
         
         // 不正なデータを作成
@@ -162,15 +186,15 @@ public class CodePointReaderTest
         chars2[4] = 'a';
         String ill2 = new String(chars2);
 
-        if (!match(new CodePointReader(new StringReader(ill1)), answer1)) {
+        if (!match(new BasicCodePointReader(new StringReader(ill1)), answer1, positions1)) {
             fail("Low surrogateが単独で存在する場合のコードポイントが一致しません。");
         }
-        if (!match(new CodePointReader(new StringReader(ill2)), answer2)) {
+        if (!match(new BasicCodePointReader(new StringReader(ill2)), answer2, positions2)) {
             fail("High surrogateが単独で存在する場合のコードポイントが一致しません。");
         }
     }
 
-    private boolean match(CodePointReader reader, int[] answer)
+    private boolean match(CodePointReader reader, int[] answer, long[] positions)
     throws IOException
     {
         int i=0;
@@ -178,6 +202,9 @@ public class CodePointReaderTest
         while ((cp = reader.read()) >= 0) {
             if (cp != answer[i]) {
                 return false;
+            }
+            if(reader.getPosition() != positions[i+1]) {
+            	return false;
             }
             ++i;
         }
@@ -197,5 +224,20 @@ public class CodePointReaderTest
         }
         
         return result;
+    }
+    
+    private long[] getPositions(String str)
+    {
+    	int count = str.codePointCount(0, str.length());
+    	long[] positions = new long[count+1];
+    	int cpIndex = 0, charIndex = 0;
+    	while (charIndex < str.length()) {
+    		int cp = str.codePointAt(charIndex);
+    		positions[cpIndex++] = charIndex;
+    		charIndex += Character.charCount(cp);
+    	}
+    	positions[cpIndex] = charIndex;
+    	
+    	return positions;
     }
 }

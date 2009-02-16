@@ -16,13 +16,22 @@
 */
 package net.moraleboost.lucene.analysis.ja;
 
+import net.moraleboost.mecab.util.BasicCodePointReader;
+import net.moraleboost.mecab.util.CodePointReader;
+import net.moraleboost.mecab.util.PushbackCodePointReader;
+
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.PushbackReader;
 
+/**
+ * codepointを認識するCJKTokenizerクローン。
+ * 
+ * @author taketa
+ *
+ */
 public final class CJKTokenizer2 extends Tokenizer
 {
     private static final int MAX_WORD_LEN = 255;
@@ -33,134 +42,217 @@ public final class CJKTokenizer2 extends Tokenizer
     private static final int CHARTYPE_SYMBOL = 0;
     private static final int CHARTYPE_SINGLE = 1;
     private static final int CHARTYPE_DOUBLE = 2;
-
-    private int offset = 0;
-    private final char[] buffer = new char[MAX_WORD_LEN];
-    private int lastCharType = CHARTYPE_SYMBOL;
-    private PushbackReader pbinput = null;
-
-    public CJKTokenizer2(Reader in)
+    
+    public static class CharInfo
     {
-        pbinput = new PushbackReader(in, 1);
-        input = pbinput;
+    	public int codePoint = -1; // original code point
+    	public int normCodePoint = -1; // normalized code point
+    	public long start = 0; // start offset in chars
+    	public long end = 0; // end offset in chars
+    	public int type = CHARTYPE_SYMBOL; // one of CHARTPE_*
+    	
+    	public void read(CodePointReader reader)
+    	throws IOException
+    	{
+            Character.UnicodeBlock ub = null;
+
+            start = reader.getPosition();
+        	codePoint = reader.read();
+    		normCodePoint = codePoint;
+        	end = reader.getPosition();
+    		type = CHARTYPE_SYMBOL;
+        	
+        	// 文字種別を判別
+        	if (codePoint < 0) {
+        		// end of stream
+        	} else {
+                ub = Character.UnicodeBlock.of(codePoint);
+    	        if (ub == Character.UnicodeBlock.BASIC_LATIN ||
+    	        	ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+    	        	
+    	            // ラテン文字及び記号。
+    	            if (ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+    	                // 全角アルファベットを半角に変換
+    	            	normCodePoint = codePoint - 65248;
+    	            }
+    	            
+    	            if (Character.isLetterOrDigit(
+    	            		normCodePoint) || (normCodePoint == '_') ||
+    	            		(normCodePoint == '+') || (normCodePoint == '#')) {
+    	                type = CHARTYPE_SINGLE;
+    	                // ラテンアルファベットを小文字に正規化
+    	                normCodePoint = Character.toLowerCase(normCodePoint);
+    	            }
+    	        } else {
+    	            if (Character.isLetter(codePoint)) {
+    	                type = CHARTYPE_DOUBLE;
+    	            } else {
+    	                type = CHARTYPE_SYMBOL;
+    	            }
+    	        }
+        	}
+    	}
     }
-
-    public final Token next() throws IOException
+    
+    public static class TokenInfo
     {
-        int length = 0;
-        int start = offset;
-        int corg = -1;
-        int c = -1;
-        int prevCharType = lastCharType;
-        int charType = lastCharType;
-        String tokenType = null;
-        Character.UnicodeBlock ub = null;
-
-        while (true) {
-            corg = pbinput.read();
-            c = corg;
-
-            // 文字種の調査
-            prevCharType = charType;
-            if (c >= 0) {
-                ++offset;
-                ub = Character.UnicodeBlock.of(c);
-                if (ub == Character.UnicodeBlock.BASIC_LATIN || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
-                    // ラテン文字及び記号。単語境界で分割する。
-                    if (ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
-                        // 全角アルファベットを半角に変換する。
-                        int i = (int) c;
-                        i = i - 65248;
-                        c = (char) i;
-                    }
-                    
-                    if (Character.isLetterOrDigit(c) || (c == '_') || (c == '+') || (c == '#')) {
-                        charType = CHARTYPE_SINGLE;
-                        c = Character.toLowerCase(c);
-                    } else {
-                        charType = CHARTYPE_SYMBOL;
-                    }
-                } else {
-                    if (Character.isLetter(c)) {
-                        charType = CHARTYPE_DOUBLE;
-                    } else {
-                        charType = CHARTYPE_SYMBOL;
-                    }
-                }
-            } else {
-                // end of input.
-                charType = CHARTYPE_SYMBOL;
-            }
-
+    	private int[] buffer;
+    	private int start; // start offset in chars
+    	private int end; // end offset in chars
+    	private int length; // token length in code points
+    	private String type;
+    	
+    	private boolean complete;
+    	private boolean pushback;
+    	
+    	public TokenInfo()
+    	{
+        	buffer = new int[MAX_WORD_LEN];
+        	clear();
+    	}
+    	
+    	public boolean isComplete()
+    	{
+    		return complete;
+    	}
+    	
+    	public boolean shouldPushback()
+    	{
+    		return pushback;
+    	}
+    	
+    	public void clear()
+    	{
+    		start = 0;
+    		end = 0;
+    		length = 0;
+    		type = null;
+    		complete = false;
+    		pushback = false;
+    	}
+    	
+    	public void handleChar(CharInfo c)
+    	throws IOException
+    	{
             // 現在のトークンタイプによって分岐
-            if (tokenType == null) {
+            if (type == null) {
                 // 現在スキャン中のトークンなし。
-                if (c < 0) {
+                if (c.codePoint < 0) {
                     // end of input
-                    return null;
+                	complete = true;
                 }
                 
                 // 文字種によって、トークンタイプを決定
-                if (charType == CHARTYPE_SINGLE) {
-                    buffer[0] = (char)c;
-                    start = offset-1;
+                if (c.type == CHARTYPE_SINGLE) {
+                    buffer[0] = c.normCodePoint;
+                    start = (int)c.start;
+                    end = (int)c.end;
                     length = 1;
-                    tokenType = TOKENTYPE_SINGLE;
-                } else if (charType == CHARTYPE_DOUBLE) {
-                    buffer[0] = (char)c;
-                    start = offset-1;
+                    type = TOKENTYPE_SINGLE;
+                } else if (c.type == CHARTYPE_DOUBLE) {
+                    buffer[0] = c.normCodePoint;
+                    start = (int)c.start;
+                    end = (int)c.end;
                     length = 1;
-                    tokenType = TOKENTYPE_DOUBLE;
+                    type = TOKENTYPE_DOUBLE;
                 } else {
                     // 記号は読み飛ばす
                 }
-            } else if (tokenType == TOKENTYPE_SINGLE) {
+            } else if (type == TOKENTYPE_SINGLE) {
                 // 現在スキャン中のトークンは単語境界区切り
-                if (charType == CHARTYPE_SINGLE) {
-                    buffer[length++] = (char)c;
+                if (c.type == CHARTYPE_SINGLE) {
+                	// ラテン文字
+                	// bufferに付け加える
+                    buffer[length++] = c.normCodePoint;
+                    end = (int)c.end;
+                    
+                    // バッファに空きがなくなった場合、一旦トークンとして切り出す。
                     if (length >= MAX_WORD_LEN) {
-                        // バッファに空きがないので、ここで一旦トークンとして切り出す。
-                        break;
+                    	complete = true;
                     }
-                } else if (charType == CHARTYPE_DOUBLE) {
-                    pbinput.unread(c);
-                    --offset;
-                    charType = prevCharType;
-                    break;
+                } else if (c.type == CHARTYPE_DOUBLE) {
+                	// CJK文字
+                	// 1文字pushbackして、現在のbufferをtokenとして切り出す。
+                	complete = true;
+                	pushback = true;
                 } else {
-                    break;
+                	// 記号
+                	// 現在のbufferをtokenとして切り出す。
+                	complete = true;
                 }
-            } else if (tokenType == TOKENTYPE_DOUBLE) {
+            } else if (type == TOKENTYPE_DOUBLE) {
                 // 現在スキャン中のトークンはbi-gram
-                if (charType == CHARTYPE_DOUBLE) {
-                    buffer[length++] = (char)c;
-                    pbinput.unread(c);
-                    --offset;
-                    charType = prevCharType;
-                    break;
-                } else if (charType == CHARTYPE_SINGLE) {
-                    pbinput.unread(c);
-                    --offset;
-                    charType = prevCharType;
-                }
-                
-                // 現在のバッファの内容は1文字しかない。
-                // 前の文字がDOUBLEである場合は、このまま新しいトークンのスキャンに移行。
-                if (lastCharType == CHARTYPE_DOUBLE) {
-                    length = 0;
-                    tokenType = null;
-                    lastCharType = charType;
+            	// ここに来た時点で、bufferには1文字分CJK文字が入っている。
+                if (c.type == CHARTYPE_DOUBLE) {
+                	// CJK文字
+                	// bufferに付け加えると共に、1文字pushbackして、
+                	// 現在のbufferをtokenとして切り出す。
+                    buffer[length++] = c.normCodePoint;
+                    end = (int)c.end;
+                    complete = true;
+                    pushback = true;
+                } else if (c.type == CHARTYPE_SINGLE) {
+                	// ラテン文字
+                	// 1文字pushbackし、現在のbufferをtokenとして切り出す。
+                	complete = true;
+                	pushback = true;
                 } else {
-                    break;
+                	// 記号
+                	// 現在のbufferをtokenとして切り出す。
+                	complete = true;
                 }
             } else {
                 throw new IOException("Illegal state.");
             }
+    	}
+    	
+    	public Token toToken()
+    	{
+    		if (type == null) {
+    			return null;
+    		} else {
+	            return new Token(new String(buffer, 0, length),
+	            		start, end, type);
+    		}
+    	}
+    }
+
+    /**
+     * コードポイントを読み出すreader
+     */
+    private PushbackCodePointReader pbinput = null;
+    /**
+     * 新しく読んだ文字の情報
+     */
+    private CharInfo charInfo = new CharInfo();
+    /**
+     * 現在解析中のトークンの情報
+     */
+    private TokenInfo tokenInfo = new TokenInfo();
+
+    public CJKTokenizer2(Reader in)
+    {
+        super(in);
+        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), 1);
+    }
+    
+    public final Token next() throws IOException
+    {
+        tokenInfo.clear();
+        
+        while (true) {
+        	charInfo.read(pbinput);
+        	tokenInfo.handleChar(charInfo);
+        	if (tokenInfo.isComplete()) {
+        		if (tokenInfo.shouldPushback()) {
+        	    	pbinput.unread(
+        	    			charInfo.codePoint, (int)(charInfo.end-charInfo.start));
+        		}
+        		break;
+        	}
         }
 
-        lastCharType = charType;
-        return new Token(new String(buffer, 0, length), start, start
-                + length, tokenType);
+        return tokenInfo.toToken();
     }
     
     public static void main(String[] args) throws Exception
@@ -170,7 +262,10 @@ public final class CJKTokenizer2 extends Tokenizer
         Token token;
         
         while ((token=tokenizer.next()) != null) {
-            System.out.println(Integer.toString(token.startOffset()) + "-" + Integer.toString(token.endOffset()) + ": " + token.termText());
+            System.out.println(
+            		Integer.toString(token.startOffset()) + "-" +
+            		Integer.toString(token.endOffset()) + ": " +
+            		token.termText());
         }
     }
 }
