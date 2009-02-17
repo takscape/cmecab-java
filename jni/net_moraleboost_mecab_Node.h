@@ -17,6 +17,14 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_Node__1surface
 
 /*
  * Class:     net_moraleboost_mecab_Node
+ * Method:    _rsurface
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_Node__1rsurface
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     net_moraleboost_mecab_Node
  * Method:    _feature
  * Signature: (J)[B
  */

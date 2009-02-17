@@ -160,6 +160,36 @@ Java_net_moraleboost_mecab_Node__1surface(
 
 /*
  * Class:     net_moraleboost_mecab_Node
+ * Method:    _rsurface
+ * Signature: (J)[B
+ */
+JNIEXPORT jbyteArray JNICALL
+Java_net_moraleboost_mecab_Node__1rsurface(
+    JNIEnv *env,
+    jclass clazz,
+    jlong hdl)
+{
+    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
+    DECLARE_CLASS(mecabException, env, CLASS_MECAB_EXCEPTION, 0);
+
+    try {
+        const MeCab::Node* node = hdl2node(hdl);
+        const char* rsurface =
+            node->surface + (int)(node->length) - (int)(node->rlength);
+        return stringToByteArray(env, rsurface, (size_t)(node->rlength));
+    } catch (ArrayException&) {
+        env->ThrowNew(mecabException, "Can't access array elements.");
+    } catch (std::bad_alloc&) {
+        env->ThrowNew(oomError, "Can't get rsurface.");
+    } catch (...) {
+        env->ThrowNew(mecabException, "Unknown error.");
+    }
+
+    return 0;
+}
+
+/*
+ * Class:     net_moraleboost_mecab_Node
  * Method:    _feature
  * Signature: (J)[B
  */
