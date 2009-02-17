@@ -1,0 +1,11 @@
+#summary リリースノート
+#labels Featured
+
+= v1.1 =
+
+  * サロゲートペアを正しく認識するCJKTokenizer、CJKTokenizer2を追加。
+  * MeCabTokenizerに空白文字や改行を含むテキストを与えると、TokenのstartOffset, endOffsetがずれる問題を修正。
+
+= v1.0 =
+
+  * 初期リリース
