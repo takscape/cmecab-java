@@ -1,7 +1,6 @@
 package net.moraleboost.lucene.analysis.ja;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
 
 import java.io.StringReader;
 
@@ -11,6 +10,44 @@ import org.junit.Test;
 
 public class CJKTokenizer2Test
 {
+	@Test
+	public void testTokenizeSurrogate()
+	throws Exception
+	{
+		// 好物は「ほっけ」です。
+		String str = "好物は\uD867\uDE3Dです。";
+		StringReader reader = new StringReader(str);
+		CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
+
+        String[] tokens = {
+        		"好物",
+        		"物は",
+        		"は\uD867\uDE3D",
+        		"\uD867\uDE3Dで",
+        		"です",
+        		"す"
+        };
+
+        int [][] offsets = {
+        		{0, 2},
+        		{1, 3},
+        		{2, 5},
+        		{3, 6},
+        		{5, 7},
+        		{6, 7}
+        };
+        
+		Token token;
+		int i = 0;
+		while ((token = tokenizer.next()) != null) {
+        	assertEquals(tokens[i], token.termText());
+        	assertEquals("Wrong start offset", offsets[i][0], token.startOffset());
+        	assertEquals("Wrong end offset", offsets[i][1], token.endOffset());
+            ++i;
+		}
+        assertEquals(tokens.length, i);
+	}
+	
     @Test
     public void testTokenize()
     {
@@ -65,6 +102,7 @@ public class CJKTokenizer2Test
             	assertEquals("Wrong end offset", offsets[i][1], token.endOffset());
                 ++i;
             }
+            assertEquals(tokens.length, i);
         } catch (Exception e) {
             fail(e.toString());
         }

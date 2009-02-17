@@ -31,6 +31,7 @@ public class Node implements Iterator<String>
     private long prevHandle = 0;
     private long handle = 0;
     private String surfaceCache = null;
+    private String rsurfaceCache = null;
 
     /**
      * Nodeを構築。Tagger.parse()によって呼ばれる。ユーザが直接利用する機会はない。
@@ -103,6 +104,7 @@ public class Node implements Iterator<String>
         }
 
         surfaceCache = CharsetUtil.decode(decoder, _surface(handle));
+        rsurfaceCache = CharsetUtil.decode(decoder, _rsurface(handle));
         prevHandle = handle;
         handle = _next(handle);
 
@@ -154,8 +156,20 @@ public class Node implements Iterator<String>
     {
         return surfaceCache;
     }
+    
+    /**
+     * 先頭の空白も含めて形態素の表層形を返す。
+     * 
+     * @return 先頭の空白も含めた表層形
+     */
+    public String rsurface()
+    {
+    	return rsurfaceCache;
+    }
 
     private static native byte[] _surface(long hdl);
+    
+    private static native byte[] _rsurface(long hdl);
 
     private static native byte[] _feature(long hdl);
 
