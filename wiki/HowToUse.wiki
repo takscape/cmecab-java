@@ -1,4 +1,5 @@
 #labels Featured
+# summary 使用方法
 = 使用方法 =
 
  * 単体で使用する
