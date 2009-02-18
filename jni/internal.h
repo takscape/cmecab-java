@@ -19,6 +19,7 @@
 
 // Standard Libraries
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <cassert>
 #include <exception>
@@ -204,7 +205,7 @@ public:
     const MeCab::Node* parse(const char* str, size_t len)
     {
         buf_.resize(len+1);
-        memcpy(&buf_[0], str, len);
+        std::copy(str, str+len, &buf_[0]);
         buf_[len] = 0;
         return tagger_->parseToNode(&buf_[0], len);
     }
@@ -270,7 +271,7 @@ inline jbyteArray stringToByteArray(JNIEnv* env, const char* p, size_t len)
     assert(sizeof(jbyte) == sizeof(char));
 
     ByteArrayHelper helper(env, (jsize)len);
-    memcpy(helper.ptr(), p, sizeof(char)*len);
+    std::copy(p, p+sizeof(char)*len, helper.ptr());
     return helper.array();
 }
 
