@@ -1,5 +1,5 @@
+#summary インストール方法
 #labels Featured
-#インストール方法
 
 = インストール方法 =
 
