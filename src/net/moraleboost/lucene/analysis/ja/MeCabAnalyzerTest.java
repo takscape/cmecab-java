@@ -1,19 +1,19 @@
 /*
-**
-**  Mar. 22, 2008
-**
-**  The author disclaims copyright to this source code.
-**  In place of a legal notice, here is a blessing:
-**
-**    May you do good and not evil.
-**    May you find forgiveness for yourself and forgive others.
-**    May you share freely, never taking more than you give.
-**
-**                                         Stolen from SQLite :-)
-**  Any feedback is welcome.
-**  Kohei TAKETA <k-tak@void.in>
-**
-*/
+ **
+ **  Mar. 22, 2008
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.lucene.analysis.ja;
 
 import static org.junit.Assert.fail;
@@ -39,7 +39,7 @@ public class MeCabAnalyzerTest
 {
     public static final String DIC_ENCODING = System
             .getProperty("net.moraleboost.mecab.encoding");
-    
+
     private MeCabAnalyzer analyzer = null;
     private RAMDirectory directory = null;
     private IndexWriter writer = null;
@@ -47,10 +47,8 @@ public class MeCabAnalyzerTest
     @Before
     public void setUp() throws Exception
     {
-        //助詞をフィルタリングするAnalyzerを作成
-        String[] filters = new String[] {
-                "^助詞,.*$"
-        };
+        // 助詞をフィルタリングするAnalyzerを作成
+        String[] filters = new String[] { "^助詞,.*$" };
         analyzer = new MeCabAnalyzer(DIC_ENCODING, "", filters);
         directory = new RAMDirectory();
         writer = new IndexWriter(directory, analyzer);
@@ -63,21 +61,20 @@ public class MeCabAnalyzerTest
         writer.optimize();
         writer.close();
     }
-    
+
     @After
     public void tearDown() throws Exception
     {
         directory.close();
     }
-    
+
     private void addField(Document doc, String name, String value)
     {
-        Field field = new Field(
-                name, value,
-                Field.Store.COMPRESS, Field.Index.TOKENIZED, Field.TermVector.YES);
+        Field field = new Field(name, value, Field.Store.COMPRESS,
+                Field.Index.TOKENIZED, Field.TermVector.YES);
         doc.add(field);
     }
-    
+
     @Test
     public void testAnalyze()
     {
@@ -89,11 +86,12 @@ public class MeCabAnalyzerTest
             if (!termDocs.next()) {
                 fail("Index term not found.");
             }
-            TermFreqVector vec = reader.getTermFreqVector(termDocs.doc(), "text");
-            
+            TermFreqVector vec = reader.getTermFreqVector(termDocs.doc(),
+                    "text");
+
             // vecに助詞が含まれていないことを確認。
             String[] indexTerms = vec.getTerms();
-            for (String t: indexTerms) {
+            for (String t : indexTerms) {
                 if (t.equals("は")) {
                     fail("Filter not working.");
                 }
@@ -103,7 +101,7 @@ public class MeCabAnalyzerTest
             fail(e.toString());
         }
     }
-    
+
     @Test
     public void testSearch()
     {
@@ -111,7 +109,7 @@ public class MeCabAnalyzerTest
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser("text", analyzer);
             parser.setDefaultOperator(QueryParser.Operator.OR);
-            
+
             Query query = parser.parse("本日も晴天");
             System.out.println("Parsed query = " + query.toString());
             Hits hits = searcher.search(query);

@@ -29,16 +29,16 @@ import net.moraleboost.mecab.Node;
 
 public class MeCabTokenizer extends Tokenizer
 {
-    public static final int DEFAULT_BUFFER_INITIAL_SIZE     = 4096;
+    public static final int DEFAULT_BUFFER_INITIAL_SIZE = 4096;
     public static final int DEFAULT_BUFFER_SHRINK_THRESHOLD = 5 * 1024 * 1024;
-    public static final int DEFAULT_BUFFER_SHRINK_TARGET    = 1024 * 1024;
-    public static final int DEFAULT_BUFFER_MAX_SIZE         = 10 * 1024 * 1024;
+    public static final int DEFAULT_BUFFER_SHRINK_TARGET = 1024 * 1024;
+    public static final int DEFAULT_BUFFER_MAX_SIZE = 10 * 1024 * 1024;
 
     private int bufferInitialSize = DEFAULT_BUFFER_INITIAL_SIZE;
     private int bufferShrinkThreshold = DEFAULT_BUFFER_SHRINK_THRESHOLD;
     private int bufferShrinkTarget = DEFAULT_BUFFER_SHRINK_TARGET;
     private int bufferMaxSize = DEFAULT_BUFFER_MAX_SIZE;
-    
+
     private StringBuilder buffer = null;
     private CharBuffer tmpBuffer = null;
     private Tagger tagger = null;
@@ -57,7 +57,7 @@ public class MeCabTokenizer extends Tokenizer
      * @throws IOException
      */
     public MeCabTokenizer(Reader in, String dicCharset, String arg)
-    throws MeCabException, IOException
+            throws MeCabException, IOException
     {
         super(in);
         buffer = new StringBuilder(bufferInitialSize);
@@ -86,8 +86,7 @@ public class MeCabTokenizer extends Tokenizer
      *            一時バッファのサイズがこの値を超えると、解析は失敗し、MeCabExceptionが発生する。
      * @throws IOException
      */
-    public MeCabTokenizer(
-            Reader in, String dicCharset, String arg,
+    public MeCabTokenizer(Reader in, String dicCharset, String arg,
             int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
     throws MeCabException, IOException
     {
@@ -97,14 +96,14 @@ public class MeCabTokenizer extends Tokenizer
         bufferShrinkThreshold = shrinkThreshold;
         bufferShrinkTarget = shrinkTarget;
         bufferMaxSize = maxSize;
-        
+
         buffer = new StringBuilder(bufferInitialSize);
         tmpBuffer = CharBuffer.allocate(bufferInitialSize);
         tagger = new Tagger(dicCharset, arg);
 
         parse();
     }
-    
+
     @Override
     public void close() throws IOException
     {

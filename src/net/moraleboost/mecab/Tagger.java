@@ -82,7 +82,7 @@ public class Tagger
     }
 
     /**
-     * 形態素解析器を破棄し、リソースを解放する。 parse()の呼び出しにより返された既存のNodeは無効化される。
+     * 形態素解析器を破棄し、リソースを解放する。parse()の呼び出しにより返された既存のNodeは無効化される。
      */
     public void close()
     {
@@ -108,8 +108,8 @@ public class Tagger
      * @throws MeCabException
      *             ネイティブライブラリの内部エラー
      */
-    public Node parse(CharSequence text)
-    throws CharacterCodingException, MeCabException
+    public Node parse(CharSequence text) throws CharacterCodingException,
+            MeCabException
     {
         // 前の解析結果のノードを無効化する
         if (node != null) {
