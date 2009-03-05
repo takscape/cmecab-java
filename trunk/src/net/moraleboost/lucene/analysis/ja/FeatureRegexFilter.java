@@ -1,19 +1,19 @@
 /*
-**
-**  Mar. 22, 2008
-**
-**  The author disclaims copyright to this source code.
-**  In place of a legal notice, here is a blessing:
-**
-**    May you do good and not evil.
-**    May you find forgiveness for yourself and forgive others.
-**    May you share freely, never taking more than you give.
-**
-**                                         Stolen from SQLite :-)
-**  Any feedback is welcome.
-**  Kohei TAKETA <k-tak@void.in>
-**
-*/
+ **
+ **  Mar. 22, 2008
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.lucene.analysis.ja;
 
 import java.io.IOException;
@@ -48,6 +48,7 @@ public class FeatureRegexFilter extends TokenFilter
     {
         patterns = new Pattern[stopPatterns.length];
         matchers = new Matcher[stopPatterns.length];
+        
         for (int i = 0; i < stopPatterns.length; ++i) {
             patterns[i] = Pattern.compile(stopPatterns[i]);
             matchers[i] = null;
@@ -65,6 +66,7 @@ public class FeatureRegexFilter extends TokenFilter
     {
         String feature = token.getFeature();
         Matcher m = null;
+        
         for (int i = 0; i < matchers.length; ++i) {
             m = matchers[i];
             if (m == null) {
@@ -90,7 +92,7 @@ public class FeatureRegexFilter extends TokenFilter
             if (!(token instanceof MeCabToken)) {
                 break;
             }
-            if (!match((MeCabToken) token)) {
+            if (!match((MeCabToken)token)) {
                 break;
             }
             token = input.next();

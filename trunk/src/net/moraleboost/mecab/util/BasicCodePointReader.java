@@ -29,87 +29,91 @@ import java.io.Reader;
  */
 public class BasicCodePointReader implements CodePointReader
 {
-	/**
-	 * 不正なサロゲートペアを置換する文字の既定値。
-	 */
-	public static final int DEFAULT_ALTERNATION_CODEPOINT = '〓';
+    /**
+     * 不正なサロゲートペアを置換する文字の既定値。
+     */
+    public static final int DEFAULT_ALTERNATION_CODEPOINT = '〓';
 
-	private PushbackReader reader = null;
-	private long position = 0;
-	private int alternationCodePoint = DEFAULT_ALTERNATION_CODEPOINT;
-	private boolean eos = false;
+    private PushbackReader reader = null;
+    private long position = 0;
+    private int alternationCodePoint = DEFAULT_ALTERNATION_CODEPOINT;
+    private boolean eos = false;
 
-	/**
-	 * コードポイントイテレータを構築する。
-	 * 
-	 * @param sequence
-	 *            ソースとなるcharのシーケンス
-	 */
-	public BasicCodePointReader(Reader reader) {
-		this.reader = new PushbackReader(reader, 1);
-	}
+    /**
+     * コードポイントイテレータを構築する。
+     * 
+     * @param sequence
+     *            ソースとなるcharのシーケンス
+     */
+    public BasicCodePointReader(Reader reader)
+    {
+        this.reader = new PushbackReader(reader, 1);
+    }
 
-	public void setAlternationCodePoint(int cp)
-	{
-		this.alternationCodePoint = cp;
-	}
+    public void setAlternationCodePoint(int cp)
+    {
+        this.alternationCodePoint = cp;
+    }
 
-	public int getAlternationCodePoint()
-	{
-		return alternationCodePoint;
-	}
-	
-	public long getPosition()
-	{
-		return position;
-	}
+    public int getAlternationCodePoint()
+    {
+        return alternationCodePoint;
+    }
 
-	public int read()
-	throws IOException
-	{
-		int ci;
-		char c, c2;
-		
-		if (eos) {
-			return -1;
-		}
-		
-		ci = reader.read(); ++position;
-		
-		if (ci < 0) {
-			// end of character stream
-			return -1;
-		} else {
-			c = (char)ci;
-		}
+    public long getPosition()
+    {
+        return position;
+    }
 
-		if (Character.isHighSurrogate(c)) {
-			// 次の文字を検査
-			ci = reader.read(); ++position;
-			if (ci < 0) {
-				// シーケンスがhigh surrogateで終わっている。
-				// 代替文字を返すと共に、EOSフラグをONにする。
-				eos = true; --position;
-				return alternationCodePoint;
-			}
-			
-			c2 = (char)ci;
-			if (Character.isLowSurrogate(c2)) {
-				// サロゲートペアをコードポイントに変換して返す。
-				return Character.toCodePoint(c, c2);
-			} else {
-				// high surrogateに続くcharが、low surrogateでない。
-				// c2をプッシュバックして代替文字を返す。
-				reader.unread(c2); --position;
-				return alternationCodePoint;
-			}
-		} else if (Character.isLowSurrogate(c)) {
-			// 単独で存在するlow surrogateを発見。
-			// 代替文字を返す。
-			return alternationCodePoint;
-		} else {
-			// 基本文字。そのまま返す。
-			return c;
-		}
-	}
+    public int read() throws IOException
+    {
+        int ci;
+        char c, c2;
+
+        if (eos) {
+            return -1;
+        }
+
+        ci = reader.read();
+        ++position;
+
+        if (ci < 0) {
+            // end of character stream
+            return -1;
+        } else {
+            c = (char)ci;
+        }
+
+        if (Character.isHighSurrogate(c)) {
+            // 次の文字を検査
+            ci = reader.read();
+            ++position;
+            if (ci < 0) {
+                // シーケンスがhigh surrogateで終わっている。
+                // 代替文字を返すと共に、EOSフラグをONにする。
+                eos = true;
+                --position;
+                return alternationCodePoint;
+            }
+
+            c2 = (char)ci;
+            if (Character.isLowSurrogate(c2)) {
+                // サロゲートペアをコードポイントに変換して返す。
+                return Character.toCodePoint(c, c2);
+            } else {
+                // high surrogateに続くcharが、low surrogateでない。
+                // c2をプッシュバックして代替文字を返す。
+                reader.unread(c2);
+                --position;
+                return alternationCodePoint;
+            }
+        } else if (Character.isLowSurrogate(c)) {
+            // 単独で存在するlow surrogateを発見。
+            // 代替文字を返す。
+            return alternationCodePoint;
+        } else {
+            // 基本文字。そのまま返す。
+            return c;
+        }
+    }
 }

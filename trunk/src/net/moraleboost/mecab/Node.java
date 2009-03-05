@@ -60,13 +60,14 @@ public class Node implements Iterator<String>
 
     /**
      * Nodeを閉じる。close()呼び出し以降、hasNext()は常にfalseを返す。
-     * また、next(), nxtMorpheme(), feature(), surface()は常にnullを返す。
+     * また、next(), nxtMorpheme(), feature(), surface(), rsurface()は常にnullを返す。
      */
     public void close()
     {
         prevHandle = 0;
         handle = 0;
         surfaceCache = null;
+        rsurfaceCache = null;
     }
 
     /**
@@ -138,7 +139,8 @@ public class Node implements Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー
      */
-    public String feature() throws CharacterCodingException, MeCabException
+    public String feature()
+    throws CharacterCodingException, MeCabException
     {
         if (prevHandle == 0) {
             return null;
@@ -156,7 +158,7 @@ public class Node implements Iterator<String>
     {
         return surfaceCache;
     }
-    
+
     /**
      * 先頭の空白も含めて形態素の表層形を返す。
      * 
@@ -164,11 +166,11 @@ public class Node implements Iterator<String>
      */
     public String rsurface()
     {
-    	return rsurfaceCache;
+        return rsurfaceCache;
     }
 
     private static native byte[] _surface(long hdl);
-    
+
     private static native byte[] _rsurface(long hdl);
 
     private static native byte[] _feature(long hdl);

@@ -36,7 +36,7 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
     private int shrinkThreshold = MeCabTokenizer.DEFAULT_BUFFER_SHRINK_THRESHOLD;
     private int shrinkTarget = MeCabTokenizer.DEFAULT_BUFFER_SHRINK_TARGET;
     private int maxSize = MeCabTokenizer.DEFAULT_BUFFER_MAX_SIZE;
-    
+
     public MeCabTokenizerFactory()
     {
         super();
@@ -48,8 +48,11 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
      * 「charset」には、MeCabの辞書の文字コードを指定する。省略すると、Javaの既定文字コードが用いられる。<br>
      * 「arg」には、MeCabに与えるオプションを指定する。省略すると、空文字列とみなされる。<br>
      * 残りのパラメータの意味については、
-     * {@link MeCabTokenizer#MeCabTokenizer(Reader, String, String, int, int, int, int)}を参照。
-     * @param args 初期化パラメータ
+     * {@link MeCabTokenizer#MeCabTokenizer(Reader, String, String, int, int, int, int)}
+     * を参照。
+     * 
+     * @param args
+     *            初期化パラメータ
      */
     public void init(Map<String, String> args)
     {
@@ -61,31 +64,31 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
         String shrinkThresholdStr = args.get("shrinkThreshold");
         String shrinkTargetStr = args.get("shrinkTarget");
         String maxSizeStr = args.get("maxSize");
-        
+
         if (charset != null) {
             dicCharset = charset;
         } else {
             dicCharset = Charset.defaultCharset().name();
         }
-        
+
         if (arg != null) {
             mecabArg = arg;
         } else {
             mecabArg = "";
         }
-        
+
         if (initialSizeStr != null) {
             initialSize = Integer.parseInt(initialSizeStr);
         }
-        
+
         if (shrinkThresholdStr != null) {
             shrinkThreshold = Integer.parseInt(shrinkThresholdStr);
         }
-        
+
         if (shrinkTargetStr != null) {
             shrinkTarget = Integer.parseInt(shrinkTargetStr);
         }
-        
+
         if (maxSizeStr != null) {
             maxSize = Integer.parseInt(maxSizeStr);
         }
