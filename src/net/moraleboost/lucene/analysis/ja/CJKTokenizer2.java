@@ -34,15 +34,15 @@ import java.io.Reader;
  */
 public final class CJKTokenizer2 extends Tokenizer
 {
-    private static final int MAX_WORD_LEN = 255;
+    public static final int MAX_WORD_LEN = 255;
 
-    private static final String TOKENTYPE_SINGLE = "single".intern();
-    private static final String TOKENTYPE_DOUBLE = "double".intern();
+    public static final String TOKENTYPE_SINGLE = "single".intern();
+    public static final String TOKENTYPE_DOUBLE = "double".intern();
 
-    private static final int CHARTYPE_SYMBOL = 0;
-    private static final int CHARTYPE_SINGLE = 1;
-    private static final int CHARTYPE_DOUBLE = 2;
-
+    public static final int CHARTYPE_SYMBOL = 0; // 記号
+    public static final int CHARTYPE_SINGLE = 1; // "シングルバイト"文字。単語区切り。
+    public static final int CHARTYPE_DOUBLE = 2; // "ダブルバイト"文字。bi-gram。
+    
     public static class CharInfo
     {
         public int codePoint = -1; // original code point
@@ -50,6 +50,44 @@ public final class CJKTokenizer2 extends Tokenizer
         public long start = 0; // start offset in chars
         public long end = 0; // end offset in chars
         public int type = CHARTYPE_SYMBOL; // one of CHARTPE_*
+
+        /**
+         * 半角濁点ならtrue
+         * @return
+         */
+        public boolean isHalfwidthKatakanaVoicedSoundMark()
+        {
+            return (codePoint == 0xFF9E);
+        }
+        
+        /**
+         * 半角半濁点ならtrue
+         * @return
+         */
+        public boolean isHalfwidthKatakanaVoicedSemiSoundMark()
+        {
+            return (codePoint == 0xFF9F);
+        }
+        
+        /**
+         * 半角の「カ・サ・タ・ハ行」の文字、もしくは「ウ」ならtrue
+         * @return
+         */
+        public boolean isCandidateForVoicedSound()
+        {
+            return ((0xFF76 <= codePoint && codePoint <= 0xFF84) || // カ～ト
+                    (0xFF8A <= codePoint && codePoint <= 0xFF8E) || // ハ～ホ
+                    codePoint == 0xFF73);                           // ウ
+        }
+        
+        /**
+         * 半角の「ハ行」の文字ならtrue
+         * @return
+         */
+        public boolean isCandidateForSemiVoicedSound()
+        {
+            return (0xFF8A <= codePoint && codePoint <= 0xFF8E); // ハ～ホ
+        }
 
         public void read(CodePointReader reader) throws IOException
         {
@@ -236,7 +274,7 @@ public final class CJKTokenizer2 extends Tokenizer
     public CJKTokenizer2(Reader in)
     {
         super(in);
-        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), 1);
+        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), 2);
     }
 
     public final Token next() throws IOException
