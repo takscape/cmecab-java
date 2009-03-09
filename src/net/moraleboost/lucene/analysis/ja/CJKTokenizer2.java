@@ -326,7 +326,7 @@ public final class CJKTokenizer2 extends Tokenizer
     public static void main(String[] args) throws Exception
     {
         java.io.StringReader in = new java.io.StringReader(args[0]);
-        CJKTokenizer2 tokenizer = new CJKTokenizer2(in, 2);
+        CJKTokenizer2 tokenizer = new CJKTokenizer2(in);
         Token token;
 
         while ((token = tokenizer.next()) != null) {
