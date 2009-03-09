@@ -41,7 +41,9 @@ public final class CJKTokenizer2 extends Tokenizer
 
     public static final int CHARTYPE_SYMBOL = 0; // 記号
     public static final int CHARTYPE_SINGLE = 1; // "シングルバイト"文字。単語区切り。
-    public static final int CHARTYPE_DOUBLE = 2; // "ダブルバイト"文字。bi-gram。
+    public static final int CHARTYPE_DOUBLE = 2; // "ダブルバイト"文字。N-gram。
+    
+    public static final int DEFAULT_NGRAM = 2;
     
     public static class CharInfo
     {
@@ -138,18 +140,20 @@ public final class CJKTokenizer2 extends Tokenizer
 
     public static class TokenInfo
     {
-        private int[] buffer;
-        private int start; // start offset in chars
-        private int end; // end offset in chars
-        private int length; // token length in code points
+        private CharInfo[] buffer;
+        private int readLength; // in code points
+        private int tokenLength; // in code points
         private String type;
 
         private boolean complete;
-        private boolean pushback;
+        private int pushbackSize;
+        private int ngram;
 
-        public TokenInfo()
+        public TokenInfo(int ngram)
         {
-            buffer = new int[MAX_WORD_LEN];
+            this.buffer = new CharInfo[MAX_WORD_LEN];
+            this.ngram = ngram;
+            
             clear();
         }
 
@@ -160,17 +164,16 @@ public final class CJKTokenizer2 extends Tokenizer
 
         public boolean shouldPushback()
         {
-            return pushback;
+            return (pushbackSize > 0);
         }
 
         public void clear()
         {
-            start = 0;
-            end = 0;
-            length = 0;
+            readLength = 0;
+            tokenLength = 0;
             type = null;
             complete = false;
-            pushback = false;
+            pushbackSize = 0;
         }
 
         public void handleChar(CharInfo c) throws IOException
@@ -185,65 +188,80 @@ public final class CJKTokenizer2 extends Tokenizer
 
                 // 文字種によって、トークンタイプを決定
                 if (c.type == CHARTYPE_SINGLE) {
-                    buffer[0] = c.normCodePoint;
-                    start = (int)c.start;
-                    end = (int)c.end;
-                    length = 1;
+                    buffer[0] = c;
+                    readLength = 1;
+                    tokenLength = 1;
                     type = TOKENTYPE_SINGLE;
                 } else if (c.type == CHARTYPE_DOUBLE) {
-                    buffer[0] = c.normCodePoint;
-                    start = (int)c.start;
-                    end = (int)c.end;
-                    length = 1;
+                    buffer[0] = c;
+                    readLength = 1;
+                    tokenLength = 1;
                     type = TOKENTYPE_DOUBLE;
+                    if (ngram == 1) {
+                        complete = true;
+                    }
                 } else {
                     // 記号は読み飛ばす
                 }
             } else if (type == TOKENTYPE_SINGLE) {
                 // 現在スキャン中のトークンは単語境界区切り
+                buffer[readLength++] = c;
                 if (c.type == CHARTYPE_SINGLE) {
                     // ラテン文字
-                    // bufferに付け加える
-                    buffer[length++] = c.normCodePoint;
-                    end = (int)c.end;
-
+                    ++tokenLength;
                     // バッファに空きがなくなった場合、一旦トークンとして切り出す。
-                    if (length >= MAX_WORD_LEN) {
+                    if (readLength >= MAX_WORD_LEN) {
                         complete = true;
                     }
                 } else if (c.type == CHARTYPE_DOUBLE) {
                     // CJK文字
-                    // 1文字pushbackして、現在のbufferをtokenとして切り出す。
+                    // 直前までのbuffer内容をtokenとして切り出すと共に、
+                    // 1文字pushback。
                     complete = true;
-                    pushback = true;
+                    pushbackSize = 1;
                 } else {
                     // 記号
-                    // 現在のbufferをtokenとして切り出す。
                     complete = true;
                 }
             } else if (type == TOKENTYPE_DOUBLE) {
-                // 現在スキャン中のトークンはbi-gram
+                // 現在スキャン中のトークンはN-gram
                 // ここに来た時点で、bufferには1文字分CJK文字が入っている。
+                buffer[readLength++] = c;
                 if (c.type == CHARTYPE_DOUBLE) {
                     // CJK文字
-                    // bufferに付け加えると共に、1文字pushbackして、
-                    // 現在のbufferをtokenとして切り出す。
-                    buffer[length++] = c.normCodePoint;
-                    end = (int)c.end;
-                    complete = true;
-                    pushback = true;
+                    // 現在のbufferをtokenとして切り出すと共に、
+                    // 1文字残してbuffer内容をpushback。
+                    ++tokenLength;
+                    if (tokenLength >= ngram) {
+                        complete = true;
+                        pushbackSize = readLength-1;
+                    }
                 } else if (c.type == CHARTYPE_SINGLE) {
                     // ラテン文字
-                    // 1文字pushbackし、現在のbufferをtokenとして切り出す。
+                    // 直前までのbufferをtokenとして切り出すと共に、
+                    // 1文字残してbuffer内容をpushback。
                     complete = true;
-                    pushback = true;
+                    pushbackSize = readLength-1;
                 } else {
                     // 記号
-                    // 現在のbufferをtokenとして切り出す。
+                    // 直前までのbufferをtokenとして切り出すと共に、
+                    // 1文字残してbuffer内容をpushback。
                     complete = true;
+                    pushbackSize = readLength-1;
                 }
             } else {
                 throw new IOException("Illegal state.");
+            }
+        }
+        
+        public void pushback(PushbackCodePointReader reader)
+        throws IOException
+        {
+            CharInfo charInfo;
+            for (int i=readLength-1; i>=(readLength-pushbackSize); --i) {
+                charInfo = buffer[i];
+                reader.unread(charInfo.codePoint,
+                        (int)(charInfo.end - charInfo.start));
             }
         }
 
@@ -252,7 +270,14 @@ public final class CJKTokenizer2 extends Tokenizer
             if (type == null) {
                 return null;
             } else {
-                return new Token(new String(buffer, 0, length), start, end,
+                StringBuilder builder = new StringBuilder();
+                for (int i=0; i<tokenLength; ++i) {
+                    builder.appendCodePoint(buffer[i].normCodePoint);
+                }
+                return new Token(
+                        builder.toString(),
+                        (int)buffer[0].start,
+                        (int)buffer[tokenLength-1].end,
                         type);
             }
         }
@@ -263,32 +288,36 @@ public final class CJKTokenizer2 extends Tokenizer
      */
     private PushbackCodePointReader pbinput = null;
     /**
-     * 新しく読んだ文字の情報
-     */
-    private CharInfo charInfo = new CharInfo();
-    /**
      * 現在解析中のトークンの情報
      */
-    private TokenInfo tokenInfo = new TokenInfo();
-
+    private TokenInfo tokenInfo = null;
+    
     public CJKTokenizer2(Reader in)
     {
+        this(in, DEFAULT_NGRAM);
+    }
+
+    public CJKTokenizer2(Reader in, int ngram)
+    {
         super(in);
-        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), 2);
+        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), ngram);
+        assert(ngram > 0);
+        tokenInfo = new TokenInfo(ngram);
     }
 
     public final Token next() throws IOException
     {
         tokenInfo.clear();
 
+        CharInfo charInfo;
         do {
+            charInfo = new CharInfo();
             charInfo.read(pbinput);
             tokenInfo.handleChar(charInfo);
         } while (!tokenInfo.isComplete());
-
+        
         if (tokenInfo.shouldPushback()) {
-            pbinput.unread(charInfo.codePoint,
-                    (int)(charInfo.end - charInfo.start));
+            tokenInfo.pushback(pbinput);
         }
 
         return tokenInfo.toToken();
@@ -297,7 +326,7 @@ public final class CJKTokenizer2 extends Tokenizer
     public static void main(String[] args) throws Exception
     {
         java.io.StringReader in = new java.io.StringReader(args[0]);
-        CJKTokenizer2 tokenizer = new CJKTokenizer2(in);
+        CJKTokenizer2 tokenizer = new CJKTokenizer2(in, 2);
         Token token;
 
         while ((token = tokenizer.next()) != null) {
