@@ -66,9 +66,65 @@ public class CJKTokenizer2Test
     }
     
     @Test
+    public void testTrigram()
+    throws Exception
+    {
+        String str = "ルート選択があるプロセス[1]件目";
+        StringReader reader = new StringReader(str);
+        CJKTokenizer2 tokenizer = new CJKTokenizer2(reader, 3);
+        Token token;
+        
+        String[] tokens = {
+                "ルート",
+                "ート選",
+                "ト選択",
+                "選択が",
+                "択があ",
+                "がある",
+                "あるプ",
+                "るプロ",
+                "プロセ",
+                "ロセス",
+                "セス",
+                "ス",
+                "1",
+                "件目",
+                "目"
+        };
+
+        int[][] offsets = {
+                { 0, 3 },   // ルート
+                { 1, 4 },   // ート選
+                { 2, 5 },   // ト選択
+                { 3, 6 },   // 選択が
+                { 4, 7 },   // 択があ
+                { 5, 8 },   // がある
+                { 6, 9 },   // あるプ
+                { 7, 10 },  // るプロ
+                { 8, 11 },  // プロセ
+                { 9, 12 },  // ロセス
+                { 10, 12 }, // セス
+                { 11, 12 }, // ス
+                { 13, 14 }, // 1
+                { 15, 17 }, // 件目
+                { 16, 17 }  // 目
+        };
+
+        int i = 0;
+        while ((token = tokenizer.next()) != null) {
+            assertEquals(tokens[i], token.termText());
+            assertEquals("Wrong start offset", offsets[i][0], token
+                    .startOffset());
+            assertEquals("Wrong end offset", offsets[i][1], token
+                    .endOffset());
+            ++i;
+        }
+        assertEquals(tokens.length, i);
+    }
+    
+    @Test
     public void testTokenizeHnakakuKana()
     {
-        System.out.println(Character.isLetterOrDigit('､'));
         try {
             String str = "ﾎﾝｼﾞﾂﾊ､ﾊﾝﾍﾟﾝｦｼｮｸｼﾀ｡";
             StringReader reader = new StringReader(str);
@@ -77,7 +133,7 @@ public class CJKTokenizer2Test
             
             int i = 0;
             while ((token = tokenizer.next()) != null) {
-                System.out.println(token.termText());
+                System.out.println(token.toString());
             }
             
         } catch (Exception e) {
