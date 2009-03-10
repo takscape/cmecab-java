@@ -123,7 +123,7 @@ public class CJKTokenizer2Test
     }
     
     @Test
-    public void testTokenizeHnakakuKana()
+    public void testTokenizeHalfwidthKatakana()
     {
         try {
             String str = "ﾎﾝｼﾞﾂﾊ､ﾊﾝﾍﾟﾝｦｼｮｸｼﾀ｡";
@@ -131,9 +131,52 @@ public class CJKTokenizer2Test
             CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
             Token token;
             
+            String[] tokens = {
+                    "ﾎﾝ",
+                    "ﾝｼ",
+                    "ｼﾞ",
+                    "ﾞﾂ",
+                    "ﾂﾊ",
+                    "ﾊ",
+                    "ﾊﾝ",
+                    "ﾝﾍ",
+                    "ﾍﾟ",
+                    "ﾟﾝ",
+                    "ﾝｦ",
+                    "ｦｼ",
+                    "ｼｮ",
+                    "ｮｸ",
+                    "ｸｼ",
+                    "ｼﾀ",
+                    "ﾀ"
+            };
+
+            int[][] offsets = {
+                    { 0, 2 },   // ﾎﾝ
+                    { 1, 3 },   // ﾝｼ
+                    { 2, 4 },   // ｼﾞ
+                    { 3, 5 },   // ﾞﾂ
+                    { 4, 6 },   // ﾂﾊ
+                    { 5, 6 },   // ﾊ
+                    { 7, 9 },   // ﾊﾝ
+                    { 8, 10 },  // ﾝﾍ
+                    { 9, 11 },  // ﾍﾟ
+                    { 10, 12 }, // ﾟﾝ
+                    { 11, 13 }, // ﾝｦ
+                    { 12, 14 }, // ｦｼ
+                    { 13, 15 }, // ｼｮ
+                    { 14, 16 }, // ｮｸ
+                    { 15, 17 }, // ｸｼ
+                    { 16, 18 }, // ｼﾀ
+                    { 17, 18 }  // ﾀ
+            };
+
             int i = 0;
             while ((token = tokenizer.next()) != null) {
-                System.out.println(token.toString());
+                assertEquals(tokens[i], token.termText());
+                assertEquals(offsets[i][0], token.startOffset());
+                assertEquals(offsets[i][1], token.endOffset());
+                ++i;
             }
             
         } catch (Exception e) {
