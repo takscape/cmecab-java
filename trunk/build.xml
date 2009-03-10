@@ -10,10 +10,13 @@
 	<property name="dist" location="bin"/>
 	<property name="doc" location="doc"/>
 	<property name="test" location="test"/>
-	<property name="version" value="1.1"/>
+	<property name="version" value="1.2"/>
 	
 	<path id="compile.classpath">
 		<fileset dir="${lib}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${test}/lib">
 			<include name="*.jar"/>
 		</fileset>
 		<pathelement path="${java.class.path}"/>
@@ -42,7 +45,8 @@
 			srcdir="${src}"
 			destdir="${dist}/classes"
 			source="1.5"
-			target="1.5">
+			target="1.5"
+			debug="true">
 			<include name="**/*.java"/>
 			<exclude name="**/.svn/"/>
 		</javac>

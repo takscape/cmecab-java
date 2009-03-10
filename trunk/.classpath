@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/lucene-core.jar"/>
 	<classpathentry kind="lib" path="lib/solr.jar"/>
+	<classpathentry kind="lib" path="test/lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/commons-pool-1.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
