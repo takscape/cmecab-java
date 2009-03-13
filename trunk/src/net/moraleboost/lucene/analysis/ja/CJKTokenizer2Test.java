@@ -40,8 +40,7 @@ public class CJKTokenizer2Test
                 "物は",
                 "は\uD867\uDE3D",
                 "\uD867\uDE3Dで",
-                "です",
-                "す"
+                "です"
         };
 
         int[][] offsets = {
@@ -49,13 +48,13 @@ public class CJKTokenizer2Test
                 { 1, 3 },
                 { 2, 5 },
                 { 3, 6 },
-                { 5, 7 },
-                { 6, 7 }
+                { 5, 7 }
         };
 
         Token token;
         int i = 0;
         while ((token = tokenizer.next()) != null) {
+            System.out.println(token);
             assertEquals(tokens[i], token.termText());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
@@ -85,11 +84,8 @@ public class CJKTokenizer2Test
                 "るプロ",
                 "プロセ",
                 "ロセス",
-                "セス",
-                "ス",
                 "1",
-                "件目",
-                "目"
+                "件目"
         };
 
         int[][] offsets = {
@@ -103,11 +99,8 @@ public class CJKTokenizer2Test
                 { 7, 10 },  // るプロ
                 { 8, 11 },  // プロセ
                 { 9, 12 },  // ロセス
-                { 10, 12 }, // セス
-                { 11, 12 }, // ス
                 { 13, 14 }, // 1
-                { 15, 17 }, // 件目
-                { 16, 17 }  // 目
+                { 15, 17 }  // 件目
         };
 
         int i = 0;
@@ -137,7 +130,6 @@ public class CJKTokenizer2Test
                     "ｼﾞ",
                     "ﾞﾂ",
                     "ﾂﾊ",
-                    "ﾊ",
                     "ﾊﾝ",
                     "ﾝﾍ",
                     "ﾍﾟ",
@@ -147,8 +139,7 @@ public class CJKTokenizer2Test
                     "ｼｮ",
                     "ｮｸ",
                     "ｸｼ",
-                    "ｼﾀ",
-                    "ﾀ"
+                    "ｼﾀ"
             };
 
             int[][] offsets = {
@@ -157,7 +148,6 @@ public class CJKTokenizer2Test
                     { 2, 4 },   // ｼﾞ
                     { 3, 5 },   // ﾞﾂ
                     { 4, 6 },   // ﾂﾊ
-                    { 5, 6 },   // ﾊ
                     { 7, 9 },   // ﾊﾝ
                     { 8, 10 },  // ﾝﾍ
                     { 9, 11 },  // ﾍﾟ
@@ -168,7 +158,6 @@ public class CJKTokenizer2Test
                     { 14, 16 }, // ｮｸ
                     { 15, 17 }, // ｸｼ
                     { 16, 18 }, // ｼﾀ
-                    { 17, 18 }  // ﾀ
             };
 
             int i = 0;
@@ -197,9 +186,7 @@ public class CJKTokenizer2Test
                     "this_book",
                     "s",
                     "落丁",
-                    "丁",
                     "乱丁",
-                    "丁",
                     "は",
                     "abcd",
                     "def",
@@ -208,17 +195,14 @@ public class CJKTokenizer2Test
                     "替え",
                     "えし",
                     "しま",
-                    "ます",
-                    "す"
+                    "ます"
             };
 
             int[][] offsets = {
                     { 0, 9 }, // this_book
                     { 10, 11 }, // s
                     { 11, 13 }, // 落丁
-                    { 12, 13 }, // 丁
                     { 14, 16 }, // 乱丁
-                    { 15, 16 }, // 丁
                     { 18, 19 }, // は
                     { 19, 23 }, // abcd
                     { 24, 27 }, // def
@@ -227,12 +211,12 @@ public class CJKTokenizer2Test
                     { 29, 31 }, // 替え
                     { 30, 32 }, // えし
                     { 31, 33 }, // しま
-                    { 32, 34 }, // ます
-                    { 33, 34 } // す
+                    { 32, 34 }  // ます
             };
 
             int i = 0;
             while ((token = tokenizer.next()) != null) {
+                //System.out.println(token);
                 assertEquals(tokens[i], token.termText());
                 assertEquals("Wrong start offset", offsets[i][0], token
                         .startOffset());
