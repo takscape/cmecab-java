@@ -1,10 +1,16 @@
 #summary リリースノート
 #labels Featured
+== v1.2 (2009/3/16) ==
+
+  * CJKTokenizer2の区切り位置を、v1.0互換に戻した。
+  * CJKTokenizer2が、半角カナを正しくトークナイズできない問題を修正。
+  * CJKTokenizer2を、bigramだけでなく、N-gram一般に対応できるよう修正。
+  * 試験的に、プールしたTaggerを使用する!PooledMeCabTokenizerFactoryを追加。
 
 == v1.1 (2009/2/17) ==
 
   * サロゲートペアを正しく認識するCJKTokenizer、CJKTokenizer2を追加。
-  * MeCabTokenizerに空白文字や改行を含むテキストを与えると、TokenのstartOffset, endOffsetがずれる問題を修正。
+  * !MeCabTokenizerに空白文字や改行を含むテキストを与えると、TokenのstartOffset, endOffsetがずれる問題を修正。
 
 == v1.0 ==
 
