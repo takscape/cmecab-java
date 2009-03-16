@@ -76,9 +76,9 @@ CMeCab本体はパブリックドメインとします。
 なお、ビルドおよびテストのため、libディレクトリに以下のソフトウェアを
 同梱しています。これらのソフトウェアは、それぞれのライセンスに従います。
 
-* Apache Lucene 2.3.1
+* Apache Lucene 2.4-dev
    * Apache License 2.0
-* Apache Solr 1.2
+* Apache Solr 1.3
    * Apache License 2.0
 * JUnit 4.4
    * Common Public License 1.0
