@@ -54,7 +54,7 @@ public class CJKTokenizer2Test
         int i = 0;
         while ((token = tokenizer.next()) != null) {
             //System.out.println(token);
-            assertEquals(tokens[i], token.termText());
+            assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
             assertEquals("Wrong end offset", offsets[i][1], token.endOffset());
@@ -90,7 +90,7 @@ public class CJKTokenizer2Test
 
         int i = 0;
         while ((token = tokenizer.next()) != null) {
-            assertEquals(tokens[i], token.termText());
+            assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
             assertEquals("Wrong end offset", offsets[i][1], token
@@ -141,7 +141,7 @@ public class CJKTokenizer2Test
 
         int i = 0;
         while ((token = tokenizer.next()) != null) {
-            assertEquals(tokens[i], token.termText());
+            assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
             assertEquals("Wrong end offset", offsets[i][1], token
@@ -198,7 +198,7 @@ public class CJKTokenizer2Test
 
             int i = 0;
             while ((token = tokenizer.next()) != null) {
-                assertEquals(tokens[i], token.termText());
+                assertEquals(tokens[i], token.term());
                 assertEquals(offsets[i][0], token.startOffset());
                 assertEquals(offsets[i][1], token.endOffset());
                 ++i;
@@ -257,7 +257,7 @@ public class CJKTokenizer2Test
             int i = 0;
             while ((token = tokenizer.next()) != null) {
                 //System.out.println(token);
-                assertEquals(tokens[i], token.termText());
+                assertEquals(tokens[i], token.term());
                 assertEquals("Wrong start offset", offsets[i][0], token
                         .startOffset());
                 assertEquals("Wrong end offset", offsets[i][1], token

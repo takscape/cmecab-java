@@ -24,7 +24,8 @@ public class MeCabToken extends Token
 
     public MeCabToken(String text, String feature, int start, int end)
     {
-        super(text, start, end);
+        super(start, end);
+        this.setTermBuffer(text);
         this.feature = feature;
     }
 

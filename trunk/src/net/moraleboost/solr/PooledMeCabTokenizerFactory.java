@@ -83,8 +83,7 @@ public class PooledMeCabTokenizerFactory extends MeCabTokenizerFactory
     {
         try {
             return new PooledMeCabTokenizer(reader, pool,
-                    getInitialSize(), getShrinkThreshold(),
-                    getShrinkTarget(), getMaxSize());
+                    getBufferSize(), getMaxSize());
         } catch (MeCabTokenizerException e) {
             throw e;
         } catch (Exception e) {
