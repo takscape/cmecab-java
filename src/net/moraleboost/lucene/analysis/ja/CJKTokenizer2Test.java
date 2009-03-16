@@ -19,7 +19,6 @@ package net.moraleboost.lucene.analysis.ja;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
-import java.lang.Character.UnicodeBlock;
 
 import org.apache.lucene.analysis.Token;
 
@@ -54,11 +53,48 @@ public class CJKTokenizer2Test
         Token token;
         int i = 0;
         while ((token = tokenizer.next()) != null) {
-            System.out.println(token);
+            //System.out.println(token);
             assertEquals(tokens[i], token.termText());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
             assertEquals("Wrong end offset", offsets[i][1], token.endOffset());
+            ++i;
+        }
+        assertEquals(tokens.length, i);
+    }
+    
+    @Test
+    public void testUnigram()
+    throws Exception
+    {
+        String str = "あいうえお";
+        StringReader reader = new StringReader(str);
+        CJKTokenizer2 tokenizer = new CJKTokenizer2(reader, 1);
+        Token token;
+        
+        String[] tokens = {
+                "あ",
+                "い",
+                "う",
+                "え",
+                "お"
+        };
+        
+        int[][] offsets = {
+                { 0, 1 },   // あ
+                { 1, 2 },   // い
+                { 2, 3 },   // う
+                { 3, 4 },   // え
+                { 4, 5 }    // お
+        };
+
+        int i = 0;
+        while ((token = tokenizer.next()) != null) {
+            assertEquals(tokens[i], token.termText());
+            assertEquals("Wrong start offset", offsets[i][0], token
+                    .startOffset());
+            assertEquals("Wrong end offset", offsets[i][1], token
+                    .endOffset());
             ++i;
         }
         assertEquals(tokens.length, i);
@@ -177,20 +213,24 @@ public class CJKTokenizer2Test
     public void testTokenize()
     {
         try {
-            String str = "this_ＢＯＯＫ’s落丁、乱丁  はaBCd.defお取替えします。";
+            String str = "this_ＢＯＯＫ’s落丁、乱丁  はaBCd.defお取替えします";
             StringReader reader = new StringReader(str);
             CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
             Token token;
 
             String[] tokens = {
-                    "this_book",
-                    "s",
-                    "落丁",
-                    "乱丁",
-                    "は",
-                    "abcd",
-                    "def",
-                    "お取",
+                    "this_book", // ここでsingle->single, single->null
+                    // ここでnull->single
+                    "s", // ここでsingle->double
+                    "落丁", // ここでdouble->null
+                    // ここでnull->double
+                    "乱丁", // ここでdouble->null
+                    // ここでnull->null, null->double
+                    "は", // ここでdouble->single
+                    "abcd", // ここでsingle->null
+                    // ここでnull->single
+                    "def", // ここでsingle->double
+                    "お取", // ここでdouble->double
                     "取替",
                     "替え",
                     "えし",

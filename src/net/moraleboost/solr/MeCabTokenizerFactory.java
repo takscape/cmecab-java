@@ -41,6 +41,36 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
     {
         super();
     }
+    
+    public String getDicCharset()
+    {
+        return dicCharset;
+    }
+    
+    public String getMecabArg()
+    {
+        return mecabArg;
+    }
+    
+    public int getInitialSize()
+    {
+        return initialSize;
+    }
+    
+    public int getShrinkThreshold()
+    {
+        return shrinkThreshold;
+    }
+    
+    public int getShrinkTarget()
+    {
+        return shrinkTarget;
+    }
+    
+    public int getMaxSize()
+    {
+        return maxSize;
+    }
 
     /**
      * ファクトリを初期化する。 初期化パラメータとして、「charset」、「arg」、

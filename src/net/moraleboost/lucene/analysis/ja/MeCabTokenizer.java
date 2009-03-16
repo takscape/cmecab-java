@@ -44,6 +44,7 @@ public class MeCabTokenizer extends Tokenizer
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
+    private boolean ownTagger = false;
 
     /**
      * MeCabを用いて入力を分かち書きするTokenizerを構築する。
@@ -57,12 +58,14 @@ public class MeCabTokenizer extends Tokenizer
      * @throws IOException
      */
     public MeCabTokenizer(Reader in, String dicCharset, String arg)
-            throws MeCabException, IOException
+    throws MeCabException, IOException
     {
         super(in);
+
         buffer = new StringBuilder(bufferInitialSize);
         tmpBuffer = CharBuffer.allocate(bufferInitialSize);
         tagger = new Tagger(dicCharset, arg);
+        ownTagger = true;
 
         parse();
     }
@@ -103,11 +106,34 @@ public class MeCabTokenizer extends Tokenizer
 
         parse();
     }
+    
+    protected MeCabTokenizer(Reader in, Tagger tagger,
+            int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
+    throws MeCabException, IOException
+    {
+        super(in);
+
+        bufferInitialSize = initialSize;
+        bufferShrinkThreshold = shrinkThreshold;
+        bufferShrinkTarget = shrinkTarget;
+        bufferMaxSize = maxSize;
+        
+        buffer = new StringBuilder(bufferInitialSize);
+        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
+        this.tagger = tagger;
+        
+        parse();
+    }
+    
+    protected Tagger getTagger()
+    {
+        return tagger;
+    }
 
     @Override
     public void close() throws IOException
     {
-        if (tagger != null) {
+        if (ownTagger && tagger != null) {
             tagger.close();
         }
         node = null;
