@@ -27,7 +27,65 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * codepointを認識するCJKTokenizerクローン。
+ * codepointを認識するCJKTokenizerクローン。<br>
+ * <br>
+ * CJKTokenizer2は、一種のステートマシンである。
+ * {@link TokenInfo#type}変数がTokenizerの現在の状態を表し、
+ * そこに入力される文字のタイプ{@link CharInfo#type}に
+ * 応じて、次の状態に遷移する（あるいは、終了状態に遷移、
+ * すなわち{@link CJKTokenizer2#next()}メソッドから抜ける）。<br>
+ * <br>
+ * {@link TokenInfo#type}に加え、Tokenizerの前の状態を記録しておくための
+ * {@link TokenInfo#prevType}変数が存在する。
+ * prevTypeは、CJK文字をスキャンする際に用いられる。
+ *
+ * 状態の一覧は、以下のとおり。<br>
+ * <table>
+ *   <tr>
+ *      <th>typeの値</th>
+ *      <th>説明</th>
+ *   </tr>
+ *   <tr>
+ *      <td>null</td>
+ *      <td>開始状態</td>
+ *   </tr>
+ *   <tr>
+ *      <td>TOKENTYPE_SINGLE</td>
+ *      <td>シングルバイト文字で構成されるトークンをスキャン中</td>
+ *   </tr>
+ *   <tr>
+ *      <td>TOKENTYPE_DOUBLE</td>
+ *      <td>CJK文字で構成されるトークンをスキャン中</td>
+ *   </tr>
+ *   <tr>
+ *      <td>TOKENTYPE_NULL</td>
+ *      <td>無視される文字（空白や記号）で構成されるトークンをスキャン中</td>
+ *   </tr>
+ * </table>
+ * <br>
+ * 文字のタイプの一覧は、以下のとおり。<br>
+ * <table>
+ *   <tr>
+ *      <th>typeの値</th>
+ *      <th>説明</th>
+ *   </tr>
+ *   <tr>
+ *      <td>CHARTYPE_SINGLE</td>
+ *      <td>シングルバイト文字</td>
+ *   </tr>
+ *   <tr>
+ *      <td>CHARTYPE_DOUBLE</td>
+ *      <td>CJK文字</td>
+ *   </tr>
+ *   <tr>
+ *      <td>CHARTYPE_SYMBOL</td>
+ *      <td>記号、空白</td>
+ *   </tr>
+ *   <tr>
+ *      <td>CHARTYPE_EOS</td>
+ *      <td>ストリームの終わり</td>
+ *   </tr>
+ * </table>
  * 
  * @author taketa
  * 
@@ -143,14 +201,39 @@ public final class CJKTokenizer2 extends Tokenizer
 
     public static class TokenInfo
     {
+        /**
+         * 処理したCharInfoを格納しておくbuffer
+         */
         private CharInfo[] buffer = null;
-        private int readLength = 0; // in code points
-        private int tokenLength = 0; // in code points
+        /**
+         * buffer内に格納された総コードポイント数
+         */
+        private int readLength = 0;
+        /**
+         * buffer内に格納されたコードポイントのうち、
+         * 実際にtokenを構成するのは、先頭からいくつ分なのか。
+         */
+        private int tokenLength = 0;
+        /**
+         * 現在スキャン中のtokenのタイプ
+         */
         private String type = null;
-        private String prevType = null; // 直前にスキャンしたトークンのタイプ
-
-        private boolean complete = false;
+        /**
+         * 一つ前にスキャンしたtokenのタイプ
+         */
+        private String prevType = null;
+        /**
+         * スキャン終了フラグ
+         */
+        private boolean complete = false; // 終了フラグ
+        /**
+         * スキャン終了後に、
+         * buffer末尾からいくつ分のコードポイントをストリームに戻すか。
+         */
         private int pushbackSize = 0;
+        /**
+         * N-gramのN。1ならunigram、2ならbigam、3ならtrigram。
+         */
         private int ngram = 0;
 
         public TokenInfo(int ngram)
@@ -164,6 +247,11 @@ public final class CJKTokenizer2 extends Tokenizer
         public String getType()
         {
             return type;
+        }
+        
+        public String getPrevType()
+        {
+            return prevType;
         }
 
         public boolean isComplete()
@@ -186,100 +274,131 @@ public final class CJKTokenizer2 extends Tokenizer
             pushbackSize = 0;
         }
         
-        private void setTokenType(String tokenType)
-        {
-            type = tokenType;
-        }
-        
         private void changeTokenType(String tokenType)
         {
-            prevType = type;
-            type = tokenType;
+            if (type == null) {
+                type = tokenType;
+            } else {
+                // 最後に読んだcharInfoを、バッファ先頭にコピー
+                buffer[0] = buffer[readLength-1];
+                readLength = 1;
+                tokenLength = 0;
+                prevType = type;
+                type = tokenType;
+            }
         }
         
-        private void setComplete(int pushbackSize)
+        private void setComplete()
         {
             this.complete = true;
+        }
+        
+        private void setPushbackSize(int pushbackSize)
+        {
             this.pushbackSize = pushbackSize;
         }
         
-        private void addToBuffer(CharInfo c, boolean isPartOfToken)
+        private void addToBuffer(CharInfo c)
         {
             buffer[readLength++] = c;
-            if (isPartOfToken) {
-                ++tokenLength;
-            }
+        }
+        
+        private void incrementTokenLength()
+        {
+            ++tokenLength;
+        }
+        
+        private boolean isBufferFull()
+        {
+            return (readLength >= MAX_WORD_LEN);
+        }
+        
+        private boolean isNgramComplete()
+        {
+            return (tokenLength >= ngram);
+        }
+        
+        private int getReadLength()
+        {
+            return readLength;
+        }
+        
+        private int getNgram()
+        {
+            return ngram;
         }
 
         public void handleChar(CharInfo c) throws IOException
         {
+            // 文字をバッファに追加
+            addToBuffer(c);
+
             // 現在のトークンタイプによって分岐
-            boolean isPartOfToken = true;
             if (type == null) {
                 // 現在スキャン中のトークンなし。
                 // 文字種によって、トークンタイプを決定。
                 if (c.type == CHARTYPE_SINGLE) {
-                    setTokenType(TOKENTYPE_SINGLE);
+                    // singleトークンのスキャンに移行
+                    changeTokenType(TOKENTYPE_SINGLE);
+                    incrementTokenLength();
                 } else if (c.type == CHARTYPE_DOUBLE) {
-                    setTokenType(TOKENTYPE_DOUBLE);
-                    if (ngram == 1) {
-                        setComplete(0);
+                    // doubleトークンのスキャンに移行
+                    changeTokenType(TOKENTYPE_DOUBLE);
+                    incrementTokenLength();
+                    // unigramなら、直ちに終了状態に移行
+                    if (getNgram() == 1) {
+                        setComplete();
                     }
                 } else if (c.type == CHARTYPE_SYMBOL) {
-                    setTokenType(TOKENTYPE_NULL);
+                    // nullトークンのスキャンに移行
+                    changeTokenType(TOKENTYPE_NULL);
+                    incrementTokenLength();
                 } else {
-                    // EOS
-                    isPartOfToken = false;
-                    setComplete(0);
+                    // ストリームの終わり。
+                    // 終了状態に移行
+                    setComplete();
                 }
             } else if (type == TOKENTYPE_SINGLE) {
-                // 現在スキャン中のトークンは単語境界区切り
+                // 現在スキャン中のトークンはsingle。
                 if (c.type == CHARTYPE_SINGLE) {
                     // ラテン文字
+                    incrementTokenLength();
                     // バッファに空きがなくなった場合、一旦トークンとして切り出す。
-                    if (readLength >= MAX_WORD_LEN) {
-                        setComplete(0);
+                    if (isBufferFull()) {
+                        setComplete();
                     }
-                } else if (c.type == CHARTYPE_DOUBLE) {
-                    // CJK文字
-                    // 直前までのbuffer内容をtokenとして切り出すと共に、
-                    // 1文字pushback。
-                    isPartOfToken = false;
-                    setComplete(1);
-                } else if (c.type == CHARTYPE_SYMBOL) {
-                    // 記号
-                    // 直前までのbuffer内容をtokenとして切り出す。
-                    isPartOfToken = false;
-                    setComplete(1);
                 } else {
-                    // EOS
+                    // CJK文字、記号・空白、EOSの場合は、
+                    // 読んだ文字をストリームに戻し、
                     // 直前までのbuffer内容をtokenとして切り出す。
-                    isPartOfToken = false;
-                    setComplete(1);
+                    setComplete();
+                    setPushbackSize(1);
                 }
             } else if (type == TOKENTYPE_DOUBLE) {
-                // 現在スキャン中のトークンはN-gram
+                // 現在スキャン中のトークンはdouble。
                 // ここに来た時点で、bufferには1文字分CJK文字が入っている。
                 if (c.type == CHARTYPE_SINGLE) {
-                    // ラテン文字
-                    if (prevType == TOKENTYPE_DOUBLE) {
-                        // 前のトークンがDOUBLEであるなら、
-                        // 現在のbuffer内容を捨て、そのまま次のSINGLEトークンの
+                    if (getPrevType() == TOKENTYPE_DOUBLE) {
+                        // 前のトークンがdoubleであるなら、
+                        // 現在のbuffer内容を捨て、そのまま次のsingleトークンの
                         // スキャンに移行。
                         changeTokenType(TOKENTYPE_SINGLE);
+                        incrementTokenLength();
                     } else {
-                        // 前のトークンがDOUBLEでないなら、
+                        // 前のトークンがdoubleでないなら、
                         // ここでトークンを切り出す。
-                        isPartOfToken = false;
-                        setComplete(1);
+                        setComplete();
+                        setPushbackSize(1);
                     }
                 } else if (c.type == CHARTYPE_DOUBLE) {
                     // CJK文字
                     // buffer内の文字数がngram以上になった場合は、
                     // 現在のbufferをtokenとして切り出すと共に、
                     // 1文字残してbuffer内容をpushback。
-                    if (tokenLength+1 >= ngram) {
-                        setComplete(readLength);
+                    incrementTokenLength();
+                    if (isNgramComplete()) {
+                        setComplete();
+                        setPushbackSize(getReadLength()-1);
                     }
                 } else if (c.type == CHARTYPE_SYMBOL) {
                     // 記号
@@ -287,44 +406,41 @@ public final class CJKTokenizer2 extends Tokenizer
                         // 前のトークンがDOUBLEであるなら、
                         // 現在のbuffer内容を捨て、次のNULLトークンのスキャンに移行。
                         changeTokenType(TOKENTYPE_NULL);
+                        incrementTokenLength();
                     } else {
-                        // 直前までのbufferをtokenとして切り出す。
-                        isPartOfToken = false;
-                        setComplete(1);
+                        // 前のトークンがdoubleでないなら、
+                        // ここでトークンを切り出す。
+                        setComplete();
+                        setPushbackSize(1);
                     }
                 } else {
                     // EOS
-                    isPartOfToken = false;
-                    setComplete(1);
+                    if (prevType == TOKENTYPE_DOUBLE) {
+                        changeTokenType(null);
+                        setComplete();
+                    } else {
+                        setComplete();
+                        setPushbackSize(1);
+                    }
                 }
             } else if (type == TOKENTYPE_NULL) {
-                if (c.type == CHARTYPE_SINGLE) {
-                    // ラテン文字
-                    // 直前までのバッファ内容をトークンとして切り出す。
-                    isPartOfToken = false;
-                    setComplete(1);
-                }else if (c.type == CHARTYPE_DOUBLE) {
-                    // CJK文字
-                    // 直前までのバッファ内容をトークンとして切り出す。
-                    isPartOfToken = false;
-                    setComplete(1);
-                } else if (c.type == CHARTYPE_SYMBOL) {
-                    // 記号
-                    // 継続してスキャン。
-                    if (readLength >= MAX_WORD_LEN) {
-                        setComplete(0);
+                // 現在スキャン中のトークンはnull。
+                if (c.type == CHARTYPE_SYMBOL) {
+                    // 記号・空白
+                    incrementTokenLength();
+                    // バッファに空きがなくなった場合、一旦トークンとして切り出す。
+                    if (isBufferFull()) {
+                        setComplete();
                     }
                 } else {
-                    // EOS
+                    // ラテン文字、CJK文字、EOSの場合、
                     // 直前までのバッファ内容をトークンとして切り出す。
-                    isPartOfToken = false;
-                    setComplete(1);
+                    setComplete();
+                    setPushbackSize(1);
                 }
             } else {
                 throw new IOException("Illegal state.");
             }
-            
-            addToBuffer(c, isPartOfToken);
         }
         
         public void pushback(PushbackCodePointReader reader)
@@ -392,6 +508,8 @@ public final class CJKTokenizer2 extends Tokenizer
             if (tokenInfo.shouldPushback()) {
                 tokenInfo.pushback(pbinput);
             }
+            
+            // System.out.println(tokenInfo.toToken());
         } while (tokenInfo.getType() == TOKENTYPE_NULL);
 
         return tokenInfo.toToken();

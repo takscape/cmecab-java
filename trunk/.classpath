@@ -3,9 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/lucene-core.jar"/>
-	<classpathentry kind="lib" path="lib/solr.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-common-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-core-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-core-2.4-dev.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
