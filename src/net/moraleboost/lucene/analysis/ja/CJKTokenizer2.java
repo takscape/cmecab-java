@@ -463,11 +463,12 @@ public final class CJKTokenizer2 extends Tokenizer
                 for (int i=0; i<tokenLength; ++i) {
                     builder.appendCodePoint(buffer[i].normCodePoint);
                 }
-                return new Token(
-                        builder.toString(),
+
+                Token token = new Token(
                         (int)buffer[0].start,
-                        (int)buffer[tokenLength-1].end,
-                        type);
+                        (int)buffer[tokenLength-1].end);
+                token.setTermBuffer(builder.toString());
+                return token;
             }
         }
     }
@@ -524,7 +525,7 @@ public final class CJKTokenizer2 extends Tokenizer
         while ((token = tokenizer.next()) != null) {
             System.out.println(Integer.toString(token.startOffset()) + "-"
                     + Integer.toString(token.endOffset()) + ": "
-                    + token.termText());
+                    + token.term());
         }
     }
 }

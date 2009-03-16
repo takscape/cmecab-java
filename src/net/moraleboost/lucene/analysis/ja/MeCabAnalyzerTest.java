@@ -24,13 +24,14 @@ import org.junit.After;
 
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermFreqVector;
+import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.store.RAMDirectory;
@@ -51,13 +52,13 @@ public class MeCabAnalyzerTest
         String[] filters = new String[] { "^助詞,.*$" };
         analyzer = new MeCabAnalyzer(DIC_ENCODING, "", filters);
         directory = new RAMDirectory();
-        writer = new IndexWriter(directory, analyzer);
+        writer = new IndexWriter(directory, analyzer, new MaxFieldLength(4096));
 
         // ドキュメント追加
         Document doc = new Document();
         addField(doc, "text", "本日は晴天なり。");
         writer.addDocument(doc);
-        writer.flush();
+        writer.commit();
         writer.optimize();
         writer.close();
     }
@@ -112,8 +113,8 @@ public class MeCabAnalyzerTest
 
             Query query = parser.parse("本日も晴天");
             System.out.println("Parsed query = " + query.toString());
-            Hits hits = searcher.search(query);
-            if (hits.length() <= 0) {
+            TopDocs topDocs = searcher.search(query, 100);
+            if (topDocs.scoreDocs.length <= 0) {
                 fail("No hit.");
             }
         } catch (Exception e) {

@@ -2,38 +2,74 @@ package net.moraleboost.solr;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.pool.ObjectPool;
+import org.apache.lucene.analysis.Token;
+import org.apache.lucene.analysis.Tokenizer;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizer;
-import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
+import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Tagger;
 
-public class PooledMeCabTokenizer extends MeCabTokenizer
+public class PooledMeCabTokenizer extends Tokenizer
 {
-    private ObjectPool pool = null;
+    private int bufferSize = MeCabTokenizer.DEFAULT_BUFFER_SIZE;
+    private int maxSize = MeCabTokenizer.DEFAULT_MAX_SIZE;
+
+    private List<Token> tokens = null;
+    private Iterator<Token> iterator = null;
     
     public PooledMeCabTokenizer(Reader in, ObjectPool pool,
-            int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
+            int bufferSize, int maxSize)
     throws Exception
     {
-        super(in, (Tagger)pool.borrowObject(),
-                initialSize, shrinkThreshold, shrinkTarget, maxSize);
-        this.pool = pool;
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-        super.close();
-
+        super(in);
+        
+        this.bufferSize = bufferSize;
+        this.maxSize = maxSize;
+        
+        Tagger tagger = null;
         try {
-            Tagger tagger = getTagger();
+            tagger = (Tagger)pool.borrowObject();
+            parse(tagger);
+        } finally {
             if (tagger != null) {
                 pool.returnObject(tagger);
             }
-        } catch (Exception e) {
-            throw new MeCabTokenizerException(e);
+        }
+    }
+    
+    private void parse(Tagger tagger)
+    throws MeCabException, IOException
+    {
+        MeCabTokenizer tokenizer = new MeCabTokenizer(
+                input, tagger,
+                bufferSize, maxSize);
+
+        tokens = new LinkedList<Token>();
+        
+        Token token;
+        while ((token = tokenizer.next()) != null) {
+            tokens.add(token);
+        }
+        
+        iterator = tokens.iterator();
+    }
+
+    @Override
+    public Token next() throws MeCabException, IOException
+    {
+        if (iterator == null) {
+            return null;
+        }
+        
+        if (iterator.hasNext()) {
+            return iterator.next();
+        } else {
+            return null;
         }
     }
 }

@@ -32,10 +32,8 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 {
     private String dicCharset = null;
     private String mecabArg = null;
-    private int initialSize = MeCabTokenizer.DEFAULT_BUFFER_INITIAL_SIZE;
-    private int shrinkThreshold = MeCabTokenizer.DEFAULT_BUFFER_SHRINK_THRESHOLD;
-    private int shrinkTarget = MeCabTokenizer.DEFAULT_BUFFER_SHRINK_TARGET;
-    private int maxSize = MeCabTokenizer.DEFAULT_BUFFER_MAX_SIZE;
+    private int bufferSize = MeCabTokenizer.DEFAULT_BUFFER_SIZE;
+    private int maxSize = MeCabTokenizer.DEFAULT_MAX_SIZE;
 
     public MeCabTokenizerFactory()
     {
@@ -52,21 +50,10 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
         return mecabArg;
     }
     
-    public int getInitialSize()
+    public int getBufferSize()
     {
-        return initialSize;
+        return bufferSize;
     }
-    
-    public int getShrinkThreshold()
-    {
-        return shrinkThreshold;
-    }
-    
-    public int getShrinkTarget()
-    {
-        return shrinkTarget;
-    }
-    
     public int getMaxSize()
     {
         return maxSize;
@@ -74,11 +61,13 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 
     /**
      * ファクトリを初期化する。 初期化パラメータとして、「charset」、「arg」、
-     * 「initialSize」、「shrinkThreshold」、「shrinkTarget」、「maxSize」をとる。<br>
-     * 「charset」には、MeCabの辞書の文字コードを指定する。省略すると、Javaの既定文字コードが用いられる。<br>
-     * 「arg」には、MeCabに与えるオプションを指定する。省略すると、空文字列とみなされる。<br>
+     * 「bufferSize」、「maxSize」をとる。<br>
+     * 「charset」には、MeCabの辞書の文字コードを指定する。
+     * 省略すると、Javaの既定文字コードが用いられる。<br>
+     * 「arg」には、MeCabに与えるオプションを指定する。
+     * 省略すると、空文字列とみなされる。<br>
      * 残りのパラメータの意味については、
-     * {@link MeCabTokenizer#MeCabTokenizer(Reader, String, String, int, int, int, int)}
+     * {@link MeCabTokenizer#MeCabTokenizer(Reader, String, String, int, int)}
      * を参照。
      * 
      * @param args
@@ -90,9 +79,7 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 
         String charset = args.get("charset");
         String arg = args.get("arg");
-        String initialSizeStr = args.get("initialSize");
-        String shrinkThresholdStr = args.get("shrinkThreshold");
-        String shrinkTargetStr = args.get("shrinkTarget");
+        String bufferSizeStr = args.get("bufferSize");
         String maxSizeStr = args.get("maxSize");
 
         if (charset != null) {
@@ -107,16 +94,8 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
             mecabArg = "";
         }
 
-        if (initialSizeStr != null) {
-            initialSize = Integer.parseInt(initialSizeStr);
-        }
-
-        if (shrinkThresholdStr != null) {
-            shrinkThreshold = Integer.parseInt(shrinkThresholdStr);
-        }
-
-        if (shrinkTargetStr != null) {
-            shrinkTarget = Integer.parseInt(shrinkTargetStr);
+        if (bufferSizeStr != null) {
+            bufferSize = Integer.parseInt(bufferSizeStr);
         }
 
         if (maxSizeStr != null) {
@@ -128,7 +107,7 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
     {
         try {
             return new MeCabTokenizer(reader, dicCharset, mecabArg,
-                    initialSize, shrinkThreshold, shrinkTarget, maxSize);
+                    bufferSize, maxSize);
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }

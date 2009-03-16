@@ -29,18 +29,14 @@ import net.moraleboost.mecab.Node;
 
 public class MeCabTokenizer extends Tokenizer
 {
-    public static final int DEFAULT_BUFFER_INITIAL_SIZE = 4096;
-    public static final int DEFAULT_BUFFER_SHRINK_THRESHOLD = 5 * 1024 * 1024;
-    public static final int DEFAULT_BUFFER_SHRINK_TARGET = 1024 * 1024;
-    public static final int DEFAULT_BUFFER_MAX_SIZE = 10 * 1024 * 1024;
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
+    public static final int DEFAULT_MAX_SIZE = 10 * 1024 * 1024;
 
-    private int bufferInitialSize = DEFAULT_BUFFER_INITIAL_SIZE;
-    private int bufferShrinkThreshold = DEFAULT_BUFFER_SHRINK_THRESHOLD;
-    private int bufferShrinkTarget = DEFAULT_BUFFER_SHRINK_TARGET;
-    private int bufferMaxSize = DEFAULT_BUFFER_MAX_SIZE;
+    private int bufferSize = DEFAULT_BUFFER_SIZE;
+    private int maxSize = DEFAULT_MAX_SIZE;
 
-    private StringBuilder buffer = null;
-    private CharBuffer tmpBuffer = null;
+    private StringBuilder charSequence = null;
+    private CharBuffer buffer = null;
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
@@ -62,8 +58,8 @@ public class MeCabTokenizer extends Tokenizer
     {
         super(in);
 
-        buffer = new StringBuilder(bufferInitialSize);
-        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
+        charSequence = new StringBuilder(bufferSize);
+        buffer = CharBuffer.allocate(bufferSize);
         tagger = new Tagger(dicCharset, arg);
         ownTagger = true;
 
@@ -79,47 +75,41 @@ public class MeCabTokenizer extends Tokenizer
      *            MeCabの辞書の文字コード
      * @param arg
      *            MeCabに与えるオプション
-     * @param initialSize
+     * @param bufferSize
      *            入力を吸い上げるための一時バッファの初期サイズ
-     * @param shrinkThreshold
-     *            一時バッファのサイズがこの値を超えると、shrinkTargetまで縮小される。
-     * @param shrinkTarget
-     *            一時バッファのサイズがshrinkThresholdを超えると、このサイズまで縮小される。
      * @param maxSize
-     *            一時バッファのサイズがこの値を超えると、解析は失敗し、MeCabExceptionが発生する。
+     *            入力から読み込んだデータの量がこの値を超えると、
+     *            解析は失敗し、MeCabExceptionが発生する。
      * @throws IOException
+     * @throws MeCabException
      */
     public MeCabTokenizer(Reader in, String dicCharset, String arg,
-            int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
+            int bufferSize, int maxSize)
     throws MeCabException, IOException
     {
         super(in);
 
-        bufferInitialSize = initialSize;
-        bufferShrinkThreshold = shrinkThreshold;
-        bufferShrinkTarget = shrinkTarget;
-        bufferMaxSize = maxSize;
+        this.bufferSize = bufferSize;
+        this.maxSize = maxSize;
 
-        buffer = new StringBuilder(bufferInitialSize);
-        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
+        charSequence = new StringBuilder(bufferSize);
+        buffer = CharBuffer.allocate(bufferSize);
         tagger = new Tagger(dicCharset, arg);
 
         parse();
     }
     
-    protected MeCabTokenizer(Reader in, Tagger tagger,
-            int initialSize, int shrinkThreshold, int shrinkTarget, int maxSize)
+    public MeCabTokenizer(Reader in, Tagger tagger,
+            int bufferSize, int maxSize)
     throws MeCabException, IOException
     {
         super(in);
 
-        bufferInitialSize = initialSize;
-        bufferShrinkThreshold = shrinkThreshold;
-        bufferShrinkTarget = shrinkTarget;
-        bufferMaxSize = maxSize;
+        this.bufferSize = bufferSize;
+        this.maxSize = maxSize;
         
-        buffer = new StringBuilder(bufferInitialSize);
-        tmpBuffer = CharBuffer.allocate(bufferInitialSize);
+        charSequence = new StringBuilder(bufferSize);
+        buffer = CharBuffer.allocate(bufferSize);
         this.tagger = tagger;
         
         parse();
@@ -137,6 +127,7 @@ public class MeCabTokenizer extends Tokenizer
             tagger.close();
         }
         node = null;
+
         super.close();
     }
 
@@ -160,23 +151,18 @@ public class MeCabTokenizer extends Tokenizer
     {
         // drain input
         int nread = 0;
-        buffer.setLength(0);
-        tmpBuffer.clear();
-        while ((nread = input.read(tmpBuffer)) > 0) {
-            tmpBuffer.rewind();
-            buffer.append(tmpBuffer, 0, nread);
-            tmpBuffer.clear();
-            if (buffer.length() > bufferMaxSize) {
-                throw new MeCabException("Buffer overflow");
+        charSequence.setLength(0);
+        buffer.clear();
+        while ((nread = input.read(buffer)) > 0) {
+            buffer.rewind();
+            charSequence.append(buffer, 0, nread);
+            buffer.clear();
+            if (charSequence.length() > maxSize) {
+                throw new MeCabException("Max size exceeded.");
             }
         }
 
         // parse
-        node = tagger.parse(buffer);
-
-        // shrink buffer if exceeded BUFFER_SHRINK_THRESOLD
-        if (buffer.length() > bufferShrinkThreshold) {
-            buffer = new StringBuilder(bufferShrinkTarget);
-        }
+        node = tagger.parse(charSequence);
     }
 }
