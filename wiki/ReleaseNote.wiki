@@ -1,5 +1,10 @@
 #summary リリースノート
 #labels Featured
+== v1.3 (2009/3/24) ==
+
+  * !TinySegmenterのJava移植版を追加。
+  * !TinySegmenterを用いたTokenizer, !TokenizerFactoryを追加。
+
 == v1.2 (2009/3/16) ==
 
   * CJKTokenizer2の区切り位置を、v1.0互換に戻した。
