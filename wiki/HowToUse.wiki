@@ -51,9 +51,25 @@ public static void main(String[] args) throws Exception
  * schema.xmlに、!MeCabTokenizerFactoryおよび!FeatureRegexFilterFactoryを記述。
 
 {{{
-<fieldType name="text" class="solr.TextField">
+<!-- MeCabを用いたTokenizer -->
+<fieldType name="text_mecab" class="solr.TextField">
     <analyzer>
-        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory"/>
+        <!-- charsetパラメータには、辞書の文字コードを指定 -->
+        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory" charset="utf-8" />
+    </analyzer>
+</fieldType>
+
+<!-- TinySegmenterを用いたTokenizer -->
+<fieldType name="text_tinysegmenter" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="net.moraleboost.solr.TinySegmenterTokenizerFactory" />
+    </analyzer>
+</fieldType>
+
+<!-- CJKTokenizerクローン -->
+<fieldType name="text_cjk" class="solr.TextField">
+    <analyzer>
+        <tokenizer class="net.moraleboost.solr.CJKTokenizer2Factory" />
     </analyzer>
 </fieldType>
 }}}
