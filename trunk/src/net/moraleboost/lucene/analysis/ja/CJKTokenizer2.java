@@ -16,9 +16,9 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import net.moraleboost.mecab.util.BasicCodePointReader;
-import net.moraleboost.mecab.util.CodePointReader;
-import net.moraleboost.mecab.util.PushbackCodePointReader;
+import net.moraleboost.io.BasicCodePointReader;
+import net.moraleboost.io.CodePointReader;
+import net.moraleboost.io.PushbackCodePointReader;
 
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
@@ -466,7 +466,8 @@ public final class CJKTokenizer2 extends Tokenizer
 
                 Token token = new Token(
                         (int)buffer[0].start,
-                        (int)buffer[tokenLength-1].end);
+                        (int)buffer[tokenLength-1].end,
+                        type);
                 token.setTermBuffer(builder.toString());
                 return token;
             }
@@ -495,7 +496,7 @@ public final class CJKTokenizer2 extends Tokenizer
         tokenInfo = new TokenInfo(ngram);
     }
 
-    public final Token next() throws IOException
+    public Token next() throws IOException
     {
         do {
             tokenInfo.clear();

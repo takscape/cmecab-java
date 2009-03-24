@@ -26,6 +26,8 @@ import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
 
 public class CJKTokenizer2Factory extends BaseTokenizerFactory
 {
+    private int ngram = CJKTokenizer2.DEFAULT_NGRAM;
+    
     public CJKTokenizer2Factory()
     {
         super();
@@ -34,11 +36,15 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
     public void init(Map<String, String> args)
     {
         super.init(args);
-        // 初期化項目なし
+
+        String argNgram = args.get("ngram");
+        if (argNgram != null) {
+            ngram = Integer.parseInt(argNgram);
+        }
     }
 
     public TokenStream create(Reader in)
     {
-        return new CJKTokenizer2(in);
+        return new CJKTokenizer2(in, ngram);
     }
 }
