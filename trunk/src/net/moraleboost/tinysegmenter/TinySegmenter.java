@@ -369,9 +369,9 @@ public class TinySegmenter
         score += getScore(TC3, c3.ctype + c4.ctype + c5.ctype);
         score += getScore(TC4, c4.ctype + c5.ctype + c6.ctype);
         score += getScore(UQ1, p1 + c1.ctype);
-        //score += getScore(UQ2, p2 + c2.ctype);
+        score += getScore(UQ2, p2 + c2.ctype);
         score += getScore(UQ3, p3 + c3.ctype);
-        score += getScore(UQ1, p3 + c3.ctype); // オリジナルコード。UQ3の誤り？
+        //score += getScore(UQ1, p3 + c3.ctype); // オリジナルコード。UQ3の誤り？
         score += getScore(BQ1, p2 + c2.ctype + c3.ctype);
         score += getScore(BQ2, p2 + c3.ctype + c4.ctype);
         score += getScore(BQ3, p3 + c2.ctype + c3.ctype);
