@@ -91,6 +91,9 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 * Apache Solr 1.3
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
+* Apache Commons Pool 1.4
+   * Apache License 2.0
+   * lib/license/LICENSE-APACHE.txtをご覧ください
 * JUnit 4.4
    * Common Public License 1.0
    * lib/license/cpl1.0.txtをご覧ください
