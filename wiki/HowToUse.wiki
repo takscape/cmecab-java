@@ -69,7 +69,8 @@ public static void main(String[] args) throws Exception
 <!-- CJKTokenizerクローン -->
 <fieldType name="text_cjk" class="solr.TextField">
     <analyzer>
-        <tokenizer class="net.moraleboost.solr.CJKTokenizer2Factory" />
+        <!-- ngramパラメータで、N-gramのNを指定。1ならunigram、2ならbigram、3ならtrigram。 -->
+        <tokenizer class="net.moraleboost.solr.CJKTokenizer2Factory" ngram="2" />
     </analyzer>
 </fieldType>
 }}}
