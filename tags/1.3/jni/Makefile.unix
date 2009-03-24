@@ -1,0 +1,23 @@
+CMECAB_INCLUDE=-I/usr/lib/jvm/java-6-sun/include \
+               -I/usr/lib/jvm/java-6-sun/include/linux
+CMECAB_SRC=mecab.cpp
+CMECAB_TARGET=libCMeCab.so
+
+CXX=g++
+CXXFLAGS=-Wall -g -O2 -fPIC $(CMECAB_INCLUDE)
+LDFLAGS=-shared -lmecab
+
+all:
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o$(CMECAB_TARGET) $(CMECAB_SRC)
+
+install:
+	cp $(CMECAB_TARGET) /usr/local/lib
+
+javah:
+	javah -classpath ../bin/classes \
+	  net.moraleboost.mecab.Tagger \
+	  net.moraleboost.mecab.Node
+
+clean:
+	rm -f $(CMECAB_TARGET)
+
