@@ -1,93 +1,107 @@
 CMeCab
 
-1. ����͉��H
+1. これは何？
 
-���{��`�ԑf��̓G���W��MeCab (http://mecab.sourceforge.net/) ��
-Java�o�C���f�B���O�ł��BSWIG��p�����AJNI���璼��MeCab�̃��C�u������
-�Ăяo���Ă��܂��B
+日本語形態素解析エンジンMeCab (http://mecab.sourceforge.net/) の
+Javaバインディングです。SWIGを用いず、JNIから直接MeCabのライブラリを
+呼び出しています。
 
-���܂��Ƃ��āA�ȉ��̂��̂��܂�ł��܂��B
- * Lucene (http://lucene.apache.org/java/) �p��Tokenizer�A
-   �f������p���ăg�[�N�����t�B���^�����O����TokenFilter�A
-   ����т�����g�ݍ��킹��Analyzer
- * Solr (http://lucene.apache.org/solr/) �p��TokenizerFactory
-   �����TokenFilterFactory
-
-
-2. �p�b�P�[�W�\��
-
-�z�z�p�b�P�[�W�́A�ȉ��̃f�B���N�g���\���������܂��B
-
-bin  - �r���h���ꂽJava���C�u�����������o�����f�B���N�g��
-jni  - �l�C�e�B�u���C�u�����̃\�[�X�R�[�h���i�[���ꂽ�f�B���N�g��
-lib  - �r���h����уe�X�g�ɕK�v�ȃT�[�h�p�[�e�B���C�u������
-      �i�[���ꂽ�f�B���N�g��
-src  - Pure Java���C�u�����̃\�[�X�R�[�h���i�[���ꂽ�f�B���N�g��
-test - �e�X�g�p�f�[�^���i�[���ꂽ�f�B���N�g��
+おまけとして、以下のものを含んでいます。
+ * MeCabを用いたLucene (http://lucene.apache.org/java/) 用のTokenizer、
+   素性情報を用いてトークンをフィルタリングするTokenFilter、
+   およびそれらを組み合わせたAnalyzer
+ * 上をSolr (http://lucene.apache.org/solr/) から用いるための
+   TokenizerFactoryおよびTokenFilterFactory
+ * 任意のngramに対応したCJKTokenizerクローン
+ * TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/) の
+   Java移植版、及びそのTokenizer、TokenizerFactory
 
 
-3. �C���X�g�[�����@
+2. パッケージ構成
 
-CMeCab�́A�ȉ��̓�̃p�[�g����Ȃ�܂��B
- * MeCab��Java�̋��n��������l�C�e�B�u���C�u����
- * �l�C�e�B�u���C�u������p���ē��삷��Pure Java���C�u����
+配布パッケージは、以下のディレクトリ構造を持ちます。
 
-�ȉ��A���ꂼ��̃C���X�g�[�����@�ɂ��Đ������܂��B
+bin  - ビルドされたJavaライブラリが書き出されるディレクトリ
+jni  - ネイティブライブラリのソースコードが格納されたディレクトリ
+lib  - ビルドおよびテストに必要なサードパーティライブラリが
+      格納されたディレクトリ
+src  - Pure Javaライブラリのソースコードが格納されたディレクトリ
+test - テスト用データが格納されたディレクトリ
+etc  - その他もろもろ（TinySegmenterのオリジナルソース等）
 
-3.1. �l�C�e�B�u���C�u�����̃C���X�g�[��
 
-jni�f�B���N�g���Ɉړ����Amake�����s���Ă��������B
-Windows���Visual Studio��p����̂ł���΁A�ȉ��̃R�}���h�����s���܂��B
+3. インストール方法
+
+CMeCabは、以下の二つのパートからなります。
+ * MeCabとJavaの橋渡しをするネイティブライブラリ
+ * ネイティブライブラリを用いて動作するPure Javaライブラリ
+
+以下、それぞれのインストール方法について説明します。
+
+3.1. ネイティブライブラリのインストール
+
+jniディレクトリに移動し、makeを実行してください。
+Windows上のVisual Studioを用いるのであれば、以下のコマンドを実行します。
 
 % nmake -f Makefile.win
 
-Linux���make�����gcc�𗘗p����ꍇ�́A�ȉ��̃R�}���h�����s���܂��B
+Linux上のmakeおよびgccを利用する場合は、以下のコマンドを実行します。
 
 % make -f Makefile.unix
 
-�Ȃ��A�eMakefile���ɂ́A��҂̃r���h���ɂ�����Java�����MeCab��
-�p�X���L�ڂ���Ă��܂��B�K�v�ɉ����āACMECAB_INCLUDE�ACMECAB_LIB��
-���������Ă��������B
+なお、各Makefile内には、作者のビルド環境におけるJavaおよびMeCabの
+パスが記載されています。必要に応じて、CMECAB_INCLUDE、CMECAB_LIBを
+書き換えてください。
 
-�r���h���I������ƁA�J�����g�f�B���N�g���ɁACMeCab.dll(Windows)�A
-��������libCMeCab.so(UNIX�n)���쐬����܂��B�����OS�̃p�X�̒ʂ����ꏊ��
-�R�s�[���Ă��������B
+ビルドが終了すると、カレントディレクトリに、CMeCab.dll(Windows)、
+もしくはlibCMeCab.so(UNIX系)が作成されます。これをOSのパスの通った場所に
+コピーしてください。
 
-3.2. Java���C�u�����̃C���X�g�[��
+3.2. Javaライブラリのインストール
 
-�z�z�p�b�P�[�W�̃��[�g�f�B���N�g���ŁAant�����s���Ă��������B
+配布パッケージのルートディレクトリで、antを実行してください。
 
 % ant
 
-�r���h���I������ƁAbin�f�B���N�g���ɁAcmecab-(�o�[�W�����ԍ�).jar
-�Ƃ������O��JAR�t�@�C�����쐬����܂��B��������D���ȏꏊ�ɃR�s�[���āA
-Java�̃N���X�p�X��ʂ��Ă��������B
+ビルドが終了すると、binディレクトリに、cmecab-(バージョン番号).jar
+という名前のJARファイルが作成されます。これをお好きな場所にコピーして、
+Javaのクラスパスを通してください。
 
 
-4. ���p���@
+4. 利用方法
 http://code.google.com/p/cmecab-java/wiki/HowToUse
-���������������B
+をご覧ください。
 
 
-5. ���C�Z���X
+5. ライセンス
 
-CMeCab�{�̂̓p�u���b�N�h���C���Ƃ��܂��B
+CMeCab本体はパブリックドメインとします。
 
-�Ȃ��A�r���h����уe�X�g�̂��߁Alib�f�B���N�g���Ɉȉ��̃\�t�g�E�F�A��
-�������Ă��܂��B�����̃\�t�g�E�F�A�́A���ꂼ��̃��C�Z���X�ɏ]���܂��B
+ただし、TinySegmenter.java、TinySegmenterConstants.javaについては、
+TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
+二次的著作物であるため、オリジナルと同じく修正BSDライセンスに
+従います。
+
+なお、ビルドおよびテストのため、lib, etcディレクトリに以下のソフトウェアを
+同梱しています。これらのソフトウェアは、それぞれのライセンスに従います。
 
 * Apache Lucene 2.4-dev
    * Apache License 2.0
+   * lib/license/LICENSE-APACHE.txtをご覧ください
 * Apache Solr 1.3
    * Apache License 2.0
+   * lib/license/LICENSE-APACHE.txtをご覧ください
 * JUnit 4.4
    * Common Public License 1.0
+   * lib/license/cpl1.0.txtをご覧ください
+* TinySegmenter 0.1
+   * 修正BSDライセンス
+   * lib/license/LICENSE-NEWBSD.txtをご覧ください
 
+6. 連絡先
 
-6. �A����
+MeCab、Lucene、Solr本体に関するご質問は、
+それぞれのソフトウェアのメーリングリスト等へどうぞ。
 
-MeCab�ALucene�ASolr�{�̂Ɋւ��邲����́A
-���ꂼ��̃\�t�g�E�F�A�̃��[�����O���X�g���ւǂ����B
-
-CMeCab���̂Ɋւ��邲���ⓙ�́A���c���� k-tak@void.in �܂łǂ����B
+CMeCab自体に関するご質問等は、武田光平 k-tak@void.in までどうぞ。
 

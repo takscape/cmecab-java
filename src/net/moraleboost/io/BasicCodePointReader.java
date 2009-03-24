@@ -14,7 +14,7 @@
  **  Kohei TAKETA <k-tak@void.in>
  **
  */
-package net.moraleboost.mecab.util;
+package net.moraleboost.io;
 
 import java.io.IOException;
 import java.io.PushbackReader;
