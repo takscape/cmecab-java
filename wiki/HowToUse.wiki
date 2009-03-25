@@ -59,7 +59,8 @@ public static void main(String[] args) throws Exception
     </analyzer>
 </fieldType>
 
-<!-- パフォーマンスを重視する場合、MeCabをプールするPooledMeCabTokenizerを使用することもできる。 -->
+<!-- パフォーマンスを重視する場合、MeCabをプールして使いまわす
+     PooledMeCabTokenizerを使用することもできる。 -->
 <fieldType name="text_mecab" class="solr.TextField">
     <analyzer>
         <!-- MeCabTokenizerのうけつけるパラメータに加え、
