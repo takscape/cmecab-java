@@ -48,7 +48,8 @@ public static void main(String[] args) throws Exception
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/MeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
- * schema.xmlに、!MeCabTokenizerFactoryおよび!FeatureRegexFilterFactoryを記述。
+ * solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarをコピー。
+ * schema.xmlに、!MeCabTokenizerFactory等を用いてフィールドタイプを定義。
 
 {{{
 <!-- MeCabを用いたTokenizer -->
@@ -61,7 +62,7 @@ public static void main(String[] args) throws Exception
 
 <!-- パフォーマンスを重視する場合、MeCabをプールして使いまわす
      PooledMeCabTokenizerを使用することもできる。 -->
-<fieldType name="text_mecab" class="solr.TextField">
+<fieldType name="text_pooledmecab" class="solr.TextField">
     <analyzer>
         <!-- MeCabTokenizerのうけつけるパラメータに加え、
              プールの最大サイズおよびオブジェクトを借りる際の
