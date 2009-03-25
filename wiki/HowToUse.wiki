@@ -59,6 +59,17 @@ public static void main(String[] args) throws Exception
     </analyzer>
 </fieldType>
 
+<!-- パフォーマンスを重視する場合、MeCabをプールするPooledMeCabTokenizerを使用することもできる。 -->
+<fieldType name="text_mecab" class="solr.TextField">
+    <analyzer>
+        <!-- MeCabTokenizerのうけつけるパラメータに加え、
+             プールの最大サイズおよびオブジェクトを借りる際の
+             タイムアウト（ミリ秒単位）を指定可能。 -->
+        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory"
+                   charset="utf-8" maxActive="20" maxWait="10000" />
+    </analyzer>
+</fieldType>
+
 <!-- TinySegmenterを用いたTokenizer -->
 <fieldType name="text_tinysegmenter" class="solr.TextField">
     <analyzer>
