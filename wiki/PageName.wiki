@@ -1,0 +1,23 @@
+#summary Tokenizer比較
+#labels Featured
+
+= Tokenizer比較 =
+
+CJKTokenizer2, !MeCabTokenizer, !TinySegmenterTokenizerの比較。あくまで目安。
+
+|| *比較項目* || *CJKTokenizer2* || *!MeCabTokenizer* || *!TinySegmenterTokenizer* ||
+|| 検索漏れの少なさ || ○ || △ || △ ||
+|| 適合度（精度）の高さ || △ || ○ || ○ ||
+|| 外部データ不要 || ○ || × || ○ ||
+|| ユーザ辞書の追加が可能 || × || ○ || × ||
+|| トークナイズ処理のパフォーマンス || ○ || △ || ○ ||
+|| 日本語以外の言語の検索 || ○ || △ || △ ||
+
+
+検索漏れを少なくしたい場合、CJKTokenizer2が向いている。ただし、ノイズは多くなる。また、CJKTokenizer2は記号を無視するので、記号を検索したい場合は不適。
+
+一方、検索精度を重視する場合は、日本語の分かち書きに基づくトークナイズを行う!MeCabTokenizer、!TinySegmenterTokenizerの方が適している。!MeCabTokenizerは、!MeCabをJNI経由で使用するため、別途!MeCabがインストールされている必要がある。!TinySegmenterTokenizerは、!MeCabを必要としないが、原理上ユーザ辞書の利用は不可能。
+
+トークナイズのパフォーマンス面では、!MeCabTokenizerが不利。!MeCabTokenizerの代わりに!PooledMeCabTokenizerを使用することで、Tokenizerをインスタンス化する際のオーバーヘッドをある程度軽減することができる。
+
+CJKTokenizer2は、日本語以外の言語、たとえば英語、中国語、韓国語等にも適用可能。他のTokenizerは、他の言語で書かれたテキストに適用すると、著しく精度が落ちる（その言語のコーパスを用いて学習しなおせばよいのだが、それは本ライブラリの範疇を超える）。
