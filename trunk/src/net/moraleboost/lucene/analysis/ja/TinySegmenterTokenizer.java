@@ -35,16 +35,18 @@ public class TinySegmenterTokenizer extends Tokenizer
         segmenter = new TinySegmenter(new BasicCodePointReader(in));
     }
     
-    public Token next() throws IOException
+    public Token next(Token reusableToken) throws IOException
     {
         TinySegmenter.Token baseToken = segmenter.next();
         
         if (baseToken == null) {
             return null;
         } else {
-            Token ret = new Token((int)baseToken.start, (int)baseToken.end);
-            ret.setTermBuffer(baseToken.str);
-            return ret;
+            reusableToken.clear();
+            reusableToken.setTermBuffer(baseToken.str);
+            reusableToken.setStartOffset((int)baseToken.start);
+            reusableToken.setEndOffset((int)baseToken.end);
+            return reusableToken;
         }
     }
 }

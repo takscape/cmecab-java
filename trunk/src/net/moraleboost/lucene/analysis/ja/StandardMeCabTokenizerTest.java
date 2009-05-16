@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.io.StringReader;
 
+import org.apache.lucene.analysis.Token;
 import org.junit.Test;
 
 public class StandardMeCabTokenizerTest
@@ -51,9 +52,9 @@ public class StandardMeCabTokenizerTest
                 { 7, 8 }  // 。
         };
 
-        MeCabToken token;
+        Token token = new Token();
         int i = 0;
-        while ((token = (MeCabToken)tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             assertEquals(tokens[i], token.term());
             assertEquals(offsets[i][0], token.startOffset());
             assertEquals(offsets[i][1], token.endOffset());
@@ -91,13 +92,13 @@ public class StandardMeCabTokenizerTest
                 { 13, 14 } // 。
         };
 
-        MeCabToken token;
+        Token token = new Token();
         int i = 0;
-        while ((token = (MeCabToken)tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             assertEquals(tokens[i], token.term());
             assertEquals(offsets[i][0], token.startOffset());
             assertEquals(offsets[i][1], token.endOffset());
-            System.out.println(token.getFeature());
+            System.out.println(token.type());
             ++i;
         }
 

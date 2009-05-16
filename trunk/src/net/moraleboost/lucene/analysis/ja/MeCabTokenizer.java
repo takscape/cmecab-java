@@ -26,6 +26,11 @@ import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
 
+/**
+ * Tokenのtypeに、featureを格納する。
+ * @author taketa
+ *
+ */
 public class MeCabTokenizer extends Tokenizer
 {
     public static final int DEFAULT_BUFFER_SIZE = 8192;
@@ -70,7 +75,7 @@ public class MeCabTokenizer extends Tokenizer
     }
 
     @Override
-    public Token next() throws MeCabException, IOException
+    public Token next(Token reusableToken) throws MeCabException, IOException
     {
         if (node == null || !node.hasNext()) {
             return null;
@@ -90,7 +95,13 @@ public class MeCabTokenizer extends Tokenizer
         }
 
         offset = end;
-        return new MeCabToken(tokenString, node.feature(), start, end);
+        
+        reusableToken.clear();
+        reusableToken.setType(node.feature());
+        reusableToken.setTermBuffer(tokenString);
+        reusableToken.setStartOffset(start);
+        reusableToken.setEndOffset(end);
+        return reusableToken;
     }
 
     private void parse() throws MeCabException, IOException

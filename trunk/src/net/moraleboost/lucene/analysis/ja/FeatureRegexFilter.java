@@ -62,9 +62,9 @@ public class FeatureRegexFilter extends TokenFilter
      *            トークン
      * @return いずれかのパターンにマッチすればtrue。全くマッチしなければfalse。
      */
-    private boolean match(MeCabToken token)
+    private boolean match(Token token)
     {
-        String feature = token.getFeature();
+        String feature = token.type();
         Matcher m = null;
         
         for (int i = 0; i < matchers.length; ++i) {
@@ -84,18 +84,15 @@ public class FeatureRegexFilter extends TokenFilter
         return false;
     }
 
-    public Token next() throws IOException
+    public Token next(Token reusableToken) throws IOException
     {
-        Token token = input.next();
+        Token token = input.next(reusableToken);
 
         while (token != null) {
-            if (!(token instanceof MeCabToken)) {
+            if (!match(token)) {
                 break;
             }
-            if (!match((MeCabToken)token)) {
-                break;
-            }
-            token = input.next();
+            token = input.next(reusableToken);
         }
 
         return token;
