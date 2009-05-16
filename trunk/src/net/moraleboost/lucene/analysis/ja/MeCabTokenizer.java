@@ -1,8 +1,23 @@
+/*
+ **
+ **  May. 17, 2009
+ **
+ **  The author disclaims copyright to this source code.
+ **  In place of a legal notice, here is a blessing:
+ **
+ **    May you do good and not evil.
+ **    May you find forgiveness for yourself and forgive others.
+ **    May you share freely, never taking more than you give.
+ **
+ **                                         Stolen from SQLite :-)
+ **  Any feedback is welcome.
+ **  Kohei TAKETA <k-tak@void.in>
+ **
+ */
 package net.moraleboost.lucene.analysis.ja;
 
 import java.io.Reader;
 import java.io.IOException;
-import java.nio.CharBuffer;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.Token;
@@ -19,7 +34,6 @@ public class MeCabTokenizer extends Tokenizer
     private int maxSize = DEFAULT_MAX_SIZE;
 
     private StringBuilder charSequence = null;
-    private CharBuffer buffer = null;
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
@@ -33,7 +47,6 @@ public class MeCabTokenizer extends Tokenizer
         this.maxSize = maxSize;
         
         charSequence = new StringBuilder(DEFAULT_BUFFER_SIZE);
-        buffer = CharBuffer.allocate(DEFAULT_BUFFER_SIZE);
         this.tagger = tagger;
         this.ownTagger = ownTagger;
         
@@ -83,14 +96,13 @@ public class MeCabTokenizer extends Tokenizer
     private void parse() throws MeCabException, IOException
     {
         // drain input
+        char[] buffer = new char[DEFAULT_BUFFER_SIZE];
+        long total = 0;
         int nread = 0;
-        charSequence.setLength(0);
-        buffer.clear();
-        while ((nread = input.read(buffer)) > 0) {
-            buffer.rewind();
+        while (-1 != (nread = input.read(buffer))) {
             charSequence.append(buffer, 0, nread);
-            buffer.clear();
-            if (charSequence.length() > maxSize) {
+            total += nread;
+            if (total > maxSize) {
                 throw new MeCabException("Max size exceeded.");
             }
         }
