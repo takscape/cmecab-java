@@ -193,15 +193,15 @@ class ParsingResponse_Morpheme : public ::google::protobuf::Message {
   inline void set_surface(const char* value, size_t size);
   inline ::std::string* mutable_surface();
   
-  // required string rsurface = 2;
-  inline bool has_rsurface() const;
-  inline void clear_rsurface();
-  static const int kRsurfaceFieldNumber = 2;
-  inline const ::std::string& rsurface() const;
-  inline void set_rsurface(const ::std::string& value);
-  inline void set_rsurface(const char* value);
-  inline void set_rsurface(const char* value, size_t size);
-  inline ::std::string* mutable_rsurface();
+  // optional string blank = 2;
+  inline bool has_blank() const;
+  inline void clear_blank();
+  static const int kBlankFieldNumber = 2;
+  inline const ::std::string& blank() const;
+  inline void set_blank(const ::std::string& value);
+  inline void set_blank(const char* value);
+  inline void set_blank(const char* value, size_t size);
+  inline ::std::string* mutable_blank();
   
   // required string feature = 3;
   inline bool has_feature() const;
@@ -226,8 +226,8 @@ class ParsingResponse_Morpheme : public ::google::protobuf::Message {
   
   ::std::string* surface_;
   static const ::std::string _default_surface_;
-  ::std::string* rsurface_;
-  static const ::std::string _default_rsurface_;
+  ::std::string* blank_;
+  static const ::std::string _default_blank_;
   ::std::string* feature_;
   static const ::std::string _default_feature_;
   ::google::protobuf::uint32 posid_;
@@ -440,46 +440,46 @@ inline ::std::string* ParsingResponse_Morpheme::mutable_surface() {
   return surface_;
 }
 
-// required string rsurface = 2;
-inline bool ParsingResponse_Morpheme::has_rsurface() const {
+// optional string blank = 2;
+inline bool ParsingResponse_Morpheme::has_blank() const {
   return _has_bit(1);
 }
-inline void ParsingResponse_Morpheme::clear_rsurface() {
-  if (rsurface_ != &_default_rsurface_) {
-    rsurface_->clear();
+inline void ParsingResponse_Morpheme::clear_blank() {
+  if (blank_ != &_default_blank_) {
+    blank_->clear();
   }
   _clear_bit(1);
 }
-inline const ::std::string& ParsingResponse_Morpheme::rsurface() const {
-  return *rsurface_;
+inline const ::std::string& ParsingResponse_Morpheme::blank() const {
+  return *blank_;
 }
-inline void ParsingResponse_Morpheme::set_rsurface(const ::std::string& value) {
+inline void ParsingResponse_Morpheme::set_blank(const ::std::string& value) {
   _set_bit(1);
-  if (rsurface_ == &_default_rsurface_) {
-    rsurface_ = new ::std::string;
+  if (blank_ == &_default_blank_) {
+    blank_ = new ::std::string;
   }
-  rsurface_->assign(value);
+  blank_->assign(value);
 }
-inline void ParsingResponse_Morpheme::set_rsurface(const char* value) {
+inline void ParsingResponse_Morpheme::set_blank(const char* value) {
   _set_bit(1);
-  if (rsurface_ == &_default_rsurface_) {
-    rsurface_ = new ::std::string;
+  if (blank_ == &_default_blank_) {
+    blank_ = new ::std::string;
   }
-  rsurface_->assign(value);
+  blank_->assign(value);
 }
-inline void ParsingResponse_Morpheme::set_rsurface(const char* value, size_t size) {
+inline void ParsingResponse_Morpheme::set_blank(const char* value, size_t size) {
   _set_bit(1);
-  if (rsurface_ == &_default_rsurface_) {
-    rsurface_ = new ::std::string;
+  if (blank_ == &_default_blank_) {
+    blank_ = new ::std::string;
   }
-  rsurface_->assign(reinterpret_cast<const char*>(value), size);
+  blank_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* ParsingResponse_Morpheme::mutable_rsurface() {
+inline ::std::string* ParsingResponse_Morpheme::mutable_blank() {
   _set_bit(1);
-  if (rsurface_ == &_default_rsurface_) {
-    rsurface_ = new ::std::string;
+  if (blank_ == &_default_blank_) {
+    blank_ = new ::std::string;
   }
-  return rsurface_;
+  return blank_;
 }
 
 // required string feature = 3;

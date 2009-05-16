@@ -115,7 +115,7 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1surf
     return 0;
 }
 
-JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1rsurface
+JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1blank
   (JNIEnv *env, jclass clazz, jlong hdl)
 {
     DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
@@ -123,9 +123,13 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1rsur
 
     try {
         const MeCab::Node* node = hdl2node(hdl);
-        const char* rsurface =
-            node->surface + (int)(node->length) - (int)(node->rlength);
-        return stringToByteArray(env, rsurface, (size_t)(node->rlength));
+        if (node->length == node->rlength) {
+            return 0;
+        } else {
+            size_t blanklen = (size_t)(node->rlength - node->length);
+            const char* rsurface = node->surface - blanklen;
+            return stringToByteArray(env, rsurface, blanklen);
+        }
     } catch (ArrayException&) {
         env->ThrowNew(mecabException, "Can't access array elements.");
     } catch (std::bad_alloc&) {
@@ -155,6 +159,13 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1feat
     }
 
     return 0;
+}
+
+JNIEXPORT jint JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1posid
+  (JNIEnv *env, jclass clazz, jlong hdl)
+{
+    const MeCab::Node* node = hdl2node(hdl);
+    return (jint)(node->posid);
 }
 
 JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1next
@@ -222,7 +233,10 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_LocalProtobufTagger
             while (node && node->stat != MECAB_EOS_NODE) {
                 morpheme = response.add_morpheme();
                 morpheme->set_surface(node->surface, (size_t)(node->length));
-                morpheme->set_rsurface(node->surface + (int)(node->length) - (int)(node->rlength), (size_t)(node->rlength));
+                if (node->length != node->rlength) {
+                    size_t blanklen = (size_t)(node->rlength - node->length);
+                    morpheme->set_blank(node->surface - blanklen, blanklen);
+                }
                 morpheme->set_feature(node->feature);
                 morpheme->set_posid(node->posid);
 

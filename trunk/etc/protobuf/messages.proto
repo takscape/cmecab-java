@@ -7,7 +7,7 @@ message ParsingRequest {
 message ParsingResponse {
 	message Morpheme {
 		required string surface = 1;
-		required string rsurface = 2;
+		optional string blank = 2;
 		required string feature = 3;
 		required uint32 posid = 4;
 	}

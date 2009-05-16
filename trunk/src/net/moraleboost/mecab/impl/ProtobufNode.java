@@ -31,14 +31,23 @@ public class ProtobufNode implements Node
         return morpheme.getSurface();
     }
 
-    public String rsurface()
+    public String blank()
     {
-        return morpheme.getRsurface();
+        if (morpheme.hasBlank()) {
+            return morpheme.getBlank();
+        } else {
+            return null;
+        }
     }
 
     public String surface()
     {
         return morpheme.getSurface();
+    }
+    
+    public int posid()
+    {
+        return morpheme.getPosid();
     }
 
     public boolean hasNext()
