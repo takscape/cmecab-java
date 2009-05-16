@@ -8,6 +8,9 @@
 
 の順に行う。
 
+== システム要件 ==
+Protocol Buffersおよび!MeCabがインストールされていること。
+
 == ネイティブライブラリの構築 ==
 配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
 
@@ -30,7 +33,7 @@ nmake -f makefile.win
 Taggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。
 
 {{{
-java -cp cmecab-1.3.jar net.moraleboost.mecab.Tagger EUC-JP 本日は晴天なり。
+java -cp cmecab-1.4.jar net.moraleboost.mecab.impl.StandardTagger EUC-JP 本日は晴天なり。
 }}}
 
 第一引数には、!MeCabの辞書の文字コード、第二引数には解析対象文字列を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
@@ -52,5 +55,5 @@ Morphemes:
    * Windowsの場合、システムパスとJavaのライブラリパスは一致する。
    * Linuxの場合、LD_LIBRARY_PATH環境変数とJavaのライブラリパスは一致する。
    * java起動時に、-Djava.library.path=/usr/local/lib/cmecab-java のようにコマンドラインで指定することもできる。
- * !MeCabのライブラリにパスが通っているか。
+ * !MeCabおよびProtocol Buffersのライブラリにパスが通っているか。
    * Javaのライブラリパスではなく、OSのパスを通す必要がある。つまり、WindowsではPath環境変数、Linuxではld.so.confやLD_LIBRARY_PATHで指定した場所。
