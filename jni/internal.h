@@ -24,6 +24,7 @@
 #include <cassert>
 #include <exception>
 #include <stdexcept>
+#include <iostream>
 
 // Java Native Interface
 #include <jni.h>
@@ -143,11 +144,11 @@ public:
 protected:
     void getArray()
     {
-        ptr_ = env_->GetByteArrayElements(array_, &isCopy_);
+        length_ = env_->GetArrayLength(array_);
+        ptr_ = (jbyte*)env_->GetPrimitiveArrayCritical(array_, &isCopy_);
+        // ptr_ = env_->GetByteArrayElements(array_, &isCopy_);
         if (!ptr_) {
             throw ArrayException();
-        } else {
-            length_ = env_->GetArrayLength(array_);
         }
     }
 
@@ -164,8 +165,10 @@ protected:
     void releaseArray()
     {
         if (ptr_) {
-            env_->ReleaseByteArrayElements(array_, ptr_,
-                                           readOnly_ ? JNI_ABORT : 0);
+            // env_->ReleaseByteArrayElements(array_, ptr_,
+            //                                readOnly_ ? JNI_ABORT : 0);
+            env_->ReleasePrimitiveArrayCritical(array_, ptr_,
+                                                readOnly_ ? JNI_ABORT : 0);
         }
     }
 };
