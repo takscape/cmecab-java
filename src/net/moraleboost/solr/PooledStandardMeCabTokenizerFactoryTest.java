@@ -26,7 +26,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.junit.Test;
 
 
-public class PooledMeCabTokenizerFactoryTest
+public class PooledStandardMeCabTokenizerFactoryTest
 {
     public static final String DIC_ENCODING = System
             .getProperty("net.moraleboost.mecab.encoding");
@@ -38,7 +38,7 @@ public class PooledMeCabTokenizerFactoryTest
         args.put("charset", DIC_ENCODING);
         args.put("arg", "");
 
-        PooledMeCabTokenizerFactory factory = new PooledMeCabTokenizerFactory();
+        PooledStandardMeCabTokenizerFactory factory = new PooledStandardMeCabTokenizerFactory();
         factory.init(args);
 
         StringReader reader = new StringReader("本日は晴天なり。");

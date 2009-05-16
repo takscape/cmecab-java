@@ -43,7 +43,7 @@ public class FeatureRegexFilterFactoryTest
         args.put("charset", DIC_ENCODING);
         args.put("arg", "");
 
-        MeCabTokenizerFactory factory = new MeCabTokenizerFactory();
+        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory();
         factory.init(args);
 
         StringReader reader = new StringReader("本日は晴天なり。");
@@ -63,7 +63,7 @@ public class FeatureRegexFilterFactoryTest
         TokenStream stream = factory.create(tokenizer);
         Token token;
         while ((token = stream.next()) != null) {
-            String termText = token.termText();
+            String termText = token.term();
             System.out.println("token: " + termText);
             if (termText.equals("は") || termText.equals("なり")) {
                 fail("Filter not working.");

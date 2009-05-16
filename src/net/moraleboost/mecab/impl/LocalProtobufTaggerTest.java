@@ -38,8 +38,11 @@ public class LocalProtobufTaggerTest
                 Node node = tagger.parse(StandardTaggerTest.TEXTS[i % StandardTaggerTest.TEXTS.length]);
     
                 while (node.hasNext()) {
+                    @SuppressWarnings("unused")
                     String surface = node.next();
+                    @SuppressWarnings("unused")
                     String rsurface = node.blank();
+                    @SuppressWarnings("unused")
                     String feature = node.feature();
                 }
             }
