@@ -22,6 +22,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.junit.Test;
 
@@ -44,7 +45,8 @@ public class PooledStandardMeCabTokenizerFactoryTest
         StringReader reader = new StringReader("本日は晴天なり。");
         TokenStream stream = factory.create(reader);
 
-        if (stream.next() == null) {
+        Token token = new Token();
+        if (stream.next(token) == null) {
             fail("No token.");
         }
     }

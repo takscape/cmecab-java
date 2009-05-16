@@ -61,8 +61,8 @@ public class FeatureRegexFilterFactoryTest
         factory.init(args);
 
         TokenStream stream = factory.create(tokenizer);
-        Token token;
-        while ((token = stream.next()) != null) {
+        Token token = new Token();
+        while ((token = stream.next(token)) != null) {
             String termText = token.term();
             System.out.println("token: " + termText);
             if (termText.equals("は") || termText.equals("なり")) {

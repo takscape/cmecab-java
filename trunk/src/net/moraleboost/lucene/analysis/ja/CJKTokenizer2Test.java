@@ -50,9 +50,9 @@ public class CJKTokenizer2Test
                 { 5, 7 }
         };
 
-        Token token;
+        Token token = new Token();
         int i = 0;
-        while ((token = tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             //System.out.println(token);
             assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
@@ -70,7 +70,7 @@ public class CJKTokenizer2Test
         String str = "あいうえお";
         StringReader reader = new StringReader(str);
         CJKTokenizer2 tokenizer = new CJKTokenizer2(reader, 1);
-        Token token;
+        Token token = new Token();
         
         String[] tokens = {
                 "あ",
@@ -89,7 +89,7 @@ public class CJKTokenizer2Test
         };
 
         int i = 0;
-        while ((token = tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
@@ -107,7 +107,7 @@ public class CJKTokenizer2Test
         String str = "ルート選択があるプロセス[1]件目";
         StringReader reader = new StringReader(str);
         CJKTokenizer2 tokenizer = new CJKTokenizer2(reader, 3);
-        Token token;
+        Token token = new Token();
         
         String[] tokens = {
                 "ルート",
@@ -140,7 +140,7 @@ public class CJKTokenizer2Test
         };
 
         int i = 0;
-        while ((token = tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             assertEquals(tokens[i], token.term());
             assertEquals("Wrong start offset", offsets[i][0], token
                     .startOffset());
@@ -158,7 +158,7 @@ public class CJKTokenizer2Test
             String str = "ﾎﾝｼﾞﾂﾊ､ﾊﾝﾍﾟﾝｦｼｮｸｼﾀ｡";
             StringReader reader = new StringReader(str);
             CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
-            Token token;
+            Token token = new Token();
             
             String[] tokens = {
                     "ﾎﾝ",
@@ -197,7 +197,7 @@ public class CJKTokenizer2Test
             };
 
             int i = 0;
-            while ((token = tokenizer.next()) != null) {
+            while ((token = tokenizer.next(token)) != null) {
                 assertEquals(tokens[i], token.term());
                 assertEquals(offsets[i][0], token.startOffset());
                 assertEquals(offsets[i][1], token.endOffset());
@@ -216,7 +216,7 @@ public class CJKTokenizer2Test
             String str = "this_ＢＯＯＫ’s落丁、乱丁  はaBCd.defお取替えします";
             StringReader reader = new StringReader(str);
             CJKTokenizer2 tokenizer = new CJKTokenizer2(reader);
-            Token token;
+            Token token = new Token();
 
             String[] tokens = {
                     "this_book", // ここでsingle->single, single->null
@@ -255,7 +255,7 @@ public class CJKTokenizer2Test
             };
 
             int i = 0;
-            while ((token = tokenizer.next()) != null) {
+            while ((token = tokenizer.next(token)) != null) {
                 //System.out.println(token);
                 assertEquals(tokens[i], token.term());
                 assertEquals("Wrong start offset", offsets[i][0], token

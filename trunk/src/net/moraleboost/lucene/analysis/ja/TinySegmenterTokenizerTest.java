@@ -50,9 +50,9 @@ public class TinySegmenterTokenizerTest
                 {7, 8}
         };
 
-        Token token;
+        Token token = new Token();
         int i = 0;
-        while ((token = tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             assertEquals(tokens[i], token.term());
             assertEquals(positions[i][0], token.startOffset());
             assertEquals(positions[i][1], token.endOffset());
