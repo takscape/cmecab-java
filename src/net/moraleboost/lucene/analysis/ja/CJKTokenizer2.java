@@ -454,7 +454,7 @@ public final class CJKTokenizer2 extends Tokenizer
             }
         }
 
-        public Token toToken()
+        public Token toToken(Token reusableToken)
         {
             if (type == null) {
                 return null;
@@ -464,12 +464,12 @@ public final class CJKTokenizer2 extends Tokenizer
                     builder.appendCodePoint(buffer[i].normCodePoint);
                 }
 
-                Token token = new Token(
-                        (int)buffer[0].start,
-                        (int)buffer[tokenLength-1].end,
-                        type);
-                token.setTermBuffer(builder.toString());
-                return token;
+                reusableToken.clear();
+                reusableToken.setType(type);
+                reusableToken.setTermBuffer(builder.toString());
+                reusableToken.setStartOffset((int)buffer[0].start);
+                reusableToken.setEndOffset((int)buffer[tokenLength-1].end);
+                return reusableToken;
             }
         }
     }
@@ -496,7 +496,7 @@ public final class CJKTokenizer2 extends Tokenizer
         tokenInfo = new TokenInfo(ngram);
     }
 
-    public Token next() throws IOException
+    public Token next(Token reusableToken) throws IOException
     {
         do {
             tokenInfo.clear();
@@ -514,7 +514,7 @@ public final class CJKTokenizer2 extends Tokenizer
             // System.out.println(tokenInfo.toToken());
         } while (tokenInfo.getType() == TOKENTYPE_NULL);
 
-        return tokenInfo.toToken();
+        return tokenInfo.toToken(reusableToken);
     }
 
     public static void main(String[] args) throws Exception
