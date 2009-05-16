@@ -21,6 +21,7 @@ import java.util.Map;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 
 import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
@@ -81,7 +82,7 @@ public class PooledMeCabTokenizerFactory extends MeCabTokenizerFactory
             @Override
             public Object makeObject() throws Exception
             {
-                return new Tagger(charset, arg);
+                return new StandardTagger(charset, arg);
             }
 
             @Override

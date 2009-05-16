@@ -24,8 +24,9 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.Token;
 
 import net.moraleboost.mecab.MeCabException;
-import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.Node;
+import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 
 public class MeCabTokenizer extends Tokenizer
 {
@@ -60,7 +61,7 @@ public class MeCabTokenizer extends Tokenizer
 
         charSequence = new StringBuilder(bufferSize);
         buffer = CharBuffer.allocate(bufferSize);
-        tagger = new Tagger(dicCharset, arg);
+        tagger = new StandardTagger(dicCharset, arg);
         ownTagger = true;
 
         parse();
@@ -94,7 +95,7 @@ public class MeCabTokenizer extends Tokenizer
 
         charSequence = new StringBuilder(bufferSize);
         buffer = CharBuffer.allocate(bufferSize);
-        tagger = new Tagger(dicCharset, arg);
+        tagger = new StandardTagger(dicCharset, arg);
 
         parse();
     }
