@@ -99,7 +99,10 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
    * lib/license/cpl1.0.txtをご覧ください
 * TinySegmenter 0.1
    * 修正BSDライセンス
-   * lib/license/LICENSE-NEWBSD.txtをご覧ください
+   * lib/license/LICENSE-TinySegmenter.txtをご覧ください
+* Protocol Buffers 2.1.0
+   * 修正BSDライセンス
+   * lib/license/COPYING.txtをご覧ください。
 
 6. 連絡先
 

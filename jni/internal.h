@@ -59,12 +59,6 @@
 #define CLASS_MECAB_EXCEPTION \
     "net/moraleboost/mecab/MeCabException"
 #define CLASS_OUT_OF_MEMORY_ERROR "java/lang/OutOfMemoryError"
-#define CLASS_TAGGER \
-    "net/moraleboost/mecab/Tagger"
-#define CLASS_NODE \
-    "net/moraleboost/mecab/Node"
-#define CLASS_ENCODER "java/nio/charset/CharsetEncoder"
-#define CLASS_DECODER "java/nio/charset/CharsetDecoder"
 
 
 /**
