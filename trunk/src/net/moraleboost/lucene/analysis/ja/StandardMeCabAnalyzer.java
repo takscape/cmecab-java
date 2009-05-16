@@ -22,21 +22,21 @@ import java.io.IOException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
-public class MeCabAnalyzer extends Analyzer
+public class StandardMeCabAnalyzer extends Analyzer
 {
     private String dicCharset = null;
     private String mecabArg = null;
     private String[] stopPatterns = null;
 
     /**
-     * MeCabTokenizerをTokenizerとして用いるAnalyzerを構築する。
+     * StandardMeCabTokenizerをTokenizerとして用いるAnalyzerを構築する。
      * 
      * @param dicCharset
      *            MeCabの辞書の文字コード
      * @param mecabArg
      *            MeCabに与えるオプション
      */
-    public MeCabAnalyzer(String dicCharset, String mecabArg)
+    public StandardMeCabAnalyzer(String dicCharset, String mecabArg)
     {
         super();
         this.dicCharset = dicCharset;
@@ -44,7 +44,7 @@ public class MeCabAnalyzer extends Analyzer
     }
 
     /**
-     * MeCabTokenizerによって分かち書きされたトークンを
+     * StandardMeCabTokenizerによって分かち書きされたトークンを
      * FeatureRegexFilterによってフィルタリングするAnalyzerを構築する。
      * 
      * @param dicCharset
@@ -54,7 +54,7 @@ public class MeCabAnalyzer extends Analyzer
      * @param stopPatterns
      *            FeatureRegexFilterに与える正規表現の配列
      */
-    public MeCabAnalyzer(String dicCharset, String mecabArg,
+    public StandardMeCabAnalyzer(String dicCharset, String mecabArg,
             String[] stopPatterns)
     {
         super();
@@ -67,7 +67,7 @@ public class MeCabAnalyzer extends Analyzer
     public TokenStream tokenStream(String fieldName, Reader reader)
     {
         try {
-            TokenStream stream = new MeCabTokenizer(reader, dicCharset,
+            TokenStream stream = new StandardMeCabTokenizer(reader, dicCharset,
                     mecabArg);
 
             if (stopPatterns != null) {

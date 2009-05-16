@@ -22,7 +22,7 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-public class MeCabTokenizerTest
+public class StandardMeCabTokenizerTest
 {
     public static final String DIC_ENCODING = System
             .getProperty("net.moraleboost.mecab.encoding");
@@ -33,7 +33,7 @@ public class MeCabTokenizerTest
         // 好物は「ほっけ」です。
         String str = "好物は\uD867\uDE3Dです。";
         StringReader reader = new StringReader(str);
-        MeCabTokenizer tokenizer = new MeCabTokenizer(reader, DIC_ENCODING, "");
+        StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
 
         String[] tokens = {
                 "好物",
@@ -68,7 +68,7 @@ public class MeCabTokenizerTest
     {
         String str = "本日   は晴天\nなり\r\n。";
         StringReader reader = new StringReader(str);
-        MeCabTokenizer tokenizer = new MeCabTokenizer(reader, DIC_ENCODING, "");
+        StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
 
         String[] tokens = {
                 "本日",

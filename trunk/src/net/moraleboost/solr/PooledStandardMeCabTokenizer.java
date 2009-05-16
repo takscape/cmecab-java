@@ -26,25 +26,22 @@ import org.apache.commons.pool.ObjectPool;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
 
-import net.moraleboost.lucene.analysis.ja.MeCabTokenizer;
+import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Tagger;
 
-public class PooledMeCabTokenizer extends Tokenizer
+public class PooledStandardMeCabTokenizer extends Tokenizer
 {
-    private int bufferSize = MeCabTokenizer.DEFAULT_BUFFER_SIZE;
-    private int maxSize = MeCabTokenizer.DEFAULT_MAX_SIZE;
+    private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
 
     private List<Token> tokens = null;
     private Iterator<Token> iterator = null;
     
-    public PooledMeCabTokenizer(Reader in, ObjectPool pool,
-            int bufferSize, int maxSize)
+    public PooledStandardMeCabTokenizer(Reader in, ObjectPool pool, int maxSize)
     throws Exception
     {
         super(in);
         
-        this.bufferSize = bufferSize;
         this.maxSize = maxSize;
         
         Tagger tagger = null;
@@ -61,9 +58,8 @@ public class PooledMeCabTokenizer extends Tokenizer
     private void parse(Tagger tagger)
     throws MeCabException, IOException
     {
-        MeCabTokenizer tokenizer = new MeCabTokenizer(
-                input, tagger,
-                bufferSize, maxSize);
+        StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(
+                input, tagger, false, maxSize);
 
         tokens = new LinkedList<Token>();
         

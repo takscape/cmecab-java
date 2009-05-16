@@ -25,17 +25,16 @@ import java.util.Map;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
-import net.moraleboost.lucene.analysis.ja.MeCabTokenizer;
+import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
-public class MeCabTokenizerFactory extends BaseTokenizerFactory
+public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
 {
     private String dicCharset = null;
     private String mecabArg = null;
-    private int bufferSize = MeCabTokenizer.DEFAULT_BUFFER_SIZE;
-    private int maxSize = MeCabTokenizer.DEFAULT_MAX_SIZE;
+    private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
 
-    public MeCabTokenizerFactory()
+    public StandardMeCabTokenizerFactory()
     {
         super();
     }
@@ -50,10 +49,6 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
         return mecabArg;
     }
     
-    public int getBufferSize()
-    {
-        return bufferSize;
-    }
     public int getMaxSize()
     {
         return maxSize;
@@ -61,13 +56,13 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 
     /**
      * ファクトリを初期化する。 初期化パラメータとして、「charset」、「arg」、
-     * 「bufferSize」、「maxSize」をとる。<br>
+     * 「maxSize」をとる。<br>
      * 「charset」には、MeCabの辞書の文字コードを指定する。
      * 省略すると、Javaの既定文字コードが用いられる。<br>
      * 「arg」には、MeCabに与えるオプションを指定する。
      * 省略すると、空文字列とみなされる。<br>
      * 残りのパラメータの意味については、
-     * {@link MeCabTokenizer#MeCabTokenizer(Reader, String, String, int, int)}
+     * {@link StandardMeCabTokenizer#StandardMeCabTokenizer(Reader, String, String, int)}
      * を参照。
      * 
      * @param args
@@ -79,7 +74,6 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
 
         String charset = args.get("charset");
         String arg = args.get("arg");
-        String bufferSizeStr = args.get("bufferSize");
         String maxSizeStr = args.get("maxSize");
 
         if (charset != null) {
@@ -94,10 +88,6 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
             mecabArg = "";
         }
 
-        if (bufferSizeStr != null) {
-            bufferSize = Integer.parseInt(bufferSizeStr);
-        }
-
         if (maxSizeStr != null) {
             maxSize = Integer.parseInt(maxSizeStr);
         }
@@ -106,8 +96,7 @@ public class MeCabTokenizerFactory extends BaseTokenizerFactory
     public TokenStream create(Reader reader)
     {
         try {
-            return new MeCabTokenizer(reader, dicCharset, mecabArg,
-                    bufferSize, maxSize);
+            return new StandardMeCabTokenizer(reader, dicCharset, mecabArg, maxSize);
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }

@@ -36,12 +36,12 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.store.RAMDirectory;
 
-public class MeCabAnalyzerTest
+public class StandardMeCabAnalyzerTest
 {
     public static final String DIC_ENCODING = System
             .getProperty("net.moraleboost.mecab.encoding");
 
-    private MeCabAnalyzer analyzer = null;
+    private StandardMeCabAnalyzer analyzer = null;
     private RAMDirectory directory = null;
     private IndexWriter writer = null;
 
@@ -50,7 +50,7 @@ public class MeCabAnalyzerTest
     {
         // 助詞をフィルタリングするAnalyzerを作成
         String[] filters = new String[] { "^助詞,.*$" };
-        analyzer = new MeCabAnalyzer(DIC_ENCODING, "", filters);
+        analyzer = new StandardMeCabAnalyzer(DIC_ENCODING, "", filters);
         directory = new RAMDirectory();
         writer = new IndexWriter(directory, analyzer, new MaxFieldLength(4096));
 

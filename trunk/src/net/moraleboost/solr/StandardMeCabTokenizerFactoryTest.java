@@ -26,7 +26,7 @@ import java.util.Map;
 
 import java.io.StringReader;
 
-public class MeCabTokenizerFactoryTest
+public class StandardMeCabTokenizerFactoryTest
 {
     public static final String DIC_ENCODING = System
             .getProperty("net.moraleboost.mecab.encoding");
@@ -38,7 +38,7 @@ public class MeCabTokenizerFactoryTest
         args.put("charset", DIC_ENCODING);
         args.put("arg", "");
 
-        MeCabTokenizerFactory factory = new MeCabTokenizerFactory();
+        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory();
         factory.init(args);
 
         StringReader reader = new StringReader("本日は晴天なり。");

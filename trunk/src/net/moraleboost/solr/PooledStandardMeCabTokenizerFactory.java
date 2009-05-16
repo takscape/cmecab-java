@@ -27,14 +27,14 @@ import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.lucene.analysis.TokenStream;
 
-public class PooledMeCabTokenizerFactory extends MeCabTokenizerFactory
+public class PooledStandardMeCabTokenizerFactory extends StandardMeCabTokenizerFactory
 {
     private int maxActive = GenericObjectPool.DEFAULT_MAX_ACTIVE;
     private long maxWait = GenericObjectPool.DEFAULT_MAX_WAIT;
     
     private GenericObjectPool pool = null; // Taggerのプール
     
-    public PooledMeCabTokenizerFactory()
+    public PooledStandardMeCabTokenizerFactory()
     {
         super();
     }
@@ -99,8 +99,7 @@ public class PooledMeCabTokenizerFactory extends MeCabTokenizerFactory
     public TokenStream create(Reader reader)
     {
         try {
-            return new PooledMeCabTokenizer(reader, pool,
-                    getBufferSize(), getMaxSize());
+            return new PooledStandardMeCabTokenizer(reader, pool, getMaxSize());
         } catch (MeCabTokenizerException e) {
             throw e;
         } catch (Exception e) {
