@@ -63,16 +63,16 @@ public class PooledStandardMeCabTokenizer extends Tokenizer
 
         tokens = new LinkedList<Token>();
         
-        Token token;
-        while ((token = tokenizer.next()) != null) {
-            tokens.add(token);
+        Token token = new Token();
+        while ((token = tokenizer.next(token)) != null) {
+            tokens.add((Token)token.clone());
         }
         
         iterator = tokens.iterator();
     }
 
     @Override
-    public Token next() throws MeCabException, IOException
+    public Token next(Token reusableToken) throws MeCabException, IOException
     {
         if (iterator == null) {
             return null;

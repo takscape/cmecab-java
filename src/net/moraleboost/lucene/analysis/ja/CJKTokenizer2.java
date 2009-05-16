@@ -521,9 +521,9 @@ public final class CJKTokenizer2 extends Tokenizer
     {
         java.io.StringReader in = new java.io.StringReader(args[0]);
         CJKTokenizer2 tokenizer = new CJKTokenizer2(in);
-        Token token;
+        Token token = new Token();
 
-        while ((token = tokenizer.next()) != null) {
+        while ((token = tokenizer.next(token)) != null) {
             System.out.println(Integer.toString(token.startOffset()) + "-"
                     + Integer.toString(token.endOffset()) + ": "
                     + token.term());
