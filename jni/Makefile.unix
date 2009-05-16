@@ -15,8 +15,9 @@ install:
 
 javah:
 	javah -classpath ../bin/classes \
-	  net.moraleboost.mecab.Tagger \
-	  net.moraleboost.mecab.Node
+	  net.moraleboost.mecab.impl.StandardTagger \
+	  net.moraleboost.mecab.impl.StandardNode \
+	  net.moraleboost.mecab.impl.LocalProtobufTagger
 
 clean:
 	rm -f $(CMECAB_TARGET)

@@ -66,7 +66,7 @@ void protobuf_AssignDesc_messages_2eproto() {
   ParsingResponse_Morpheme_descriptor_ = ParsingResponse_descriptor_->nested_type(0);
   static const int ParsingResponse_Morpheme_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParsingResponse_Morpheme, surface_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParsingResponse_Morpheme, rsurface_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParsingResponse_Morpheme, blank_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParsingResponse_Morpheme, feature_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParsingResponse_Morpheme, posid_),
   };
@@ -120,12 +120,12 @@ void protobuf_AddDesc_messages_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\016messages.proto\022\032net.moraleboost.mecab."
-    "impl\"\036\n\016ParsingRequest\022\014\n\004text\030\001 \002(\t\"\250\001\n"
+    "impl\"\036\n\016ParsingRequest\022\014\n\004text\030\001 \002(\t\"\245\001\n"
     "\017ParsingResponse\022F\n\010morpheme\030\001 \003(\01324.net"
     ".moraleboost.mecab.impl.ParsingResponse."
-    "Morpheme\032M\n\010Morpheme\022\017\n\007surface\030\001 \002(\t\022\020\n"
-    "\010rsurface\030\002 \002(\t\022\017\n\007feature\030\003 \002(\t\022\r\n\005posi"
-    "d\030\004 \002(\r", 247);
+    "Morpheme\032J\n\010Morpheme\022\017\n\007surface\030\001 \002(\t\022\r\n"
+    "\005blank\030\002 \001(\t\022\017\n\007feature\030\003 \002(\t\022\r\n\005posid\030\004"
+    " \002(\r", 244);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "messages.proto", &protobuf_RegisterTypes);
   ParsingRequest::default_instance_ = new ParsingRequest();
@@ -357,11 +357,11 @@ const ::google::protobuf::Reflection* ParsingRequest::GetReflection() const {
 // ===================================================================
 
 const ::std::string ParsingResponse_Morpheme::_default_surface_;
-const ::std::string ParsingResponse_Morpheme::_default_rsurface_;
+const ::std::string ParsingResponse_Morpheme::_default_blank_;
 const ::std::string ParsingResponse_Morpheme::_default_feature_;
 #ifndef _MSC_VER
 const int ParsingResponse_Morpheme::kSurfaceFieldNumber;
-const int ParsingResponse_Morpheme::kRsurfaceFieldNumber;
+const int ParsingResponse_Morpheme::kBlankFieldNumber;
 const int ParsingResponse_Morpheme::kFeatureFieldNumber;
 const int ParsingResponse_Morpheme::kPosidFieldNumber;
 #endif  // !_MSC_VER
@@ -382,7 +382,7 @@ ParsingResponse_Morpheme::ParsingResponse_Morpheme(const ParsingResponse_Morphem
 void ParsingResponse_Morpheme::SharedCtor() {
   _cached_size_ = 0;
   surface_ = const_cast< ::std::string*>(&_default_surface_);
-  rsurface_ = const_cast< ::std::string*>(&_default_rsurface_);
+  blank_ = const_cast< ::std::string*>(&_default_blank_);
   feature_ = const_cast< ::std::string*>(&_default_feature_);
   posid_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -396,8 +396,8 @@ void ParsingResponse_Morpheme::SharedDtor() {
   if (surface_ != &_default_surface_) {
     delete surface_;
   }
-  if (rsurface_ != &_default_rsurface_) {
-    delete rsurface_;
+  if (blank_ != &_default_blank_) {
+    delete blank_;
   }
   if (feature_ != &_default_feature_) {
     delete feature_;
@@ -429,8 +429,8 @@ void ParsingResponse_Morpheme::Clear() {
       }
     }
     if (_has_bit(1)) {
-      if (rsurface_ != &_default_rsurface_) {
-        rsurface_->clear();
+      if (blank_ != &_default_blank_) {
+        blank_->clear();
       }
     }
     if (_has_bit(2)) {
@@ -457,18 +457,18 @@ bool ParsingResponse_Morpheme::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         DO_(::google::protobuf::internal::WireFormat::ReadString(input, mutable_surface()));
-        if (input->ExpectTag(18)) goto parse_rsurface;
+        if (input->ExpectTag(18)) goto parse_blank;
         break;
       }
       
-      // required string rsurface = 2;
+      // optional string blank = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormat::GetTagWireType(tag) !=
             ::google::protobuf::internal::WireFormat::WIRETYPE_LENGTH_DELIMITED) {
           goto handle_uninterpreted;
         }
-       parse_rsurface:
-        DO_(::google::protobuf::internal::WireFormat::ReadString(input, mutable_rsurface()));
+       parse_blank:
+        DO_(::google::protobuf::internal::WireFormat::ReadString(input, mutable_blank()));
         if (input->ExpectTag(26)) goto parse_feature;
         break;
       }
@@ -528,9 +528,9 @@ void ParsingResponse_Morpheme::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::WriteString(1, this->surface(), output);
   }
   
-  // required string rsurface = 2;
+  // optional string blank = 2;
   if (_has_bit(1)) {
-    ::google::protobuf::internal::WireFormat::WriteString(2, this->rsurface(), output);
+    ::google::protobuf::internal::WireFormat::WriteString(2, this->blank(), output);
   }
   
   // required string feature = 3;
@@ -556,9 +556,9 @@ void ParsingResponse_Morpheme::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::WriteStringToArray(1, this->surface(), target);
   }
   
-  // required string rsurface = 2;
+  // optional string blank = 2;
   if (_has_bit(1)) {
-    target = ::google::protobuf::internal::WireFormat::WriteStringToArray(2, this->rsurface(), target);
+    target = ::google::protobuf::internal::WireFormat::WriteStringToArray(2, this->blank(), target);
   }
   
   // required string feature = 3;
@@ -588,10 +588,10 @@ int ParsingResponse_Morpheme::ByteSize() const {
         ::google::protobuf::internal::WireFormat::StringSize(this->surface());
     }
     
-    // required string rsurface = 2;
-    if (has_rsurface()) {
+    // optional string blank = 2;
+    if (has_blank()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormat::StringSize(this->rsurface());
+        ::google::protobuf::internal::WireFormat::StringSize(this->blank());
     }
     
     // required string feature = 3;
@@ -636,7 +636,7 @@ void ParsingResponse_Morpheme::MergeFrom(const ParsingResponse_Morpheme& from) {
       set_surface(from.surface());
     }
     if (from._has_bit(1)) {
-      set_rsurface(from.rsurface());
+      set_blank(from.blank());
     }
     if (from._has_bit(2)) {
       set_feature(from.feature());
@@ -663,7 +663,7 @@ void ParsingResponse_Morpheme::CopyFrom(const ParsingResponse_Morpheme& from) {
 void ParsingResponse_Morpheme::Swap(ParsingResponse_Morpheme* other) {
   if (other != this) {
     std::swap(surface_, other->surface_);
-    std::swap(rsurface_, other->rsurface_);
+    std::swap(blank_, other->blank_);
     std::swap(feature_, other->feature_);
     std::swap(posid_, other->posid_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
@@ -673,7 +673,7 @@ void ParsingResponse_Morpheme::Swap(ParsingResponse_Morpheme* other) {
 }
 
 bool ParsingResponse_Morpheme::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  if ((_has_bits_[0] & 0x0000000d) != 0x0000000d) return false;
   
   return true;
 }

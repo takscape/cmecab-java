@@ -17,10 +17,10 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1surf
 
 /*
  * Class:     net_moraleboost_mecab_impl_StandardNode
- * Method:    _rsurface
+ * Method:    _blank
  * Signature: (J)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1rsurface
+JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1blank
   (JNIEnv *, jclass, jlong);
 
 /*
@@ -29,6 +29,14 @@ JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1rsur
  * Signature: (J)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1feature
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     net_moraleboost_mecab_impl_StandardNode
+ * Method:    _posid
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1posid
   (JNIEnv *, jclass, jlong);
 
 /*

@@ -35,18 +35,36 @@ public interface Node extends Iterator<String>
     throws CharacterCodingException, MeCabException;
 
     /**
+     * 現在の位置の形態素の品詞IDを返す。
+     * 
+     * @return 品詞ID
+     * @throws MeCabException
+     *             ネイティブライブラリ内部のエラー
+     */
+    public abstract int posid()
+    throws MeCabException;
+
+    /**
      * 現在の位置の形態素の表層形を返す。
      * 
      * @return 表層形
+     * @throws CharacterCodingException
+     *             表層形をJava文字列にデコードできなかった
+     * @throws MeCabException
+     *             ネイティブライブラリ内部のエラー
      */
     public abstract String surface()
     throws CharacterCodingException, MeCabException;
 
     /**
-     * 先頭の空白も含めて形態素の表層形を返す。
+     * surfaceに先立つ空白を返す。
      * 
-     * @return 先頭の空白も含めた表層形
+     * @return surfaceに先立つ空白。空白が存在しなかった場合はnullを返す。
+     * @throws CharacterCodingException
+     *             空白をJava文字列にデコードできなかった
+     * @throws MeCabException
+     *             ネイティブライブラリ内部のエラー
      */
-    public abstract String rsurface()
+    public abstract String blank()
     throws CharacterCodingException, MeCabException;
 }

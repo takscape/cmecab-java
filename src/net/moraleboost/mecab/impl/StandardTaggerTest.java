@@ -96,7 +96,7 @@ public class StandardTaggerTest
     
                 while (node.hasNext()) {
                     String surface = node.next();
-                    String rsurface = node.rsurface();
+                    String rsurface = node.blank();
                     String feature = node.feature();
                 }
             }

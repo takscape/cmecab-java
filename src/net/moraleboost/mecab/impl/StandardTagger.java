@@ -84,9 +84,6 @@ public class StandardTagger implements Tagger
         close();
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Tagger#close()
-     */
     public void close()
     {
         if (node != null) {
@@ -100,9 +97,6 @@ public class StandardTagger implements Tagger
         }
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Tagger#parse(java.lang.CharSequence)
-     */
     public StandardNode parse(CharSequence text) throws CharacterCodingException,
             MeCabException
     {

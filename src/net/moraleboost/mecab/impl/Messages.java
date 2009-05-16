@@ -336,12 +336,12 @@ public final class Messages {
       public boolean hasSurface() { return hasSurface; }
       public java.lang.String getSurface() { return surface_; }
       
-      // required string rsurface = 2;
-      public static final int RSURFACE_FIELD_NUMBER = 2;
-      private boolean hasRsurface;
-      private java.lang.String rsurface_ = "";
-      public boolean hasRsurface() { return hasRsurface; }
-      public java.lang.String getRsurface() { return rsurface_; }
+      // optional string blank = 2;
+      public static final int BLANK_FIELD_NUMBER = 2;
+      private boolean hasBlank;
+      private java.lang.String blank_ = "";
+      public boolean hasBlank() { return hasBlank; }
+      public java.lang.String getBlank() { return blank_; }
       
       // required string feature = 3;
       public static final int FEATURE_FIELD_NUMBER = 3;
@@ -360,7 +360,6 @@ public final class Messages {
       @Override
       public final boolean isInitialized() {
         if (!hasSurface) return false;
-        if (!hasRsurface) return false;
         if (!hasFeature) return false;
         if (!hasPosid) return false;
         return true;
@@ -372,8 +371,8 @@ public final class Messages {
         if (hasSurface()) {
           output.writeString(1, getSurface());
         }
-        if (hasRsurface()) {
-          output.writeString(2, getRsurface());
+        if (hasBlank()) {
+          output.writeString(2, getBlank());
         }
         if (hasFeature()) {
           output.writeString(3, getFeature());
@@ -395,9 +394,9 @@ public final class Messages {
           size += com.google.protobuf.CodedOutputStream
             .computeStringSize(1, getSurface());
         }
-        if (hasRsurface()) {
+        if (hasBlank()) {
           size += com.google.protobuf.CodedOutputStream
-            .computeStringSize(2, getRsurface());
+            .computeStringSize(2, getBlank());
         }
         if (hasFeature()) {
           size += com.google.protobuf.CodedOutputStream
@@ -551,8 +550,8 @@ public final class Messages {
           if (other.hasSurface()) {
             setSurface(other.getSurface());
           }
-          if (other.hasRsurface()) {
-            setRsurface(other.getRsurface());
+          if (other.hasBlank()) {
+            setBlank(other.getBlank());
           }
           if (other.hasFeature()) {
             setFeature(other.getFeature());
@@ -599,7 +598,7 @@ public final class Messages {
                 break;
               }
               case 18: {
-                setRsurface(input.readString());
+                setBlank(input.readString());
                 break;
               }
               case 26: {
@@ -636,24 +635,24 @@ public final class Messages {
           return this;
         }
         
-        // required string rsurface = 2;
-        public boolean hasRsurface() {
-          return result.hasRsurface();
+        // optional string blank = 2;
+        public boolean hasBlank() {
+          return result.hasBlank();
         }
-        public java.lang.String getRsurface() {
-          return result.getRsurface();
+        public java.lang.String getBlank() {
+          return result.getBlank();
         }
-        public Builder setRsurface(java.lang.String value) {
+        public Builder setBlank(java.lang.String value) {
           if (value == null) {
     throw new NullPointerException();
   }
-  result.hasRsurface = true;
-          result.rsurface_ = value;
+  result.hasBlank = true;
+          result.blank_ = value;
           return this;
         }
-        public Builder clearRsurface() {
-          result.hasRsurface = false;
-          result.rsurface_ = "";
+        public Builder clearBlank() {
+          result.hasBlank = false;
+          result.blank_ = "";
           return this;
         }
         
@@ -1020,12 +1019,12 @@ public final class Messages {
   static {
     java.lang.String descriptorData =
       "\n\016messages.proto\022\032net.moraleboost.mecab." +
-      "impl\"\036\n\016ParsingRequest\022\014\n\004text\030\001 \002(\t\"\250\001\n" +
+      "impl\"\036\n\016ParsingRequest\022\014\n\004text\030\001 \002(\t\"\245\001\n" +
       "\017ParsingResponse\022F\n\010morpheme\030\001 \003(\01324.net" +
       ".moraleboost.mecab.impl.ParsingResponse." +
-      "Morpheme\032M\n\010Morpheme\022\017\n\007surface\030\001 \002(\t\022\020\n" +
-      "\010rsurface\030\002 \002(\t\022\017\n\007feature\030\003 \002(\t\022\r\n\005posi" +
-      "d\030\004 \002(\r";
+      "Morpheme\032J\n\010Morpheme\022\017\n\007surface\030\001 \002(\t\022\r\n" +
+      "\005blank\030\002 \001(\t\022\017\n\007feature\030\003 \002(\t\022\r\n\005posid\030\004" +
+      " \002(\r";
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
@@ -1052,7 +1051,7 @@ public final class Messages {
           internal_static_net_moraleboost_mecab_impl_ParsingResponse_Morpheme_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_net_moraleboost_mecab_impl_ParsingResponse_Morpheme_descriptor,
-              new java.lang.String[] { "Surface", "Rsurface", "Feature", "Posid", },
+              new java.lang.String[] { "Surface", "Blank", "Feature", "Posid", },
               net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.class,
               net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder.class);
           return null;

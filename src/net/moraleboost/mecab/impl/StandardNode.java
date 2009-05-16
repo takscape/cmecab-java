@@ -32,7 +32,7 @@ public class StandardNode implements Node
     private long prevHandle = 0;
     private long handle = 0;
     private String surfaceCache = null;
-    private String rsurfaceCache = null;
+    private String blankCache = null;
 
     /**
      * Nodeを構築。Tagger.parse()によって呼ばれる。ユーザが直接利用する機会はない。
@@ -59,15 +59,12 @@ public class StandardNode implements Node
         nextMorpheme(); // BOSをスキップ
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Node#close()
-     */
     public void close()
     {
         prevHandle = 0;
         handle = 0;
         surfaceCache = null;
-        rsurfaceCache = null;
+        blankCache = null;
     }
 
     /**
@@ -88,9 +85,6 @@ public class StandardNode implements Node
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Node#nextMorpheme()
-     */
     public String nextMorpheme()
     throws CharacterCodingException, MeCabException
     {
@@ -99,7 +93,12 @@ public class StandardNode implements Node
         }
 
         surfaceCache = CharsetUtil.decode(decoder, _surface(handle));
-        rsurfaceCache = CharsetUtil.decode(decoder, _rsurface(handle));
+        byte[] blank = _blank(handle);
+        if (blank != null) {
+            blankCache = CharsetUtil.decode(decoder, blank);
+        } else {
+            blankCache = null;
+        }
         prevHandle = handle;
         handle = _next(handle);
 
@@ -124,9 +123,6 @@ public class StandardNode implements Node
         // do nothing
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Node#feature()
-     */
     public String feature()
     throws CharacterCodingException, MeCabException
     {
@@ -137,27 +133,28 @@ public class StandardNode implements Node
         }
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Node#surface()
-     */
     public String surface()
     {
         return surfaceCache;
     }
 
-    /* (non-Javadoc)
-     * @see net.moraleboost.mecab.Node#rsurface()
-     */
-    public String rsurface()
+    public String blank()
     {
-        return rsurfaceCache;
+        return blankCache;
+    }
+    
+    public int posid()
+    {
+        return _posid(handle);
     }
 
     private static native byte[] _surface(long hdl);
 
-    private static native byte[] _rsurface(long hdl);
+    private static native byte[] _blank(long hdl);
 
     private static native byte[] _feature(long hdl);
+    
+    private static native int _posid(long hdl);
 
     private static native long _next(long hdl);
 }

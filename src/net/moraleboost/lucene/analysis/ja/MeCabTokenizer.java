@@ -140,11 +140,19 @@ public class MeCabTokenizer extends Tokenizer
         }
 
         String tokenString = node.nextMorpheme();
-        String rsurface = node.rsurface();
-        int end = offset + rsurface.length();
-        int start = end - tokenString.length();
-        offset = end;
+        String blankString = node.blank();
+        int start;
+        int end;
 
+        if (blankString != null) {
+            start = offset + blankString.length();
+            end = start + tokenString.length();
+        } else {
+            start = offset;
+            end = start + tokenString.length();
+        }
+
+        offset = end;
         return new MeCabToken(tokenString, node.feature(), start, end);
     }
 
