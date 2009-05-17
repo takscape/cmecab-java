@@ -46,7 +46,7 @@ public static void main(String[] args) throws Exception
 
 == Luceneから使用する ==
  * !StandardMeCabAnalzyer、!StandardMeCabTokenizer、!FeatureRegexFilter等を直接インスタンス化して利用。
- * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/MeCabAnalyzerTest.java テストケース]を参照。
+ * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
  * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、commons-pool-1.4.jar（!PooledMeCabTokenizerを利用する場合に必要）、protobuf-java-2.1.0.jar（!LocalProtobufMeCabTokenizerを利用する場合に必要）をコピー。
