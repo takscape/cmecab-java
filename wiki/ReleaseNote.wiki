@@ -1,11 +1,16 @@
 #summary リリースノート
 #labels Featured
+
+== v1.5 (???) ==
+
+  * senを用いたTokenizer, Analyzerを追加。
+
 == v1.4 (2009/5/17) ==
 
-  * net.moraleboost.mecab.Taggerをインターフェースに変更。元のTaggerは、net.moraleboost.mecab.impl.StandardTaggerにリネーム。MeCabTokenizerFactory等の関連クラスも、すべてStandardMeCab～にリネーム。
-  * Protocol Buffersを用いてネイティブライブラリとの通信を行うLocalProtobufTaggerを追加。StandardTaggerに比べ、約30%の高速化。
+  * net.moraleboost.mecab.Taggerをインターフェースに変更。元のTaggerは、net.moraleboost.mecab.impl.!StandardTaggerにリネーム。!MeCabTokenizerFactory等の関連クラスも、すべてStandardMeCab～にリネーム。
+  * Protocol Buffersを用いてネイティブライブラリとの通信を行う!LocalProtobufTaggerを追加。StandardTaggerに比べ、約30%の高速化。
   * !MeCabToken廃止。代わりに、Tokenのtypeに素性を格納するようにした。
-  * 全般的に、Tokenizer/TokenFilterのnext()を、next(Token)に書き換え。
+  * 全般的に、Tokenizer/!TokenFilterのnext()を、next(Token)に書き換え。
 
 == v1.3 (2009/3/24) ==
 
