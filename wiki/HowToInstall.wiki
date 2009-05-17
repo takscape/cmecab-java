@@ -30,7 +30,7 @@ nmake -f makefile.win
 成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
 
 == 実行テスト ==
-Taggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。
+!StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。
 
 {{{
 java -cp cmecab-1.4.jar net.moraleboost.mecab.impl.StandardTagger EUC-JP 本日は晴天なり。
