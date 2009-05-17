@@ -37,7 +37,7 @@ set PATH=C:\Program Files\MeCab\bin;%PATH%
 java -Djava.library.path=C:\cmecab-java-1.4\bin -cp c:\cmecab-java-1.4\bin\cmecab-1.4.jar;c:\cmecab-java-1.4\lib\protobuf-java-2.1.0.jar;c:\cmecab-java-1.4\lib\commons-pool-1.4.jar net.moraleboost.mecab.impl.StandardTagger UTF-8 本日は晴天なり。
 }}}
 
-第一引数には、!MeCabの辞書の文字コード、第二引数には解析対象文字列を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
+!StandardTaggerの第一引数には、!MeCabの辞書の文字コード（上の例ではUTF-8）、第二引数には解析対象文字列（上の例では「本日は晴天なり。」）を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
 {{{
 MeCab version: 0.97
 
