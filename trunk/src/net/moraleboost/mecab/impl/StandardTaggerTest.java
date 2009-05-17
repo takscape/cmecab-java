@@ -89,6 +89,20 @@ public class StandardTaggerTest
         try {
             Tagger tagger = new StandardTagger(DIC_ENCODING, "");
 
+            // warming up
+            for (int i=0; i<100; ++i) {
+                Node node = tagger.parse(TEXTS[i % TEXTS.length]);
+    
+                while (node.hasNext()) {
+                    @SuppressWarnings("unused")
+                    String surface = node.next();
+                    @SuppressWarnings("unused")
+                    String blank = node.blank();
+                    @SuppressWarnings("unused")
+                    String feature = node.feature();
+                }
+            }
+
             long start = System.currentTimeMillis();
 
             for (int i=0; i<1000; ++i) {
@@ -98,7 +112,7 @@ public class StandardTaggerTest
                     @SuppressWarnings("unused")
                     String surface = node.next();
                     @SuppressWarnings("unused")
-                    String rsurface = node.blank();
+                    String blank = node.blank();
                     @SuppressWarnings("unused")
                     String feature = node.feature();
                 }

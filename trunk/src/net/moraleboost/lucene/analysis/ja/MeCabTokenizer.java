@@ -31,7 +31,7 @@ import net.moraleboost.mecab.Tagger;
  * @author taketa
  *
  */
-public class MeCabTokenizer extends Tokenizer
+public abstract class MeCabTokenizer extends Tokenizer
 {
     public static final int DEFAULT_BUFFER_SIZE = 8192;
     public static final int DEFAULT_MAX_SIZE = 10 * 1024 * 1024;
@@ -44,7 +44,7 @@ public class MeCabTokenizer extends Tokenizer
     private int offset = 0;
     private boolean ownTagger = false;
 
-    public MeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
+    protected MeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
     throws MeCabException, IOException
     {
         super(in);
