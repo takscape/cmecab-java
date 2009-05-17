@@ -12,6 +12,7 @@ APIリファレンスは、ソースパッケージに同梱。
  * Taggerクラスをインスタンス化し、parseを呼び出す。
 {{{
 import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 import net.moraleboost.mecab.Node;
 
 public static void main(String[] args) throws Exception
@@ -28,7 +29,7 @@ public static void main(String[] args) throws Exception
     // Taggerを構築。
     // 第一引数には、MeCabの辞書の文字コードを与える。
     // 第二引数には、MeCabのcreateTagger()関数に与える引数を与える。
-    Tagger tagger = new Tagger("Shift_JIS", "");
+    Tagger tagger = new StandardTagger("Shift_JIS", "");
 
     // tagger.parse()を呼び出して、文字列を形態素解析する。
     // 返されるオブジェクトは、Iterator<String>を実装している。
@@ -44,31 +45,19 @@ public static void main(String[] args) throws Exception
 }}}
 
 == Luceneから使用する ==
- * !MeCabAnalzyer、!MeCabTokenizer、!FeatureRegexFilter等を直接インスタンス化して利用。
+ * !StandardMeCabAnalzyer、!StandardMeCabTokenizer、!FeatureRegexFilter等を直接インスタンス化して利用。
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/MeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
- * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、commons-pool-1.4.jar（PooledMeCabTokenizerを利用する場合に必要）をコピー。
- * schema.xmlに、!MeCabTokenizerFactory等を用いてフィールドタイプを定義。
+ * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、commons-pool-1.4.jar（!PooledMeCabTokenizerを利用する場合に必要）、protobuf-java-2.1.0.jar（!LocalProtobufMeCabTokenizerを利用する場合に必要）をコピー。
+ * schema.xmlに、!StandardMeCabTokenizerFactory等を用いてフィールドタイプを定義。
 
 {{{
 <!-- MeCabを用いたTokenizer -->
 <fieldType name="text_mecab" class="solr.TextField">
     <analyzer>
         <!-- charsetパラメータには、辞書の文字コードを指定 -->
-        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory" charset="utf-8" />
-    </analyzer>
-</fieldType>
-
-<!-- パフォーマンスを重視する場合、MeCabをプールして使いまわす
-     PooledMeCabTokenizerを使用することもできる。 -->
-<fieldType name="text_pooledmecab" class="solr.TextField">
-    <analyzer>
-        <!-- MeCabTokenizerのうけつけるパラメータに加え、
-             プールの最大サイズおよびオブジェクトを借りる際の
-             タイムアウト（ミリ秒単位）を指定可能。 -->
-        <tokenizer class="net.moraleboost.solr.MeCabTokenizerFactory"
-                   charset="utf-8" maxActive="20" maxWait="10000" />
+        <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
     </analyzer>
 </fieldType>
 
