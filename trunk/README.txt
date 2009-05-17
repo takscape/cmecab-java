@@ -15,6 +15,8 @@ Javaバインディングです。SWIGを用いず、JNIから直接MeCabのラ�
  * 任意のngramに対応したCJKTokenizerクローン
  * TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/) の
    Java移植版、及びそのTokenizer、TokenizerFactory
+ * sen (https://sen.dev.java.net/) を用いたTokenizer, Analyzer、
+   およびそれらをSolrから用いるためのFactory
 
 
 2. パッケージ構成
@@ -27,7 +29,7 @@ lib  - ビルドおよびテストに必要なサードパーティライブラ�
       格納されたディレクトリ
 src  - Pure Javaライブラリのソースコードが格納されたディレクトリ
 test - テスト用データが格納されたディレクトリ
-etc  - その他もろもろ（TinySegmenterのオリジナルソース等）
+etc  - その他もろもろ（senの設定ファイル、TinySegmenterのオリジナルソース等）
 
 
 3. インストール方法
@@ -94,6 +96,9 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 * Apache Commons Pool 1.4
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
+* Apache Commons Logging 1.1.1
+   * Apache License 2.0
+   * lib/license/LICENSE-APACHE.txtをご覧ください
 * JUnit 4.4
    * Common Public License 1.0
    * lib/license/cpl1.0.txtをご覧ください
@@ -102,7 +107,10 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
    * lib/license/LICENSE-TinySegmenter.txtをご覧ください
 * Protocol Buffers 2.1.0
    * 修正BSDライセンス
-   * lib/license/COPYING.txtをご覧ください。
+   * lib/license/COPYING.txtをご覧ください
+* sen 1.2.2.1
+   * GNU Lesser General Public License 2.1
+   * lib/license/COPYING-sen.txtをご覧ください
 
 6. 連絡先
 
