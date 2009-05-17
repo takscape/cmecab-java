@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+  usage:
+  if you need proxy to access ftp site, try following:
+
+  $ ant -Dproxy.host=proxy.hoehoe.jp -Dproxy.port=8080
+
+-->
+<project name="ipadic" default="create" basedir=".">
+<!--
+  <property name="perl.bin" value="c:/usr/cygwin/bin/perl.exe"/>
+-->
+  <property name="perl.bin" value="/usr/bin/perl"/>
+  <property name="ipa2mecab"  value="./ipa2mecab.pl"/>
+  <property name="compound"  value="./compound.pl"/>
+  <property name="ipadic.home" value="http://chasen.aist-nara.ac.jp/stable/ipadic"/>
+  <property name="ipadic.version" value="2.6.0"/>
+  <property name="ipadic.archive"  value="ipadic-${ipadic.version}.tar.gz"/>
+  <property name="ipadic.dir"  value="ipadic-${ipadic.version}"/>
+
+  <property name="build.lib" location="build/lib"/>
+  <property name="lib.dir" location="lib"/>
+  <property name="commons-logging.jar" value="../lib/commons-logging.jar"/>
+  <property name="commons-logging-api.jar" value="../lib/commons-logging-api.jar"/>
+  <property name="sen.jar" value="../lib/sen.jar"/>
+  <property name="proxy.port" value="80" />
+
+  <target name="prepare-proxy" if="proxy.host">
+    <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}" />
+  </target>
+
+  <target name="prepare-archive">
+    <available file="${ipadic.archive}" property="ipadic.archive.present"/>
+  </target>
+
+  <target name="prepare-dics">
+    <condition property="dics.present">
+      <and>
+        <available file="da.sen"/>
+        <available file="matrix.sen"/>
+        <available file="morphemeInfo.sen"/>
+        <available file="token.sen"/>
+      </and>
+    </condition>
+  </target>
+
+  <target name="prepare-dics0">
+    <condition property="dics0.present">
+      <and>
+        <available file="dic.csv"/>
+        <available file="connect.csv"/>
+      </and>
+    </condition>
+    <condition property="dics1.present">
+      <and>
+        <available file="ipadic-${ipadic.version}/Noun.dic"/>
+      </and>
+    </condition>
+  </target>
+
+  <target name="prepare" depends="download,melt" />
+   
+
+  <target name="download" depends="prepare-proxy,prepare-archive,prepare-dics0,prepare-dics" unless="ipadic.archive.present">
+<!--
+    for proxy
+    <setproxy socksproxyhost="proxyhost" proxyport="8080" />
+-->
+    <get src="${ipadic.home}/${ipadic.archive}" dest="${ipadic.archive}" />
+  </target>
+
+  <target name="melt" depends="download,prepare-dics" unless="dics1.present">
+    <gunzip src="${ipadic.archive}"/>
+    <untar src="${ipadic.dir}.tar" dest="." />
+    <delete file="${ipadic.dir}.tar"/>
+  </target>
+
+  <target name="clean">
+    <delete>
+      <fileset dir="." includes="*.sen"/>
+      <fileset dir="." includes="*.csv"/>
+    </delete>
+    <delete dir="ipadic-${ipadic.version}"/>
+    <delete file="${ipadic.archive}" />
+  </target>
+
+  <target name="dics0" depends="prepare" unless="dics0.present">
+    <exec executable="${perl.bin}">
+      <arg line="${ipa2mecab} ipadic-${ipadic.version}"/>
+    </exec>
+  </target>
+
+  <target name="create" depends="dics0" unless="dics.present">
+    <java classname="net.java.sen.tools.MkSenDic"
+          fork="true"
+          maxmemory="140m">
+      <classpath>
+        <pathelement location="${sen.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${commons-logging-api.jar}"/>
+        <pathelement location="."/>
+        <pathelement location="../build"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      <jvmarg line="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog -Dorg.apache.commons.logging.simplelog.log.net.java=info"/>
+       <!-- Comment out if you would like to add your custom dictionary.
+            Custom dictionary format have to compatibule with 'dic.csv'.
+            This parameter is a file path for custom dictionary. 
+            You can add multiple dictionary here like "custom_dic1.csv custom_dic2.csv.."
+            If you add huge dictionary, you have to modify maxmemory attribute in java task.
+       -->
+<!--
+      <arg line="customize_dic.csv" />
+-->
+    </java>
+  </target>
+
+  <target name="create-testdic" depends="dics0,create-compounddic" unless="dics.present" >
+    <java classname="net.java.sen.tools.MkSenDic"
+          fork="true"
+          maxmemory="140m">
+      <classpath>
+        <pathelement location="${sen.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${commons-logging-api.jar}"/>
+        <pathelement location="."/>
+        <pathelement location="../build"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      <jvmarg line="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog -Dorg.apache.commons.logging.simplelog.log.net.java=info"/>
+      <arg line="../src/test/custom_dic.csv" />
+    </java>
+   </target>
+  <target name="create-compounddic" >
+
+    <exec executable="${perl.bin}">
+      <arg line="${compound} ../src/test/dic"/>
+    </exec>
+
+    <java classname="net.java.sen.tools.MkCompoundTable"
+          fork="true"
+          maxmemory="140m">
+      <classpath>
+        <pathelement location="${sen.jar}"/>
+        <pathelement location="${commons-logging.jar}"/>
+        <pathelement location="${commons-logging-api.jar}"/>
+        <pathelement location="."/>
+        <pathelement location="../build"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+    </java>
+  </target>
+
+
+  <target name="all" depends="clean,prepare,create"/>
+
+</project>
+

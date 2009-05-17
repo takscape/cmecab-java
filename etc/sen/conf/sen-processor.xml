@@ -1,0 +1,41 @@
+<?xml version='1.0'  encoding='utf-8'?>
+
+<configuration>
+
+  <dictionary>
+    <connection-cost>dic/matrix.sen</connection-cost>
+    <double-array-trie>dic/da.sen</double-array-trie>
+    <token>dic/token.sen</token>
+    <pos-info>dic/posInfo.sen</pos-info>
+    <compound>dic/compound.sen</compound>
+  </dictionary>
+
+  <!-- Tokenizer for your language. Default is Japanese Tokenizer -->
+  <tokenizer>net.java.sen.ja.JapaneseTokenizer</tokenizer>
+
+   <!-- encoding for Sen dictionary.
+        this should be same as the name when you create 
+        dictionary. 
+     -->
+   <charset>euc-jp</charset>
+   <unknown-pos>未知語</unknown-pos>
+  
+   <!-- 構成語 or 複合語 -->
+   <compound>構成語</compound>
+
+   <!-- 連結後の品詞 連結対象の品詞...
+        品詞1個だけを指定した場合は、その品詞の並びを連結する。
+   -->
+   <composit>名詞-数 名詞-数 名詞-数記号</composit>
+   <composit>記号-アルファベット</composit>
+
+   <!-- 注釈開始文字列 注釈終了文字列 品詞
+        終了文字列を省略すると、開始文字列に一致する文字列そのものが
+        注釈とみなされる
+   -->
+   <remark>&lt; &gt; 記号-注釈</remark>
+   <remark>《《 》》 記号-注釈</remark>
+   <remark>《- -》 記号-注釈</remark>
+
+  
+</configuration>
