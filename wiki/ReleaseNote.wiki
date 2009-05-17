@@ -1,7 +1,7 @@
 #summary リリースノート
 #labels Featured
 
-== v1.5 (???) ==
+== v1.5-dev (???) ==
 
   * senを用いたTokenizer, Analyzerを追加。
 
