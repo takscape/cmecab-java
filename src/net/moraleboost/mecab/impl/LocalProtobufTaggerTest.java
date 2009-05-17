@@ -47,6 +47,20 @@ public class LocalProtobufTaggerTest
     {
         try {
             Tagger tagger = new LocalProtobufTagger("");
+            
+            // warming up
+            for (int i=0; i<100; ++i) {
+                Node node = tagger.parse(StandardTaggerTest.TEXTS[i % StandardTaggerTest.TEXTS.length]);
+    
+                while (node.hasNext()) {
+                    @SuppressWarnings("unused")
+                    String surface = node.next();
+                    @SuppressWarnings("unused")
+                    String blank = node.blank();
+                    @SuppressWarnings("unused")
+                    String feature = node.feature();
+                }
+            }
 
             long start = System.currentTimeMillis();
 
@@ -57,7 +71,7 @@ public class LocalProtobufTaggerTest
                     @SuppressWarnings("unused")
                     String surface = node.next();
                     @SuppressWarnings("unused")
-                    String rsurface = node.blank();
+                    String blank = node.blank();
                     @SuppressWarnings("unused")
                     String feature = node.feature();
                 }

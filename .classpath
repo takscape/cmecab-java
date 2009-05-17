@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="test/lib/junit.jar"/>
 	<classpathentry kind="lib" path="test/lib/lucene-core-2.4-dev.jar"/>
 	<classpathentry kind="lib" path="lib/protobuf-java-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/sen.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
