@@ -18,7 +18,7 @@ import net.moraleboost.mecab.Node;
 public static void main(String[] args) throws Exception
 {
     // バージョン文字列を取得
-    System.out.println("MeCab version: " + Tagger.version());
+    System.out.println("MeCab version: " + StandardTagger.version());
     System.out.println();
 
     String text = "本日は晴天なり。";
@@ -41,6 +41,9 @@ public static void main(String[] args) throws Exception
         String feature = node.feature();
         System.out.println(surface + "\t" + feature);
     }
+
+    // taggerをクローズ
+    tagger.close();
 }
 }}}
 
