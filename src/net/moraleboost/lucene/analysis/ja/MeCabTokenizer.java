@@ -27,7 +27,11 @@ import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
 
 /**
- * Tokenのtypeに、featureを格納する。
+ * MeCabを用いて入力を分かち書きするTokenizerのベース。
+ * <br><br>
+ * 生成されるTokenのtermには、形態素の表層形が格納される。
+ * typeには、形態素の素性が格納される。
+ * 
  * @author taketa
  *
  */
@@ -44,6 +48,16 @@ public abstract class MeCabTokenizer extends Tokenizer
     private int offset = 0;
     private boolean ownTagger = false;
 
+    /**
+     * オブジェクトを構築する。
+     * 
+     * @param in 入力
+     * @param tagger 形態素解析器
+     * @param ownTagger trueを指定すると、close()時にTaggerを閉じる。falseを指定すると、閉じない。
+     * @param maxSize 入力から読み込む最大文字数(in chars)
+     * @throws MeCabException
+     * @throws IOException
+     */
     protected MeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
     throws MeCabException, IOException
     {

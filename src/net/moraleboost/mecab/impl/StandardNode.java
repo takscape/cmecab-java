@@ -24,6 +24,11 @@ import net.moraleboost.io.CharsetUtil;
 import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Node;
 
+/**
+ * {@link StandardTagger}の返すNode。
+ * @author taketa
+ *
+ */
 public class StandardNode implements Node
 {
     private CharsetDecoder decoder = null;
@@ -35,7 +40,8 @@ public class StandardNode implements Node
     private String blankCache = null;
 
     /**
-     * Nodeを構築。Tagger.parse()によって呼ばれる。ユーザが直接利用する機会はない。
+     * オブジェクトを構築する。StandardTagger.parse()によって呼ばれる。
+     * ユーザが直接利用する機会はない。
      * 
      * @param hdl
      *            Nodeのハンドル
@@ -69,7 +75,7 @@ public class StandardNode implements Node
 
     /**
      * 次の形態素に移動し、その表層形を取得する。
-     * Iterator<String>.next()を実装するメソッドであるため、例外はスローしない。
+     * Iterator.next()を実装するメソッドであるため、例外はスローしない。
      * 
      * @return 次の形態素の表層形
      */
@@ -116,7 +122,7 @@ public class StandardNode implements Node
     }
 
     /**
-     * Iterator<String>.remove()を実装する。実際には何もしない。
+     * Iterator.remove()を実装する。実際には何もしない。
      */
     public void remove()
     {

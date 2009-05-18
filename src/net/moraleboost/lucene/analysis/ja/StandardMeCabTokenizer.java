@@ -34,6 +34,7 @@ public class StandardMeCabTokenizer extends MeCabTokenizer
      *            MeCabの辞書の文字コード
      * @param arg
      *            MeCabに与えるオプション
+     * @throws MeCabException
      * @throws IOException
      */
     public StandardMeCabTokenizer(Reader in, String dicCharset, String arg)

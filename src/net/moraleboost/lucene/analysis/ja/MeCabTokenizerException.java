@@ -16,6 +16,12 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
+/**
+ * Tokenizerが、予期せぬエラーに遭遇した際にスローされる。
+ * 
+ * @author taketa
+ *
+ */
 public class MeCabTokenizerException extends RuntimeException
 {
     private static final long serialVersionUID = 1790249223369360070L;

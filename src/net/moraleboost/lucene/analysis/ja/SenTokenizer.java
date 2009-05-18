@@ -24,10 +24,25 @@ import net.java.sen.StreamTagger;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
 
+/**
+ * Senを用いて入力を分かち書きするTokenizer。
+ * 形態素の品詞情報を、Tokenのtypeに格納する。
+ * また表層形を、Tokenのtermに格納する。
+ * 
+ * @author taketa
+ *
+ */
 public class SenTokenizer extends Tokenizer
 {
-    private StreamTagger tagger;
+    private StreamTagger tagger = null;
     
+    /**
+     * SenTokenizerを構築する。
+     * 
+     * @param in 入力
+     * @param confFile Senの設定ファイル（sen.xml）のパス
+     * @throws IOException
+     */
     public SenTokenizer(Reader in, String confFile)
     throws IOException
     {

@@ -30,13 +30,13 @@ public class FeatureRegexFilter extends TokenFilter
     private Matcher[] matchers = null;
 
     /**
-     * featureが指定したパターンに合致するtokenをふるい落とすフィルタを構築する。
+     * typeが指定したパターンに合致するtokenをふるい落とすフィルタを構築する。
      * 
      * @param input
      *            上流TokenStream
      * @param stopPatterns
      *            Java正規表現の配列を指定。
-     *            featureがこのパターンのいずれかにマッチするtokenはフィルタリングされる。
+     *            typeがこのパターンのいずれかにマッチするtokenはフィルタリングされる。
      */
     public FeatureRegexFilter(TokenStream input, String[] stopPatterns)
     {
@@ -56,7 +56,7 @@ public class FeatureRegexFilter extends TokenFilter
     }
 
     /**
-     * tokenのfeatureが構築時に指定したパターンのいずれかにマッチするかどうかを調べる。
+     * tokenのtypeが構築時に指定したパターンのいずれかにマッチするかどうかを調べる。
      * 
      * @param token
      *            トークン

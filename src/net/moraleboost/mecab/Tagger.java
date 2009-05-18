@@ -18,6 +18,12 @@ package net.moraleboost.mecab;
 
 import java.nio.charset.CharacterCodingException;
 
+/**
+ * 形態素解析器を表すインターフェース。
+ * 
+ * @author taketa
+ *
+ */
 public interface Tagger
 {
     /**

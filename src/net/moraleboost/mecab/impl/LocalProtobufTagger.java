@@ -34,6 +34,12 @@ public class LocalProtobufTagger extends ProtobufTagger
 
     private long handle = 0;
     
+    /**
+     * オブジェクトを構築する。
+     * 
+     * @param arg MeCabに与えるオプション
+     * @throws MeCabException
+     */
     public LocalProtobufTagger(String arg)
     throws MeCabException
     {

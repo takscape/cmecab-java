@@ -22,17 +22,34 @@ import java.io.Reader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
+/**
+ * {@link SenTokenizer}を用いて入力を分かち書きするAnalyzer。
+ * 
+ * @author taketa
+ *
+ */
 public class SenAnalyzer extends Analyzer
 {
     private String confFile = null;
     private String[] stopPatterns = null;
 
+    /**
+     * SenAnalyzerを構築する。
+     * 
+     * @param confFile Senの設定ファイル（sen.xml）のパス。
+     */
     public SenAnalyzer(String confFile)
     {
         super();
         this.confFile = confFile;
     }
     
+    /**
+     * SenAnalyzerを構築する。
+     * 
+     * @param confFile Senの設定ファイル（sen.xml）のパス。
+     * @param stopPattens FeatureRegexFilterに渡す正規表現パターンの配列。
+     */
     public SenAnalyzer(String confFile, String[] stopPattens)
     {
         super();

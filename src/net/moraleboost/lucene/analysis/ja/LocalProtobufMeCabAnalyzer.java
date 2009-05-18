@@ -22,6 +22,11 @@ import java.io.Reader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
+/**
+ * {@link LocalProtobufMeCabTokenizer}をTokenizerとして用いるAnalyzer
+ * @author taketa
+ *
+ */
 public class LocalProtobufMeCabAnalyzer extends Analyzer
 {
     private String mecabArg = null;

@@ -26,6 +26,11 @@ import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
+/**
+ * {@link LocalProtobufMeCabTokenizer}のファクトリ。
+ * @author taketa
+ *
+ */
 public class LocalProtobufMeCabTokenizerFactory extends BaseTokenizerFactory
 {
     private String mecabArg = null;

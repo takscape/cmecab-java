@@ -22,6 +22,12 @@ import java.io.IOException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
+/**
+ * {@link StandardMeCabTokenizer}を用いて入力を分かち書きするAnalyzer。
+ * 
+ * @author taketa
+ *
+ */
 public class StandardMeCabAnalyzer extends Analyzer
 {
     private String dicCharset = null;
