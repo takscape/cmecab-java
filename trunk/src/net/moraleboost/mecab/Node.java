@@ -19,10 +19,17 @@ package net.moraleboost.mecab;
 import java.nio.charset.CharacterCodingException;
 import java.util.Iterator;
 
+/**
+ * 形態素を表すインターフェース。
+ * 
+ * @author taketa
+ *
+ */
 public interface Node extends Iterator<String>
 {
     /**
-     * Nodeを閉じる。close()呼び出し以降にNodeのメソッドを呼び出すと、結果は未定義である。
+     * Nodeを閉じる。
+     * close()呼び出し以降にNodeのメソッドを呼び出した場合、結果は未定義である。
      */
     public abstract void close();
 

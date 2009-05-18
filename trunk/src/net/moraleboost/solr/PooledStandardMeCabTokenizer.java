@@ -29,7 +29,14 @@ import org.apache.lucene.analysis.Tokenizer;
 import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 
+/**
+ * プールした{@link StandardTagger}を用いるTokenizer。
+ * 
+ * @author taketa
+ *
+ */
 public class PooledStandardMeCabTokenizer extends Tokenizer
 {
     private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;

@@ -24,6 +24,11 @@ import org.apache.solr.analysis.BaseTokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
 
+/**
+ * {@link CJKTokenizer2}のファクトリ。
+ * @author taketa
+ *
+ */
 public class CJKTokenizer2Factory extends BaseTokenizerFactory
 {
     private int ngram = CJKTokenizer2.DEFAULT_NGRAM;
@@ -33,6 +38,11 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
         super();
     }
 
+    /**
+     * パラメータ「ngram」を取る。ngramには、N-gramのNを指定。
+     * 1を指定すると、unigram。2を指定すると、bigram、3を指定するとtrigram。
+     * 省略した場合のデフォルトは{@value CJKTokenizer2#DEFAULT_NGRAM}である。
+     */
     public void init(Map<String, String> args)
     {
         super.init(args);

@@ -22,6 +22,12 @@ import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.Messages.ParsingRequest;
 import net.moraleboost.mecab.impl.Messages.ParsingResponse;
 
+/**
+ * Protocol Buffersを用いてバックエンドと通信する形態素解析器。
+ * 
+ * @author taketa
+ *
+ */
 public abstract class ProtobufTagger implements Tagger
 {
     public ProtobufNode parse(CharSequence text)

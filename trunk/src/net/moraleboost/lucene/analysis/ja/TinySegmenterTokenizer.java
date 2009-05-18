@@ -25,6 +25,12 @@ import net.moraleboost.tinysegmenter.TinySegmenter;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
 
+/**
+ * {@link TinySegmenter}を用いて入力を分かち書きするTokenizer。
+ * 
+ * @author taketa
+ *
+ */
 public class TinySegmenterTokenizer extends Tokenizer
 {
     private TinySegmenter segmenter = null;

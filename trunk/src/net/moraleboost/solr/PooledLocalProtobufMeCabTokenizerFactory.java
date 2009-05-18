@@ -27,6 +27,11 @@ import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.lucene.analysis.TokenStream;
 
+/**
+ * {@link PooledLocalProtobufMeCabTokenizer}のファクトリ。
+ * @author taketa
+ *
+ */
 public class PooledLocalProtobufMeCabTokenizerFactory extends
         LocalProtobufMeCabTokenizerFactory
 {
@@ -50,6 +55,13 @@ public class PooledLocalProtobufMeCabTokenizerFactory extends
         return maxWait;
     }
     
+    /**
+     * パラメータ「maxActive」および「maxWait」をとる。
+     * maxActiveは、プールするオブジェクトの数の最大値。
+     * デフォルトは{@value GenericObjectPool.DEFAULT_MAX_ACTIVE}。
+     * maxWaitは、オブジェクトをプールから取得する際のタイムアウト（ミリ秒）。
+     * デフォルトは{@value GenericObjectPool.DEFAULT_MAX_WAIT}。
+     */
     public void init(Map<String, String> args)
     {
         super.init(args);

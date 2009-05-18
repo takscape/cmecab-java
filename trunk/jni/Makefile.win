@@ -13,7 +13,7 @@ LDFLAGS=/LD
 
 all:
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) /Fe$(CMECAB_TARGET) $(CMECAB_SRC) $(CMECAB_LIB) $(PROTOBUF_LIB)
-	mt.exe -manifest CMeCab.dll.manifest -outputresource:CMeCab.dll;2
+	mt.exe -manifest $(CMECAB_TARGET).manifest -outputresource:$(CMECAB_TARGET);2
 
 javah:
 	javah -classpath ../bin/classes \

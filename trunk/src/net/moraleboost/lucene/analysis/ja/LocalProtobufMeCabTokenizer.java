@@ -23,6 +23,18 @@ import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.LocalProtobufTagger;
 
+/**
+ * MeCabを用いて入力を分かち書きするTokenizer。
+ * MeCabとのメッセージのやりとりに、Protocol Buffersを用いる。
+ * このTokenizerを用いる場合、MeCabの辞書の文字コードは、
+ * UTF-8でなければならない。
+ * <br><br>
+ * 生成されるTokenのtermには、形態素の表層形が格納される。
+ * typeには、形態素の素性が格納される。
+ * 
+ * @author taketa
+ *
+ */
 public class LocalProtobufMeCabTokenizer extends MeCabTokenizer
 {
     /**
@@ -32,6 +44,7 @@ public class LocalProtobufMeCabTokenizer extends MeCabTokenizer
      *            入力
      * @param arg
      *            MeCabに与えるオプション
+     * @throws MeCabException
      * @throws IOException
      */
     public LocalProtobufMeCabTokenizer(Reader in, String arg)

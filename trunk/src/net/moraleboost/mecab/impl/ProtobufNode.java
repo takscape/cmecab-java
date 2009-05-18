@@ -22,11 +22,22 @@ import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.impl.Messages.ParsingResponse;
 import net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme;;
 
+/**
+ * ProtobufTagger派生クラスが返すNode。
+ * 
+ * @author taketa
+ *
+ */
 public class ProtobufNode implements Node
 {
     private Iterator<Morpheme> iterator;
     private Morpheme morpheme;
 
+    /**
+     * オブジェクトを構築する。
+     * 
+     * @param result 形態素解析結果
+     */
     public ProtobufNode(ParsingResponse result)
     {
         this.iterator = result.getMorphemeList().iterator();

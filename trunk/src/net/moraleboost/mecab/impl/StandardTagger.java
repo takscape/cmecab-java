@@ -26,6 +26,12 @@ import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
 
+/**
+ * JNIを用いてMeCabを呼び出すTagger。
+ * 
+ * @author taketa
+ *
+ */
 public class StandardTagger implements Tagger
 {
     static {
@@ -34,7 +40,12 @@ public class StandardTagger implements Tagger
 
     public static void main(String[] args) throws Exception
     {
-        System.out.println("MeCab version is " + StandardTagger.version());
+        if (args.length != 2) {
+            System.err.println("Usage: java StandardTagger DICTIONARY_ENCODING TEXT");
+            System.exit(1);
+        }
+        
+        System.out.println("MeCab version " + StandardTagger.version());
         System.out.println();
 
         String text = args[1];

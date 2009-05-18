@@ -28,6 +28,11 @@ import org.apache.solr.analysis.BaseTokenFilterFactory;
 import net.moraleboost.lucene.analysis.ja.FeatureRegexFilter;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
+/**
+ * {@link FeatureRegexFilter}のファクトリ。
+ * @author taketa
+ *
+ */
 public class FeatureRegexFilterFactory extends BaseTokenFilterFactory
 {
     private String[] stopPattern = null;
