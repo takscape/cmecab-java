@@ -1,9 +1,10 @@
 #summary リリースノート
 #labels Featured
 
-== v1.5-dev (???) ==
+== v1.5 (2009/5/19) ==
 
   * senを用いたTokenizer, Analyzerを追加。
+  * !StandardNode#posid()が一つ先のノードの値を返していたバグを修正。
 
 == v1.4 (2009/5/17) ==
 
