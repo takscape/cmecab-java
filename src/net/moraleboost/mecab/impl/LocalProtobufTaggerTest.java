@@ -16,7 +16,7 @@
  */
 package net.moraleboost.mecab.impl;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
 
@@ -25,18 +25,29 @@ import org.junit.Test;
 
 public class LocalProtobufTaggerTest
 {
+    public static final String DIC_ENCODING = System
+            .getProperty("net.moraleboost.mecab.encoding");
+
     @Test
     public void testParse()
     {
         try {
-            Tagger tagger = new LocalProtobufTagger("");
-            Node node = tagger.parse("本日は晴天なり。");
+            Tagger tagger1 = new LocalProtobufTagger("");
+            Tagger tagger2 = new StandardTagger(DIC_ENCODING, "");
+            
+            Node node1 = tagger1.parse("本日は晴天なり。");
+            Node node2 = tagger2.parse("本日は晴天なり。");
 
-            while (node.hasNext()) {
-                System.out.println("Surface = " + node.next());
-                System.out.println("Feature = " + node.feature());
+            while (node1.hasNext()) {
+                assertTrue(node2.hasNext());
+                assertEquals(node1.next(), node2.next());
+                assertEquals(node1.surface(), node2.surface());
+                assertEquals(node1.feature(), node2.feature());
+                assertEquals(node1.blank(), node2.blank());
+                assertEquals(node1.posid(), node2.posid());
             }
-            tagger.close();
+            tagger1.close();
+            tagger2.close();
         } catch (Exception e) {
             fail(e.toString());
         }

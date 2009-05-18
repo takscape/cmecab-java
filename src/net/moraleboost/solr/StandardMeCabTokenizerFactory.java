@@ -28,6 +28,11 @@ import org.apache.solr.analysis.BaseTokenizerFactory;
 import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
+/**
+ * {@link StandardMeCabTokenizer}のファクトリ。
+ * @author taketa
+ *
+ */
 public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
 {
     private String dicCharset = null;

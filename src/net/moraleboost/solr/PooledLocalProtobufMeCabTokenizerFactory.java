@@ -56,7 +56,8 @@ public class PooledLocalProtobufMeCabTokenizerFactory extends
     }
     
     /**
-     * パラメータ「maxActive」および「maxWait」をとる。
+     * {@link LocalProtobufMeCabTokenizerFactory}のとるパラメータに加え、
+     * パラメータ「maxActive」および「maxWait」をとる。ただしこの二つは省略可能。
      * maxActiveは、プールするオブジェクトの数の最大値。
      * デフォルトは{@value GenericObjectPool.DEFAULT_MAX_ACTIVE}。
      * maxWaitは、オブジェクトをプールから取得する際のタイムアウト（ミリ秒）。

@@ -20,6 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * TinySegmenterのJava移植版。
+ * 
+ * @author taketa
+ *
+ */
 public class TinySegmenter
 {
     public static class CharInfo
