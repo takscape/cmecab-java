@@ -151,7 +151,11 @@ public class StandardNode implements Node
     
     public int posid()
     {
-        return _posid(handle);
+        if (prevHandle == 0) {
+            return 0;
+        } else {
+            return _posid(prevHandle);
+        }
     }
 
     private static native byte[] _surface(long hdl);

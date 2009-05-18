@@ -24,6 +24,11 @@ import net.moraleboost.lucene.analysis.ja.TinySegmenterTokenizer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
+/**
+ * {@link TinySegmenterTokenizer}のファクトリ。
+ * @author taketa
+ *
+ */
 public class TinySegmenterTokenizerFactory extends BaseTokenizerFactory
 {
     public TinySegmenterTokenizerFactory()
@@ -31,6 +36,9 @@ public class TinySegmenterTokenizerFactory extends BaseTokenizerFactory
         super();
     }
     
+    /**
+     * パラメータは存在しない。
+     */
     public void init(Map<String, String> args)
     {
         super.init(args);

@@ -26,6 +26,11 @@ import org.apache.solr.analysis.BaseTokenizerFactory;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 import net.moraleboost.lucene.analysis.ja.SenTokenizer;
 
+/**
+ * {@link SenTokenizer}のファクトリ。
+ * @author taketa
+ *
+ */
 public class SenTokenizerFactory extends BaseTokenizerFactory
 {
     private String confFile = null;
@@ -40,6 +45,10 @@ public class SenTokenizerFactory extends BaseTokenizerFactory
         return confFile;
     }
     
+    /**
+     * パラメータ「confFile」を取る。このパラメータは必須。
+     * Senの設定ファイル（sen.xml）のパスを指定する。
+     */
     public void init(Map<String, String> args)
     {
         String confFile = args.get("confFile");
