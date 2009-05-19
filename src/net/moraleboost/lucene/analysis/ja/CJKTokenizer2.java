@@ -464,12 +464,11 @@ public final class CJKTokenizer2 extends Tokenizer
                     builder.appendCodePoint(buffer[i].normCodePoint);
                 }
 
-                reusableToken.clear();
-                reusableToken.setType(type);
-                reusableToken.setTermBuffer(builder.toString());
-                reusableToken.setStartOffset((int)buffer[0].start);
-                reusableToken.setEndOffset((int)buffer[tokenLength-1].end);
-                return reusableToken;
+                return reusableToken.reinit(
+                        builder.toString(),
+                        (int)buffer[0].start,
+                        (int)buffer[tokenLength-1].end,
+                        type);
             }
         }
     }

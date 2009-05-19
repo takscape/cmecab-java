@@ -68,12 +68,10 @@ public class SenTokenizer extends Tokenizer
             return next(reusableToken);
         }
         
-        reusableToken.clear();
-        reusableToken.setType(token.getPos());
-        reusableToken.setTermBuffer(token.getSurface());
-        reusableToken.setStartOffset(token.start());
-        reusableToken.setEndOffset(token.end());
-
-        return reusableToken;
+        return reusableToken.reinit(
+              token.getSurface(),
+              token.start(),
+              token.end(),
+              token.getPos());
     }
 }
