@@ -110,12 +110,11 @@ public abstract class MeCabTokenizer extends Tokenizer
 
         offset = end;
         
-        reusableToken.clear();
-        reusableToken.setType(node.feature());
-        reusableToken.setTermBuffer(tokenString);
-        reusableToken.setStartOffset(start);
-        reusableToken.setEndOffset(end);
-        return reusableToken;
+        return reusableToken.reinit(
+                tokenString,
+                start,
+                end,
+                node.feature());
     }
 
     private void parse() throws MeCabException, IOException

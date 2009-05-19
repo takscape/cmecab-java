@@ -48,11 +48,10 @@ public class TinySegmenterTokenizer extends Tokenizer
         if (baseToken == null) {
             return null;
         } else {
-            reusableToken.clear();
-            reusableToken.setTermBuffer(baseToken.str);
-            reusableToken.setStartOffset((int)baseToken.start);
-            reusableToken.setEndOffset((int)baseToken.end);
-            return reusableToken;
+            return reusableToken.reinit(
+                    baseToken.str,
+                    (int)baseToken.start,
+                    (int)baseToken.end);
         }
     }
 }
