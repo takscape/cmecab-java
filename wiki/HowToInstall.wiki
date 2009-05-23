@@ -9,8 +9,8 @@
 の順に行う。
 
 == システム要件 ==
-* J2SE 1.5以上
-* Protocol Buffersおよび!MeCabがインストールされていること。ただし、!StandardTagger, !ProtobufStandardTaggerを利用しない場合は不要。
+ * J2SE 1.5以上
+ * Protocol Buffersおよび!MeCabがインストールされていること。ただし、!StandardTagger, !ProtobufStandardTaggerを利用しない場合は不要。
 
 == ネイティブライブラリの構築 ==
 ※このステップは、!StandardTagger, !ProtobufStandardTaggerを利用しない場合はスキップしてもよい
