@@ -3,7 +3,7 @@
 
 = インストール方法 =
 
- 1. ネイティブライブラリの構築（このステップは、!StandardTagger, !ProtobufStandardTaggerを利用しない場合はスキップしてもよい）
+ 1. ネイティブライブラリの構築（このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい）
  1. Javaライブラリの構築
 
 の順に行う。
@@ -13,7 +13,7 @@
  * Protocol Buffersおよび!MeCabがインストールされていること。ただし、!StandardTagger, !ProtobufStandardTaggerを利用しない場合は不要。
 
 == ネイティブライブラリの構築 ==
-※このステップは、!StandardTagger, !ProtobufStandardTaggerを利用しない場合はスキップしてもよい
+※このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい
 
 配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
 
