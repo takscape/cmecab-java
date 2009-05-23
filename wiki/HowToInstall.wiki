@@ -3,15 +3,18 @@
 
 = インストール方法 =
 
- 1. ネイティブライブラリの構築
+ 1. ネイティブライブラリの構築（このステップは、!StandardTagger, !ProtobufStandardTaggerを利用しない場合はスキップしてもよい）
  1. Javaライブラリの構築
 
 の順に行う。
 
 == システム要件 ==
-Protocol Buffersおよび!MeCabがインストールされていること。
+* J2SE 1.5以上
+* Protocol Buffersおよび!MeCabがインストールされていること。ただし、!StandardTagger, !ProtobufStandardTaggerを利用しない場合は不要。
 
 == ネイティブライブラリの構築 ==
+※このステップは、!StandardTagger, !ProtobufStandardTaggerを利用しない場合はスキップしてもよい
+
 配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
 
 添付のmakefileは、WindowsではMicrosoft Visual Studio、LinuxではgccをC++コンパイラとして仮定している。異なるコンパイラを用いる場合は適宜修正すること。また、インクルードディレクトリや!MeCabのライブラリの場所も必要に応じて編集すること。
