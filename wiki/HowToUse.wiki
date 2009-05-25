@@ -9,7 +9,7 @@
 APIリファレンスは、ソースパッケージに同梱。
 
 == 単体で使用する ==
- * Taggerクラスをインスタンス化し、parseを呼び出す。
+ * !StandardTaggerクラスをインスタンス化し、parseを呼び出す。
 {{{
 import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.StandardTagger;
