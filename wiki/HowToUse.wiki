@@ -52,7 +52,7 @@ public static void main(String[] args) throws Exception
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
- * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、commons-pool-1.4.jar（!PooledStandardMeCabTokenizer等を利用する場合に必要）、protobuf-java-2.1.0.jar（!LocalProtobufMeCabTokenizerを利用する場合に必要）をコピー。
+ * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、protobuf-java-2.1.0.jar（!LocalProtobufMeCabTokenizerを利用する場合に必要）をコピー。
  * schema.xmlに、!StandardMeCabTokenizerFactory等を用いてフィールドタイプを定義。
 
 {{{
