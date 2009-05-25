@@ -1,6 +1,12 @@
 #summary リリースノート
 #labels Featured
 
+== v1.6 (2009/5/25) ==
+
+  * Solr 1.4向けに、CharStreamに対応した一連のTokenizer, !TokenizerFactoryを追加。
+  * パフォーマンス向上が見られないため、Pooled系のTokenizerを廃止。
+  * senにバッファオーバーフロー防止パッチを当てたものを同梱。
+
 == v1.5 (2009/5/19) ==
 
   * senを用いたTokenizer, Analyzerを追加。
