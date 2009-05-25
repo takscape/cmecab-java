@@ -37,6 +37,11 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
     {
         super();
     }
+    
+    public int getNgram()
+    {
+        return ngram;
+    }
 
     /**
      * パラメータ「ngram」を取る。ngramには、N-gramのNを指定。
