@@ -142,6 +142,7 @@ public class Dictionary {
       ffd.seek(f);
       // 2009-05-23
       // modified to avoid ArrayIndexOutOfBoundsException
+      // cf. http://d.hatena.ne.jp/gnarl/20080912/1221189985 (by gnarl)
       while (ffd.read(b, cnt, 1) != -1 && b[cnt] != (byte) '\0') {
         cnt++;
         if (b.length <= cnt) {
