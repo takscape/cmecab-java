@@ -1,4 +1,4 @@
-CMeCab
+cmecab-java
 
 1. これは何？
 
@@ -34,7 +34,7 @@ etc  - その他もろもろ（senの設定ファイル、TinySegmenterのオリ
 
 3. インストール方法
 
-CMeCabは、以下の二つのパートからなります。
+cmacab-javaは、以下の二つのパートからなります。
  * MeCabとJavaの橋渡しをするネイティブライブラリ
  * ネイティブライブラリを用いて動作するPure Javaライブラリ
 
@@ -52,7 +52,7 @@ Linux上のmakeおよびgccを利用する場合は、以下のコマンドを�
 % make -f Makefile.unix
 
 なお、各Makefile内には、作者のビルド環境におけるJavaおよびMeCabの
-パスが記載されています。必要に応じて、CMECAB_INCLUDE、CMECAB_LIBを
+パスが記載されています。必要に応じて、CMECAB_INCLUDE、CMECAB_LIB等を
 書き換えてください。
 
 ビルドが終了すると、カレントディレクトリに、CMeCab.dll(Windows)、
@@ -87,13 +87,10 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 なお、ビルドおよびテストのため、lib, etcディレクトリに以下のソフトウェアを
 同梱しています。これらのソフトウェアは、それぞれのライセンスに従います。
 
-* Apache Lucene 2.4-dev
+* Apache Lucene 2.9-dev
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
-* Apache Solr 1.3
-   * Apache License 2.0
-   * lib/license/LICENSE-APACHE.txtをご覧ください
-* Apache Commons Pool 1.4
+* Apache Solr 1.4-dev
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
 * Apache Commons Logging 1.1.1
@@ -108,13 +105,15 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 * Protocol Buffers 2.1.0
    * 修正BSDライセンス
    * lib/license/COPYING.txtをご覧ください
-* sen 1.2.2.1
+* sen 1.2.2.1に、バッファオーバーフロー対策パッチを当てたもの
    * GNU Lesser General Public License 2.1
    * lib/license/COPYING-sen.txtをご覧ください
+   * 変更されたソースコードは、etc/sen/srcにあります
 
 6. 連絡先
 
-MeCab、Lucene、Solr本体に関するご質問は、
+MeCab、TinySegmenter、Sen、Protocol Buffers、
+Lucene、Solr本体に関するご質問は、
 それぞれのソフトウェアのメーリングリスト等へどうぞ。
 
 CMeCab自体に関するご質問等は、武田光平 k-tak@void.in までどうぞ。

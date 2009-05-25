@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/commons-pool-1.4.jar"/>
 	<classpathentry kind="lib" path="test/lib/js.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/protobuf-java-2.1.0.jar"/>
