@@ -90,7 +90,7 @@ import java.io.Reader;
  * @author taketa
  * 
  */
-public final class CJKTokenizer2 extends Tokenizer
+public class CJKTokenizer2 extends Tokenizer
 {
     public static final int MAX_WORD_LEN = 255;
 
