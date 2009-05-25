@@ -23,6 +23,7 @@
 package net.java.sen;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import net.java.sen.io.FileAccessor;
 import net.java.sen.io.FileAccessorFactory;
@@ -143,11 +144,10 @@ public class Dictionary {
       // modified to avoid ArrayIndexOutOfBoundsException
       while (ffd.read(b, cnt, 1) != -1 && b[cnt] != (byte) '\0') {
         cnt++;
-        if(b.length <= cnt) {
-          byte new_b[]=new byte[b.length*2];
-          for(int i=0;i<b.length;i++)
-            new_b[i]=b[i];
-            b=new_b;
+        if (b.length <= cnt) {
+          byte new_b[] = new byte[b.length * 2];
+          System.arraycopy(b, 0, new_b, 0, b.length);
+          b = new_b;
         }
       }
       // modification end
