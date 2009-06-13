@@ -1,5 +1,5 @@
-CMECAB_INCLUDE=/I"C:\Program Files\Java\jdk1.6.0_13\include" \
-               /I"C:\Program Files\Java\jdk1.6.0_13\include\win32" \
+CMECAB_INCLUDE=/I"C:\Program Files\Java\jdk1.6.0_14\include" \
+               /I"C:\Program Files\Java\jdk1.6.0_14\include\win32" \
                /I"C:\Program Files\MeCab\sdk" \
                /I"C:\Home\lib\protobuf\include"
 CMECAB_SRC=mecab.cpp messages.pb.cc
