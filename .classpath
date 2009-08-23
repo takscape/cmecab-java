@@ -8,9 +8,9 @@
 	<classpathentry kind="lib" path="lib/protobuf-java-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/sen.jar"/>
-	<classpathentry kind="lib" path="test/lib/apache-solr-core-2009-05-19_08-06-37.jar"/>
 	<classpathentry kind="lib" path="test/lib/lucene-core-2.9-dev.jar"/>
 	<classpathentry kind="lib" path="test/lib/slf4j-api-1.5.5.jar"/>
 	<classpathentry kind="lib" path="test/lib/slf4j-jdk14-1.5.5.jar"/>
+	<classpathentry kind="lib" path="test/lib/apache-solr-core-2009-08-23_08-06-33.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
