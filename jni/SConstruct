@@ -30,7 +30,7 @@ else:
 	
 	libs = ['mecab', 'protobuf']
 
-	ccflags = (['-Wall', '-g', '-O2', '-fPIC'] +
+	ccflags = (['-Wall', '-g', '-O2'] +
 		   ['-I' + item for item in incpath])
 	
 	env.AppendUnique(
