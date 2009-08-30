@@ -42,18 +42,11 @@ cmacab-javaは、以下の二つのパートからなります。
 
 3.1. ネイティブライブラリのインストール
 
-jniディレクトリに移動し、makeを実行してください。
-Windows上のVisual Studioを用いるのであれば、以下のコマンドを実行します。
+jniディレクトリに移動し、sconsを実行してください。
+正しくビルドを完了するためには、protocol buffersおよびsconsが必要です。
 
-% nmake -f Makefile.win
-
-Linux上のmakeおよびgccを利用する場合は、以下のコマンドを実行します。
-
-% make -f Makefile.unix
-
-なお、各Makefile内には、作者のビルド環境におけるJavaおよびMeCabの
-パスが記載されています。必要に応じて、CMECAB_INCLUDE、CMECAB_LIB等を
-書き換えてください。
+なお、SConstructファイル内には、作者のビルド環境におけるJavaおよびMeCabの
+パスが記載されています。必要に応じて書き換えてください。
 
 ビルドが終了すると、カレントディレクトリに、CMeCab.dll(Windows)、
 もしくはlibCMeCab.so(UNIX系)が作成されます。これをOSのパスの通った場所に
