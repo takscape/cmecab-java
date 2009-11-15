@@ -19,7 +19,7 @@ package net.moraleboost.solr;
 import java.io.Reader;
 import java.util.Map;
 
-import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
@@ -58,7 +58,7 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
         }
     }
 
-    public TokenStream create(Reader in)
+    public Tokenizer create(Reader in)
     {
         return new CJKTokenizer2(in, ngram);
     }

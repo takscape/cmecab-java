@@ -23,7 +23,7 @@ import java.util.Map;
 import net.moraleboost.lucene.analysis.ja.LocalProtobufMeCabTokenizer;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
-import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 /**
@@ -79,7 +79,7 @@ public class LocalProtobufMeCabTokenizerFactory extends BaseTokenizerFactory
         }
     }
 
-    public TokenStream create(Reader reader)
+    public Tokenizer create(Reader reader)
     {
         try {
             return new LocalProtobufMeCabTokenizer(reader, mecabArg, maxSize);
