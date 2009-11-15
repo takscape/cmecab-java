@@ -21,7 +21,7 @@ import java.util.Map;
 
 import net.moraleboost.lucene.analysis.ja.TinySegmenterTokenizer;
 
-import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 /**
@@ -45,7 +45,7 @@ public class TinySegmenterTokenizerFactory extends BaseTokenizerFactory
         // 初期化項目なし
     }
     
-    public TokenStream create(Reader in)
+    public Tokenizer create(Reader in)
     {
         return new TinySegmenterTokenizer(in);
     }

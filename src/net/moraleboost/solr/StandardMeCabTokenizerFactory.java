@@ -22,7 +22,7 @@ import java.nio.charset.Charset;
 
 import java.util.Map;
 
-import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
@@ -98,7 +98,7 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
         }
     }
 
-    public TokenStream create(Reader reader)
+    public Tokenizer create(Reader reader)
     {
         try {
             return new StandardMeCabTokenizer(reader, dicCharset, mecabArg, maxSize);

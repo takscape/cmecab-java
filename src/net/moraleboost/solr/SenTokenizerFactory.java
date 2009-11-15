@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
 
-import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
@@ -59,7 +59,7 @@ public class SenTokenizerFactory extends BaseTokenizerFactory
         }
     }
 
-    public TokenStream create(Reader reader)
+    public Tokenizer create(Reader reader)
     {
         try {
             return new SenTokenizer(reader, confFile);
