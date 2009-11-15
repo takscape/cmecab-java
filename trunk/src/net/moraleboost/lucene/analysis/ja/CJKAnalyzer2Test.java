@@ -11,6 +11,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.Version;
 import org.junit.Test;
 
 
@@ -67,7 +68,7 @@ public class CJKAnalyzer2Test
     private void setUpSearcher() throws Exception
     {
         searcher = new IndexSearcher(directory, true);
-        parser = new QueryParser("text", analyzer);
+        parser = new QueryParser(Version.LUCENE_29, "text", analyzer);
         parser.setDefaultOperator(QueryParser.Operator.OR);
     }
     
@@ -81,8 +82,8 @@ public class CJKAnalyzer2Test
 
     private void addField(Document doc, String name, String value)
     {
-        Field field = new Field(name, value, Field.Store.COMPRESS,
-                Field.Index.TOKENIZED, Field.TermVector.YES);
+        Field field = new Field(name, value, Field.Store.YES,
+                Field.Index.ANALYZED, Field.TermVector.YES);
         doc.add(field);
     }
 }

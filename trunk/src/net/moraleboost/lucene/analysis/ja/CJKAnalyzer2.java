@@ -1,5 +1,6 @@
 package net.moraleboost.lucene.analysis.ja;
 
+import java.io.IOException;
 import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -24,5 +25,18 @@ public class CJKAnalyzer2 extends Analyzer
     public TokenStream tokenStream(String fieldName, Reader reader)
     {
         return new CJKTokenizer2(reader, ngram);
+    }
+    
+    public TokenStream reusableTokenStream(String fieldName, Reader reader) throws IOException
+    {
+        CJKTokenizer2 tokenizer = (CJKTokenizer2)getPreviousTokenStream();
+        if (tokenizer == null) {
+            tokenizer = new CJKTokenizer2(reader, ngram);
+            setPreviousTokenStream(tokenizer);
+        } else {
+            tokenizer.reset(reader);
+        }
+
+        return tokenizer;
     }
 }

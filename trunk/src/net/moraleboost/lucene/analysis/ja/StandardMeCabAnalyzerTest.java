@@ -35,6 +35,7 @@ import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.Version;
 
 public class StandardMeCabAnalyzerTest
 {
@@ -71,8 +72,8 @@ public class StandardMeCabAnalyzerTest
 
     private void addField(Document doc, String name, String value)
     {
-        Field field = new Field(name, value, Field.Store.COMPRESS,
-                Field.Index.TOKENIZED, Field.TermVector.YES);
+        Field field = new Field(name, value, Field.Store.YES,
+                Field.Index.ANALYZED, Field.TermVector.YES);
         doc.add(field);
     }
 
@@ -81,7 +82,7 @@ public class StandardMeCabAnalyzerTest
     {
         try {
             // タームベクタを取得
-            IndexReader reader = IndexReader.open(directory);
+            IndexReader reader = IndexReader.open(directory, true);
             Term term = new Term("text", "晴天");
             TermDocs termDocs = reader.termDocs(term);
             if (!termDocs.next()) {
@@ -107,8 +108,8 @@ public class StandardMeCabAnalyzerTest
     public void testSearch()
     {
         try {
-            IndexSearcher searcher = new IndexSearcher(directory);
-            QueryParser parser = new QueryParser("text", analyzer);
+            IndexSearcher searcher = new IndexSearcher(directory, true);
+            QueryParser parser = new QueryParser(Version.LUCENE_29, "text", analyzer);
             parser.setDefaultOperator(QueryParser.Operator.OR);
 
             Query query = parser.parse("本日も晴天");

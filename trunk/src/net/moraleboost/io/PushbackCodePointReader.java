@@ -62,6 +62,11 @@ public class PushbackCodePointReader implements CodePointReader
     {
         return reader.getPosition() - offset;
     }
+    
+    public int getStackSize()
+    {
+        return codepoints.length;
+    }
 
     public int read() throws IOException
     {
@@ -71,6 +76,12 @@ public class PushbackCodePointReader implements CodePointReader
         } else {
             return reader.read();
         }
+    }
+    
+    public void reset()
+    {
+        reader.reset();
+        stackpos = -1;
     }
 
     /**

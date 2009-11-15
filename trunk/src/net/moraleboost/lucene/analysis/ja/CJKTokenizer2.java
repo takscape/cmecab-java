@@ -20,8 +20,11 @@ import net.moraleboost.io.BasicCodePointReader;
 import net.moraleboost.io.CodePointReader;
 import net.moraleboost.io.PushbackCodePointReader;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+import org.apache.lucene.util.AttributeSource;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -254,6 +257,25 @@ public class CJKTokenizer2 extends Tokenizer
             return prevType;
         }
 
+        public String getTokenString()
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i=0; i<tokenLength; ++i) {
+                builder.appendCodePoint(buffer[i].normCodePoint);
+            }
+            return builder.toString();
+        }
+        
+        public int getStartOffset()
+        {
+            return (int)buffer[0].start;
+        }
+        
+        public int getEndOffset()
+        {
+            return (int)buffer[tokenLength-1].end;
+        }
+
         public boolean isComplete()
         {
             return complete;
@@ -453,24 +475,6 @@ public class CJKTokenizer2 extends Tokenizer
                         (int)(charInfo.end - charInfo.start));
             }
         }
-
-        public Token toToken(Token reusableToken)
-        {
-            if (type == null) {
-                return null;
-            } else {
-                StringBuilder builder = new StringBuilder();
-                for (int i=0; i<tokenLength; ++i) {
-                    builder.appendCodePoint(buffer[i].normCodePoint);
-                }
-
-                return reusableToken.reinit(
-                        builder.toString(),
-                        (int)buffer[0].start,
-                        (int)buffer[tokenLength-1].end,
-                        type);
-            }
-        }
     }
 
     /**
@@ -481,6 +485,18 @@ public class CJKTokenizer2 extends Tokenizer
      * 現在解析中のトークンの情報
      */
     private TokenInfo tokenInfo = null;
+    /**
+     * トークンのターム属性
+     */
+    private TermAttribute termAttribute = null;
+    /**
+     * トークンのオフセット属性
+     */
+    private OffsetAttribute offsetAttribute = null;
+    /**
+     * トークンのタイプ属性
+     */
+    private TypeAttribute typeAttribute = null;
     
     public CJKTokenizer2(Reader in)
     {
@@ -490,13 +506,45 @@ public class CJKTokenizer2 extends Tokenizer
     public CJKTokenizer2(Reader in, int ngram)
     {
         super(in);
+        init(in, ngram);
+    }
+    
+    public CJKTokenizer2(AttributeSource source, Reader in)
+    {
+        this(source, in, DEFAULT_NGRAM);
+    }
+    
+    public CJKTokenizer2(AttributeSource source, Reader in, int ngram)
+    {
+        super(source, in);
+        init(in, ngram);
+    }
+    
+    public CJKTokenizer2(AttributeFactory factory, Reader in)
+    {
+        this(factory, in, DEFAULT_NGRAM);
+    }
+    
+    public CJKTokenizer2(AttributeFactory factory, Reader in, int ngram)
+    {
+        super(factory, in);
+        init(in, ngram);
+    }
+    
+    private void init(Reader in, int ngram)
+    {
         pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), ngram);
         assert(ngram > 0);
         tokenInfo = new TokenInfo(ngram);
+        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
+        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
+        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
     }
 
-    public Token next(Token reusableToken) throws IOException
+    public boolean incrementToken() throws IOException
     {
+        clearAttributes();
+        
         do {
             tokenInfo.clear();
             CharInfo charInfo;
@@ -512,20 +560,37 @@ public class CJKTokenizer2 extends Tokenizer
             
             // System.out.println(tokenInfo.toToken());
         } while (tokenInfo.getType() == TOKENTYPE_NULL);
-
-        return tokenInfo.toToken(reusableToken);
-    }
-
-    public static void main(String[] args) throws Exception
-    {
-        java.io.StringReader in = new java.io.StringReader(args[0]);
-        CJKTokenizer2 tokenizer = new CJKTokenizer2(in);
-        Token token = new Token();
-
-        while ((token = tokenizer.next(token)) != null) {
-            System.out.println(Integer.toString(token.startOffset()) + "-"
-                    + Integer.toString(token.endOffset()) + ": "
-                    + token.term());
+        
+        String type = tokenInfo.getType();
+        if (type == null) {
+            return false;
+        } else {
+            String term = tokenInfo.getTokenString();
+            termAttribute.setTermBuffer(term);
+            termAttribute.setTermLength(term.length());
+            offsetAttribute.setOffset(
+                    correctOffset(tokenInfo.getStartOffset()),
+                    correctOffset(tokenInfo.getEndOffset()));
+            typeAttribute.setType(type);
+            return true;
         }
+    }
+    
+    public void end()
+    {
+        int offset = (int)pbinput.getPosition();
+        offsetAttribute.setOffset(offset, offset);
+    }
+    
+    public void reset() throws IOException
+    {
+        super.reset();
+        pbinput.reset();
+    }
+    
+    public void reset(Reader in) throws IOException
+    {
+        super.reset(in);
+        pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), pbinput.getStackSize());
     }
 }

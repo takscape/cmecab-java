@@ -79,6 +79,7 @@ public class BasicCodePointReader implements CodePointReader
 
         if (ci < 0) {
             // end of character stream
+            eos = true;
             return -1;
         } else {
             c = (char)ci;
@@ -115,5 +116,11 @@ public class BasicCodePointReader implements CodePointReader
             // 基本文字。そのまま返す。
             return c;
         }
+    }
+    
+    public void reset()
+    {
+        position = 0;
+        eos = false;
     }
 }

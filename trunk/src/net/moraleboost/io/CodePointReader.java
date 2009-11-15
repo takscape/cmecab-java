@@ -56,4 +56,9 @@ public interface CodePointReader
      * @return Unicodeコードポイント。
      */
     public abstract int read() throws IOException;
+
+    /**
+     * 状態をリセットする。
+     */
+    public abstract void reset();
 }
