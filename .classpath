@@ -5,12 +5,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="test/lib/js.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/protobuf-java-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/sen.jar"/>
 	<classpathentry kind="lib" path="test/lib/slf4j-api-1.5.5.jar"/>
 	<classpathentry kind="lib" path="test/lib/slf4j-jdk14-1.5.5.jar"/>
 	<classpathentry kind="lib" path="test/lib/lucene-core-2.9.1.jar"/>
 	<classpathentry kind="lib" path="test/lib/apache-solr-core-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/protobuf-java-2.2.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
