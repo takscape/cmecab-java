@@ -3,7 +3,7 @@ from os.path import join, abspath
 env = Environment(ENV=os.environ)
 
 if env['PLATFORM'] == 'win32':
-	javahome = r'C:\Program Files\Java\jdk1.6.0_16'
+	javahome = r'C:\Program Files\Java\jdk1.6.0_17'
 
 	incpath = [join(javahome, 'include'),
 		   join(javahome, 'include', 'win32'),
