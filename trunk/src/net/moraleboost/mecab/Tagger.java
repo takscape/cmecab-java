@@ -46,4 +46,14 @@ public interface Tagger
      */
     public abstract Node parse(CharSequence text)
             throws CharacterCodingException, MeCabException;
+
+    /**
+     * 直前に呼び出されたparse()の戻り値を返す。
+     * 
+     * @return 直前に呼び出されたparse()の戻り値
+     * @throws CharacterCodingException
+     * @throws MeCabException
+     */
+    public abstract Node reset()
+            throws CharacterCodingException, MeCabException;
 }

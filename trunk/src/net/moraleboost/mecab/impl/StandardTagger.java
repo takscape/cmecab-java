@@ -126,6 +126,22 @@ public class StandardTagger implements Tagger
 
         return node;
     }
+    
+    public StandardNode reset() throws CharacterCodingException, MeCabException
+    {
+        if (node != null) {
+            node.close();
+            node = null;
+        }
+        
+        long nodehdl = _firstNode(handle);
+        if (nodehdl == 0) {
+            throw new MeCabException("Failed to get first node.");
+        }
+        node = new StandardNode(nodehdl, decoder, encoder);
+        
+        return node;
+    }
 
     /**
      * バージョン文字列を取得する
@@ -142,6 +158,8 @@ public class StandardTagger implements Tagger
     private static native void _destroy(long hdl);
 
     private static native long _parse(long hdl, byte[] str);
+    
+    private static native long _firstNode(long hdl);
 
     private static native byte[] _version();
 }

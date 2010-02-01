@@ -30,6 +30,8 @@ import net.moraleboost.mecab.impl.Messages.ParsingResponse;
  */
 public abstract class ProtobufTagger implements Tagger
 {
+    private ParsingResponse response;
+    
     public ProtobufNode parse(CharSequence text)
     throws MeCabException
     {
@@ -46,10 +48,24 @@ public abstract class ProtobufTagger implements Tagger
         }
 
         try {
-            return new ProtobufNode(parse(req));
+            response = parse(req);
+            return new ProtobufNode(response);
         } catch (Exception e) {
             throw new MeCabException(e);
         }
+    }
+    
+    public ProtobufNode reset() throws MeCabException
+    {
+        if (response == null) {
+            throw new MeCabException("Previous response not found.");
+        }
+        return new ProtobufNode(response);
+    }
+    
+    public void close()
+    {
+        response = null;
     }
     
     protected abstract ParsingResponse parse(ParsingRequest request) throws Exception;

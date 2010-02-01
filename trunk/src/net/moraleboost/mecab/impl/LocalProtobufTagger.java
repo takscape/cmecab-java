@@ -56,6 +56,8 @@ public class LocalProtobufTagger extends ProtobufTagger
 
     public void close()
     {
+        super.close();
+        
         if (handle != 0) {
             _destroy(handle);
             handle = 0;
