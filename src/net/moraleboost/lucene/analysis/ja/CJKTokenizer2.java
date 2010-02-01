@@ -578,7 +578,7 @@ public class CJKTokenizer2 extends Tokenizer
     
     public void end()
     {
-        int offset = (int)pbinput.getPosition();
+        int offset = correctOffset((int)pbinput.getPosition());
         offsetAttribute.setOffset(offset, offset);
     }
     
