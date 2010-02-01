@@ -20,7 +20,9 @@ import java.io.Reader;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.Token;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Node;
@@ -42,11 +44,23 @@ public abstract class MeCabTokenizer extends Tokenizer
 
     private int maxSize = DEFAULT_MAX_SIZE;
 
-    private StringBuilder charSequence = null;
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
     private boolean ownTagger = false;
+
+    /**
+     * トークンのターム属性
+     */
+    private TermAttribute termAttribute = null;
+    /**
+     * トークンのオフセット属性
+     */
+    private OffsetAttribute offsetAttribute = null;
+    /**
+     * トークンのタイプ属性
+     */
+    private TypeAttribute typeAttribute = null;
 
     /**
      * オブジェクトを構築する。
@@ -65,9 +79,12 @@ public abstract class MeCabTokenizer extends Tokenizer
 
         this.maxSize = maxSize;
         
-        charSequence = new StringBuilder(DEFAULT_BUFFER_SIZE);
         this.tagger = tagger;
         this.ownTagger = ownTagger;
+
+        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
+        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
+        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
         
         parse();
     }
@@ -87,14 +104,16 @@ public abstract class MeCabTokenizer extends Tokenizer
 
         super.close();
     }
-
+    
     @Override
-    public Token next(Token reusableToken) throws MeCabException, IOException
+    public boolean incrementToken() throws MeCabException, IOException
     {
         if (node == null || !node.hasNext()) {
-            return null;
+            return false;
         }
 
+        clearAttributes();
+        
         String tokenString = node.nextMorpheme();
         String blankString = node.blank();
         int start;
@@ -110,21 +129,44 @@ public abstract class MeCabTokenizer extends Tokenizer
 
         offset = end;
         
-        return reusableToken.reinit(
-                tokenString,
-                start,
-                end,
-                node.feature());
+        termAttribute.setTermBuffer(tokenString);
+        termAttribute.setTermLength(tokenString.length());
+        offsetAttribute.setOffset(
+                correctOffset(start),
+                correctOffset(end));
+        typeAttribute.setType(node.feature());
+        
+        return true;
+    }
+    
+    public void end()
+    {
+        offsetAttribute.setOffset(offset, offset);
+    }
+    
+    public void reset() throws IOException
+    {
+        offset = 0;
+        node = tagger.reset();
+    }
+    
+    public void reset(Reader in) throws IOException
+    {
+        super.reset(in);
+        offset = 0;
+        input = in;
+        parse();
     }
 
     private void parse() throws MeCabException, IOException
     {
         // drain input
         char[] buffer = new char[DEFAULT_BUFFER_SIZE];
+        StringBuilder builder = new StringBuilder(DEFAULT_BUFFER_SIZE);
         long total = 0;
         int nread = 0;
         while (-1 != (nread = input.read(buffer))) {
-            charSequence.append(buffer, 0, nread);
+            builder.append(buffer, 0, nread);
             total += nread;
             if (total > maxSize) {
                 throw new MeCabException("Max size exceeded.");
@@ -132,6 +174,6 @@ public abstract class MeCabTokenizer extends Tokenizer
         }
 
         // parse
-        node = tagger.parse(charSequence);
+        node = tagger.parse(builder);
     }
 }

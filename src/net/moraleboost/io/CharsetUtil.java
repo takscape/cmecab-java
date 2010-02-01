@@ -108,6 +108,7 @@ public abstract class CharsetUtil
     public static byte[] encode(CharsetEncoder encoder, CharSequence text,
             boolean terminateWithNull) throws CharacterCodingException
     {
+        encoder.reset();
         ByteBuffer buf = encoder.encode(CharBuffer.wrap(text));
         int size = buf.limit();
 
@@ -139,6 +140,7 @@ public abstract class CharsetUtil
     public static String decode(CharsetDecoder decoder, byte[] rawText)
     throws CharacterCodingException
     {
+        decoder.reset();
         CharBuffer buf = decoder.decode(ByteBuffer.wrap(rawText));
         return buf.toString();
     }

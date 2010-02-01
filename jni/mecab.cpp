@@ -75,6 +75,14 @@ JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1parse
     return 0;
 }
 
+JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1firstNode
+  (JNIEnv *, jclass, jlong)
+{
+    TaggerHelper* tagger = hdl2tagger(hdl);
+    const MeCab::Node* node = tagger->firstNode();
+    return node2hdl(node);
+}
+
 JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1version
   (JNIEnv *env, jclass clazz)
 {

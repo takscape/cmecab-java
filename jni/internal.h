@@ -178,6 +178,7 @@ class TaggerHelper
 {
 protected:
     MeCab::Tagger*      tagger_;
+    const MeCab::Node*        firstNode_;
     std::vector<char>   buf_;
 
 public:
@@ -199,12 +200,18 @@ public:
         return tagger_;
     }
 
+    const MeCab::Node* firstNode() const
+    {
+        return firstNode_;
+    }
+
     const MeCab::Node* parse(const char* str, size_t len)
     {
         buf_.resize(len+1);
         std::copy(str, str+len, &buf_[0]);
         buf_[len] = 0;
-        return tagger_->parseToNode(&buf_[0], len);
+        firstNode_ = tagger_->parseToNode(&buf_[0], len);
+        return firstNode_;
     }
 };
 

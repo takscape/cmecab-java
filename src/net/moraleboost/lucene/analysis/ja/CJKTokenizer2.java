@@ -582,15 +582,22 @@ public class CJKTokenizer2 extends Tokenizer
         offsetAttribute.setOffset(offset, offset);
     }
     
+    /**
+     * WARNING: このメソッドは、ベースとなるReaderを巻き戻さない。
+     */
     public void reset() throws IOException
     {
         super.reset();
         pbinput.reset();
+        // 二度呼び出してprevTypeをnullにする。
+        tokenInfo.clear(); tokenInfo.clear();
     }
     
     public void reset(Reader in) throws IOException
     {
         super.reset(in);
         pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), pbinput.getStackSize());
+        // 二度呼び出してprevTypeをnullにする。
+        tokenInfo.clear(); tokenInfo.clear();
     }
 }
