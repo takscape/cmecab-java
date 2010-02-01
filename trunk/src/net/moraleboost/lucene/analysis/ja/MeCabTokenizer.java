@@ -141,7 +141,8 @@ public abstract class MeCabTokenizer extends Tokenizer
     
     public void end()
     {
-        offsetAttribute.setOffset(offset, offset);
+        int finalOffset = correctOffset(offset);
+        offsetAttribute.setOffset(finalOffset, finalOffset);
     }
     
     public void reset() throws IOException
@@ -152,9 +153,9 @@ public abstract class MeCabTokenizer extends Tokenizer
     
     public void reset(Reader in) throws IOException
     {
-        super.reset(in);
+        super.reset(in); // this.input = in;
         offset = 0;
-        input = in;
+        node = null;
         parse();
     }
 

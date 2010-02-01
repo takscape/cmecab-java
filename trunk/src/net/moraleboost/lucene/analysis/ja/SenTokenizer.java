@@ -21,8 +21,10 @@ import java.io.Reader;
 
 import net.java.sen.StreamTagger;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 /**
  * Senを用いて入力を分かち書きするTokenizer。
@@ -35,7 +37,21 @@ import org.apache.lucene.analysis.Tokenizer;
 public class SenTokenizer extends Tokenizer
 {
     private StreamTagger tagger = null;
+    private int lastOffset = 0;
     
+    /**
+     * トークンのターム属性
+     */
+    private TermAttribute termAttribute = null;
+    /**
+     * トークンのオフセット属性
+     */
+    private OffsetAttribute offsetAttribute = null;
+    /**
+     * トークンのタイプ属性
+     */
+    private TypeAttribute typeAttribute = null;
+
     /**
      * SenTokenizerを構築する。
      * 
@@ -47,7 +63,12 @@ public class SenTokenizer extends Tokenizer
     throws IOException
     {
         super(in);
+        
         tagger = new StreamTagger(in, confFile);
+        
+        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
+        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
+        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
     }
     
     @Override
@@ -57,21 +78,36 @@ public class SenTokenizer extends Tokenizer
     }
     
     @Override
-    public Token next(Token reusableToken) throws IOException
+    public boolean incrementToken() throws IOException
     {
         if (!tagger.hasNext()) {
-            return null;
+            return false;
         }
-        
+
+        clearAttributes();
+
         net.java.sen.Token token = tagger.next();
         if (token == null) {
-            return next(reusableToken);
+            return incrementToken();
         }
         
-        return reusableToken.reinit(
-              token.getSurface(),
-              token.start(),
-              token.end(),
-              token.getPos());
+        String tokenString = token.getSurface();
+        termAttribute.setTermBuffer(tokenString);
+        termAttribute.setTermLength(tokenString.length());
+        offsetAttribute.setOffset(
+                correctOffset(token.start()),
+                correctOffset(token.end()));
+        typeAttribute.setType(token.getPos());
+        
+        lastOffset = token.end();
+        
+        return true;
+    }
+
+    @Override
+    public void end()
+    {
+        int finalOffset = correctOffset(lastOffset);
+        offsetAttribute.setOffset(finalOffset, finalOffset);
     }
 }
