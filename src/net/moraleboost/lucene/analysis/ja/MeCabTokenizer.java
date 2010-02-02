@@ -139,18 +139,21 @@ public abstract class MeCabTokenizer extends Tokenizer
         return true;
     }
     
+    @Override
     public void end()
     {
         int finalOffset = correctOffset(offset);
         offsetAttribute.setOffset(finalOffset, finalOffset);
     }
     
+    @Override
     public void reset() throws IOException
     {
         offset = 0;
         node = tagger.reset();
     }
     
+    @Override
     public void reset(Reader in) throws IOException
     {
         super.reset(in); // this.input = in;

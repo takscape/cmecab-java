@@ -576,23 +576,14 @@ public class CJKTokenizer2 extends Tokenizer
         }
     }
     
+    @Override
     public void end()
     {
         int offset = correctOffset((int)pbinput.getPosition());
         offsetAttribute.setOffset(offset, offset);
     }
     
-    /**
-     * WARNING: このメソッドは、ベースとなるReaderを巻き戻さない。
-     */
-    public void reset() throws IOException
-    {
-        super.reset();
-        pbinput.reset();
-        // 二度呼び出してprevTypeをnullにする。
-        tokenInfo.clear(); tokenInfo.clear();
-    }
-    
+    @Override
     public void reset(Reader in) throws IOException
     {
         super.reset(in);
