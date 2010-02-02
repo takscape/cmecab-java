@@ -36,6 +36,7 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
  */
 public class SenTokenizer extends Tokenizer
 {
+    private String confFile = null;
     private StreamTagger tagger = null;
     private int lastOffset = 0;
     
@@ -64,6 +65,7 @@ public class SenTokenizer extends Tokenizer
     {
         super(in);
         
+        this.confFile = confFile;
         tagger = new StreamTagger(in, confFile);
         
         termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
@@ -109,5 +111,13 @@ public class SenTokenizer extends Tokenizer
     {
         int finalOffset = correctOffset(lastOffset);
         offsetAttribute.setOffset(finalOffset, finalOffset);
+    }
+    
+    @Override
+    public void reset(Reader in) throws IOException
+    {
+        super.reset(in);
+        tagger = new StreamTagger(in, confFile);
+        lastOffset = 0;
     }
 }
