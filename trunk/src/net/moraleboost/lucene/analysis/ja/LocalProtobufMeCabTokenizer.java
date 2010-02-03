@@ -69,12 +69,12 @@ public class LocalProtobufMeCabTokenizer extends MeCabTokenizer
     public LocalProtobufMeCabTokenizer(Reader in, String arg, int maxSize)
     throws MeCabException, IOException
     {
-        this(in, new LocalProtobufTagger(arg), true, maxSize);
+        this(in, new LocalProtobufTagger(arg), maxSize);
     }
 
-    public LocalProtobufMeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
+    public LocalProtobufMeCabTokenizer(Reader in, Tagger tagger, int maxSize)
             throws MeCabException, IOException
     {
-        super(in, tagger, ownTagger, maxSize);
+        super(in, tagger, maxSize);
     }
 }

@@ -36,7 +36,7 @@ public class TinySegmenterTest
         
         TinySegmenter segmenter = new TinySegmenter(cpreader);
         
-        String[] tokens = {
+        String[] terms = {
                 "本日",
                 "は",
                 "晴天",
@@ -44,7 +44,7 @@ public class TinySegmenterTest
                 "。"
         };
         
-        int[][] positions = {
+        int[][] offsets = {
                 {0, 2},
                 {2, 3},
                 {3, 5},
@@ -55,13 +55,13 @@ public class TinySegmenterTest
         TinySegmenter.Token token = null;
         int i = 0;
         while ((token = segmenter.next()) != null) {
-            assertEquals(tokens[i], token.str);
-            assertEquals(positions[i][0], token.start);
-            assertEquals(positions[i][1], token.end);
+            assertEquals(terms[i], token.str);
+            assertEquals(offsets[i][0], token.start);
+            assertEquals(offsets[i][1], token.end);
             ++i;
         }
         
-        assertEquals(tokens.length, i);
+        assertEquals(terms.length, i);
     }
     
     @Test
@@ -97,6 +97,9 @@ public class TinySegmenterTest
                 break;
             }
         }
+        
+        assertNull(token);
+        assertNull(token2);
     }
     
     @Test
@@ -122,7 +125,7 @@ public class TinySegmenterTest
         
         TinySegmenter segmenter = new TinySegmenter(cpreader, 1024, 2);
 
-        String[] tokens = {
+        String[] terms = {
                 "一日",
                 "作",
                 "さざ",
@@ -136,7 +139,7 @@ public class TinySegmenterTest
                 "。"
         };
         
-        int[][] positions = {
+        int[][] offsets = {
                 {0, 2},
                 {2, 3},
                 {3, 5},
@@ -153,12 +156,12 @@ public class TinySegmenterTest
         TinySegmenter.Token token = null;
         int i = 0;
         while ((token = segmenter.next()) != null) {
-            assertEquals(tokens[i], token.str);
-            assertEquals(positions[i][0], token.start);
-            assertEquals(positions[i][1], token.end);
+            assertEquals(terms[i], token.str);
+            assertEquals(offsets[i][0], token.start);
+            assertEquals(offsets[i][1], token.end);
             ++i;
         }
         
-        assertEquals(tokens.length, i);
+        assertEquals(terms.length, i);
     }
 }

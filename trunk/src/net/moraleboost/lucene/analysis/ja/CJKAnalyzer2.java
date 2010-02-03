@@ -28,7 +28,8 @@ public class CJKAnalyzer2 extends Analyzer
     }
     
     @Override
-    public TokenStream reusableTokenStream(String fieldName, Reader reader) throws IOException
+    public TokenStream reusableTokenStream(String fieldName, Reader reader)
+    throws IOException
     {
         CJKTokenizer2 tokenizer = (CJKTokenizer2)getPreviousTokenStream();
         if (tokenizer == null) {

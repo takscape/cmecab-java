@@ -85,4 +85,46 @@ public class StandardMeCabAnalyzer extends Analyzer
             throw new MeCabTokenizerException(e);
         }
     }
+    
+    @Override
+    public TokenStream reusableTokenStream(String fieldName, Reader reader)
+    throws IOException
+    {
+        TokenStreamInfo info = (TokenStreamInfo)getPreviousTokenStream();
+        
+        if (info == null) {
+            info = new TokenStreamInfo();
+            
+            StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, dicCharset, mecabArg);
+            info.tokenizer = tokenizer;
+            
+            if (stopPatterns != null) {
+                FeatureRegexFilter filter =
+                    new FeatureRegexFilter(tokenizer, stopPatterns);
+                info.filter = filter;
+            }
+            
+            setPreviousTokenStream(info);
+        } else {
+            if (info.filter != null) {
+                info.filter.reset();
+            }
+            if (info.tokenizer != null) {
+                info.tokenizer.reset(reader);
+            }
+        }
+
+        if (info.filter != null) {
+            return info.filter;
+        } else {
+            return info.tokenizer;
+        }
+    }
+    
+    private static class TokenStreamInfo
+    {
+        public StandardMeCabTokenizer tokenizer;
+        public FeatureRegexFilter filter;
+    }
 }

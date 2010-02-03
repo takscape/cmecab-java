@@ -61,12 +61,12 @@ public class StandardMeCabTokenizer extends MeCabTokenizer
     public StandardMeCabTokenizer(Reader in, String dicCharset, String arg, int maxSize)
     throws MeCabException, IOException
     {
-        this(in, new StandardTagger(dicCharset, arg), true, maxSize);
+        this(in, new StandardTagger(dicCharset, arg), maxSize);
     }
     
-    public StandardMeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
+    public StandardMeCabTokenizer(Reader in, Tagger tagger, int maxSize)
     throws MeCabException, IOException
     {
-        super(in, tagger, ownTagger, maxSize);
+        super(in, tagger, maxSize);
     }
 }
