@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="CMeCab" default="dist" basedir=".">
+<project name="cmecab-java" default="dist" basedir=".">
 	<description>
 		Yet Another Java Binding for MeCab.
 	</description>
