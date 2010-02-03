@@ -18,7 +18,6 @@ package net.moraleboost.solr;
 
 import static org.junit.Assert.fail;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.junit.Test;
 
@@ -45,8 +44,7 @@ public class StandardMeCabTokenizerFactoryTest
         StringReader reader = new StringReader("本日は晴天なり。");
         TokenStream stream = factory.create(reader);
 
-        Token token = new Token();
-        if (stream.next(token) == null) {
+        if (!stream.incrementToken()) {
             fail("No token.");
         }
     }

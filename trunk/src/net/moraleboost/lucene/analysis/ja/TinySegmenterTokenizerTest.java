@@ -16,11 +16,10 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import static org.junit.Assert.*;
+import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
 
 import java.io.StringReader;
 
-import org.apache.lucene.analysis.Token;
 import org.junit.Test;
 
 public class TinySegmenterTokenizerTest
@@ -34,7 +33,7 @@ public class TinySegmenterTokenizerTest
         
         TinySegmenterTokenizer tokenizer = new TinySegmenterTokenizer(reader);
         
-        String[] tokens = {
+        String[] terms = {
                 "本日",
                 "は",
                 "晴天",
@@ -42,22 +41,14 @@ public class TinySegmenterTokenizerTest
                 "。"
         };
         
-        int[][] positions = {
+        int[][] offsets = {
                 {0, 2},
                 {2, 3},
                 {3, 5},
                 {5, 7},
                 {7, 8}
         };
-
-        Token token = new Token();
-        int i = 0;
-        while ((token = tokenizer.next(token)) != null) {
-            assertEquals(tokens[i], token.term());
-            assertEquals(positions[i][0], token.startOffset());
-            assertEquals(positions[i][1], token.endOffset());
-            ++i;
-        }
-        assertEquals(tokens.length, i);
+        
+        compareTokens(tokenizer, terms, offsets);
     }
 }

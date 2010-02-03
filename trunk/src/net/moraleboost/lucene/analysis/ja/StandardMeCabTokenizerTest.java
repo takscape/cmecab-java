@@ -16,11 +16,10 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import static org.junit.Assert.*;
+import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
 
 import java.io.StringReader;
 
-import org.apache.lucene.analysis.Token;
 import org.junit.Test;
 
 public class StandardMeCabTokenizerTest
@@ -36,7 +35,7 @@ public class StandardMeCabTokenizerTest
         StringReader reader = new StringReader(str);
         StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
 
-        String[] tokens = {
+        String[] terms = {
                 "好物",
                 "は",
                 "\uD867\uDE3D",
@@ -51,17 +50,8 @@ public class StandardMeCabTokenizerTest
                 { 5, 7 }, // です
                 { 7, 8 }  // 。
         };
-
-        Token token = new Token();
-        int i = 0;
-        while ((token = tokenizer.next(token)) != null) {
-            assertEquals(tokens[i], token.term());
-            assertEquals(offsets[i][0], token.startOffset());
-            assertEquals(offsets[i][1], token.endOffset());
-            ++i;
-        }
-
-        assertEquals(tokens.length, i);
+        
+        compareTokens(tokenizer, terms, offsets);
     }
 
     @Test
@@ -71,7 +61,7 @@ public class StandardMeCabTokenizerTest
         StringReader reader = new StringReader(str);
         StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
 
-        String[] tokens = {
+        String[] terms = {
                 "本日",
                 "は",
                 "晴天",
@@ -91,17 +81,7 @@ public class StandardMeCabTokenizerTest
                 // ここにLFのオフセット1charが入る
                 { 13, 14 } // 。
         };
-
-        Token token = new Token();
-        int i = 0;
-        while ((token = tokenizer.next(token)) != null) {
-            assertEquals(tokens[i], token.term());
-            assertEquals(offsets[i][0], token.startOffset());
-            assertEquals(offsets[i][1], token.endOffset());
-            System.out.println(token.type());
-            ++i;
-        }
-
-        assertEquals(tokens.length, i);
+        
+        compareTokens(tokenizer, terms, offsets);
     }
 }
