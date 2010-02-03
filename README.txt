@@ -70,7 +70,7 @@ http://code.google.com/p/cmecab-java/wiki/HowToUse
 
 5. ライセンス
 
-CMeCab本体はパブリックドメインとします。
+cmecab-java本体はパブリックドメインとします。
 
 ただし、TinySegmenter.java、TinySegmenterConstants.javaについては、
 TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
@@ -80,10 +80,10 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 なお、ビルドおよびテストのため、lib, etcディレクトリに以下のソフトウェアを
 同梱しています。これらのソフトウェアは、それぞれのライセンスに従います。
 
-* Apache Lucene 2.9-dev
+* Apache Lucene 2.9.1
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
-* Apache Solr 1.4-dev
+* Apache Solr 1.4
    * Apache License 2.0
    * lib/license/LICENSE-APACHE.txtをご覧ください
 * Apache Commons Logging 1.1.1
@@ -95,7 +95,7 @@ TinySegmenter (http://chasen.org/~taku/software/TinySegmenter/)の
 * TinySegmenter 0.1
    * 修正BSDライセンス
    * lib/license/LICENSE-TinySegmenter.txtをご覧ください
-* Protocol Buffers 2.1.0
+* Protocol Buffers 2.3.0
    * 修正BSDライセンス
    * lib/license/COPYING.txtをご覧ください
 * sen 1.2.2.1に、バッファオーバーフロー対策パッチを当てたもの
@@ -109,5 +109,5 @@ MeCab、TinySegmenter、Sen、Protocol Buffers、
 Lucene、Solr本体に関するご質問は、
 それぞれのソフトウェアのメーリングリスト等へどうぞ。
 
-CMeCab自体に関するご質問等は、武田光平 k-tak@void.in までどうぞ。
+cmecab-java自体に関するご質問等は、武田光平 k-tak@void.in までどうぞ。
 
