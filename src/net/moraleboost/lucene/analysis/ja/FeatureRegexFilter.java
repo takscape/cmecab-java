@@ -20,14 +20,24 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 public class FeatureRegexFilter extends TokenFilter
 {
     private Pattern[] patterns = null;
     private Matcher[] matchers = null;
+
+    /**
+     * トークンのタイプ属性
+     */
+    private TypeAttribute typeAttribute = null;
+    /**
+     * トークンの位置増加分属性
+     */
+    private PositionIncrementAttribute posIncAttribute = null;
 
     /**
      * typeが指定したパターンに合致するtokenをふるい落とすフィルタを構築する。
@@ -42,6 +52,8 @@ public class FeatureRegexFilter extends TokenFilter
     {
         super(input);
         buildPatterns(stopPatterns);
+        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
+        posIncAttribute = (PositionIncrementAttribute)addAttribute(PositionIncrementAttribute.class);
     }
 
     private void buildPatterns(String[] stopPatterns)
@@ -62,9 +74,8 @@ public class FeatureRegexFilter extends TokenFilter
      *            トークン
      * @return いずれかのパターンにマッチすればtrue。全くマッチしなければfalse。
      */
-    private boolean match(Token token)
+    private boolean match(String feature)
     {
-        String feature = token.type();
         Matcher m = null;
         
         for (int i = 0; i < matchers.length; ++i) {
@@ -84,17 +95,19 @@ public class FeatureRegexFilter extends TokenFilter
         return false;
     }
 
-    public Token next(Token reusableToken) throws IOException
+    @Override
+    public boolean incrementToken() throws IOException
     {
-        Token token = input.next(reusableToken);
-
-        while (token != null) {
-            if (!match(token)) {
-                break;
+        int skippedPositions = 0;
+        while (input.incrementToken()) {
+            if (!match(typeAttribute.type())) {
+                posIncAttribute.setPositionIncrement(
+                        posIncAttribute.getPositionIncrement() + skippedPositions);
+                return true;
             }
-            token = input.next(reusableToken);
+            skippedPositions += posIncAttribute.getPositionIncrement();
         }
-
-        return token;
+        
+        return false;
     }
 }

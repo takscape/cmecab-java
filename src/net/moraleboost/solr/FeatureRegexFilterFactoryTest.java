@@ -18,8 +18,8 @@ package net.moraleboost.solr;
 
 import static org.junit.Assert.fail;
 
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -61,10 +61,11 @@ public class FeatureRegexFilterFactoryTest
         factory.init(args);
 
         TokenStream stream = factory.create(tokenizer);
-        Token token = new Token();
-        while ((token = stream.next(token)) != null) {
-            String termText = token.term();
-            System.out.println("token: " + termText);
+        TermAttribute termAttr =
+            (TermAttribute)stream.getAttribute(TermAttribute.class);
+        while (stream.incrementToken()) {
+            String termText = termAttr.term();
+            //System.out.println("token: " + termText);
             if (termText.equals("は") || termText.equals("なり")) {
                 fail("Filter not working.");
             }
