@@ -61,7 +61,7 @@ public class SenAnalyzer extends Analyzer
     public TokenStream tokenStream(String fieldName, Reader reader)
     {
         try {
-            TokenStream stream = new SenTokenizer(reader, this.confFile);
+            TokenStream stream = new SenTokenizer(reader, confFile);
 
             if (stopPatterns != null) {
                 stream = new FeatureRegexFilter(stream, stopPatterns);
@@ -71,5 +71,46 @@ public class SenAnalyzer extends Analyzer
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }
+    }
+    
+    @Override
+    public TokenStream reusableTokenStream(String fieldName, Reader reader)
+    throws IOException
+    {
+        TokenStreamInfo info = (TokenStreamInfo)getPreviousTokenStream();
+        
+        if (info == null) {
+            info = new TokenStreamInfo();
+            
+            SenTokenizer tokenizer = new SenTokenizer(reader, confFile);
+            info.tokenizer = tokenizer;
+            
+            if (stopPatterns != null) {
+                FeatureRegexFilter filter =
+                    new FeatureRegexFilter(tokenizer, stopPatterns);
+                info.filter = filter;
+            }
+            
+            setPreviousTokenStream(info);
+        } else {
+            if (info.filter != null) {
+                info.filter.reset();
+            }
+            if (info.tokenizer != null) {
+                info.tokenizer.reset(reader);
+            }
+        }
+
+        if (info.filter != null) {
+            return info.filter;
+        } else {
+            return info.tokenizer;
+        }
+    }
+
+    private static class TokenStreamInfo
+    {
+        public SenTokenizer tokenizer;
+        public FeatureRegexFilter filter;
     }
 }

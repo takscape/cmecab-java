@@ -110,4 +110,10 @@ public class FeatureRegexFilter extends TokenFilter
         
         return false;
     }
+    
+    public void reset() throws IOException
+    {
+        super.reset();
+        clearAttributes();
+    }
 }

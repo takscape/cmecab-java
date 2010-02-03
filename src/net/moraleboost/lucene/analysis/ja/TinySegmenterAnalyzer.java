@@ -6,39 +6,32 @@ import java.io.Reader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
-public class CJKAnalyzer2 extends Analyzer
+public class TinySegmenterAnalyzer extends Analyzer
 {
-    private int ngram = CJKTokenizer2.DEFAULT_NGRAM;
-
-    public CJKAnalyzer2()
+    public TinySegmenterAnalyzer()
     {
         super();
-    }
-
-    public CJKAnalyzer2(int ngram)
-    {
-        super();
-        this.ngram = ngram;
     }
 
     @Override
     public TokenStream tokenStream(String fieldName, Reader reader)
     {
-        return new CJKTokenizer2(reader, ngram);
+        return new TinySegmenterTokenizer(reader);
     }
     
     @Override
     public TokenStream reusableTokenStream(String fieldName, Reader reader)
     throws IOException
     {
-        CJKTokenizer2 tokenizer = (CJKTokenizer2)getPreviousTokenStream();
+        TinySegmenterTokenizer tokenizer =
+            (TinySegmenterTokenizer)getPreviousTokenStream();
         if (tokenizer == null) {
-            tokenizer = new CJKTokenizer2(reader, ngram);
+            tokenizer = new TinySegmenterTokenizer(reader);
             setPreviousTokenStream(tokenizer);
         } else {
             tokenizer.reset(reader);
         }
-
+        
         return tokenizer;
     }
 }

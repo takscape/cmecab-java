@@ -178,11 +178,12 @@ class TaggerHelper
 {
 protected:
     MeCab::Tagger*      tagger_;
-    const MeCab::Node*        firstNode_;
+    const MeCab::Node*  firstNode_;
     std::vector<char>   buf_;
 
 public:
     TaggerHelper(const char* arg)
+        : firstNode_(0)
     {
         tagger_ = MeCab::createTagger(arg);
         if (!tagger_) {

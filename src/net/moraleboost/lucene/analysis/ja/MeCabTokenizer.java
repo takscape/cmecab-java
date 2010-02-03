@@ -47,7 +47,6 @@ public abstract class MeCabTokenizer extends Tokenizer
     private Tagger tagger = null;
     private Node node = null;
     private int offset = 0;
-    private boolean ownTagger = false;
 
     /**
      * トークンのターム属性
@@ -67,12 +66,12 @@ public abstract class MeCabTokenizer extends Tokenizer
      * 
      * @param in 入力
      * @param tagger 形態素解析器
-     * @param ownTagger trueを指定すると、close()時にTaggerを閉じる。falseを指定すると、閉じない。
+     * @param ownTagger trueを指定すると、finalize()時にTaggerを閉じる。falseを指定すると、閉じない。
      * @param maxSize 入力から読み込む最大文字数(in chars)
      * @throws MeCabException
      * @throws IOException
      */
-    protected MeCabTokenizer(Reader in, Tagger tagger, boolean ownTagger, int maxSize)
+    protected MeCabTokenizer(Reader in, Tagger tagger, int maxSize)
     throws MeCabException, IOException
     {
         super(in);
@@ -80,7 +79,6 @@ public abstract class MeCabTokenizer extends Tokenizer
         this.maxSize = maxSize;
         
         this.tagger = tagger;
-        this.ownTagger = ownTagger;
 
         termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
         offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
@@ -92,17 +90,6 @@ public abstract class MeCabTokenizer extends Tokenizer
     protected Tagger getTagger()
     {
         return tagger;
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-        if (ownTagger && tagger != null) {
-            tagger.close();
-        }
-        node = null;
-
-        super.close();
     }
     
     @Override
