@@ -6,6 +6,7 @@ import java.io.Reader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
+// TODO: This should be derived from ReusableAnalyzerBase in the future.
 public class CJKAnalyzer2 extends Analyzer
 {
     private int ngram = CJKTokenizer2.DEFAULT_NGRAM;
