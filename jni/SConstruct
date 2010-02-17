@@ -2,6 +2,12 @@ import os
 from os.path import join, abspath
 env = Environment(ENV=os.environ)
 
+if len(COMMAND_LINE_TARGETS) > 0:
+	target = COMMAND_LINE_TARGETS[0].upper()
+else:
+	target = 'ALL'
+
+
 if env['PLATFORM'] == 'win32':
 	javahome = r'C:\Program Files\Java\jdk1.6.0_18'
 
@@ -37,30 +43,55 @@ else:
 		CCFLAGS=ccflags,
 		LIBS=libs)
 
-# javah
-classdir = join('..', 'bin', 'classes')
-impldir = join(classdir, 'net', 'moraleboost', 'mecab', 'impl')
-env.JavaH(
-	target='.',
-	source=[join(impldir, 'StandardTagger.class'),
-		join(impldir, 'StandardNode.class'),
-		join(impldir, 'LocalProtobufTagger.class')],
-	JAVACLASSDIR=classdir)
 
-# protoc
-protopath = abspath(join('..', 'etc', 'protobuf'))
-env.Command(['messages.pb.cc', 'messages.pb.h'],
-	    join(protopath, 'messages.proto'),
-	    ('protoc --cpp_out=. --java_out=' + join('..', 'src') +
-	     ' "--proto_path=' + protopath + '" ${SOURCE}'))
+# javah
+def do_javah():
+	classdir = join('..', 'bin', 'classes')
+	impldir = join(classdir, 'net', 'moraleboost', 'mecab', 'impl')
+	return env.JavaH(
+		target='.',
+		source=[join(impldir, 'StandardTagger.class'),
+				join(impldir, 'StandardNode.class'),
+				join(impldir, 'LocalProtobufTagger.class')],
+		JAVACLASSDIR=classdir)
+
+# protoc (C++ & Java)
+def do_protoc():
+	protopath = abspath(join('..', 'etc', 'protobuf'))
+	return env.Command(
+		['messages.pb.cc', 'messages.pb.h'],
+		join(protopath, 'messages.proto'),
+		('protoc --cpp_out=. --java_out=' + join('..', 'src') +
+		' "--proto_path=' + protopath + '" ${SOURCE}'))
 
 # shared library
-slib = env.SharedLibrary('CMeCab', ['mecab.cpp', 'messages.pb.cc'])
+def do_build_library():
+	return env.SharedLibrary('CMeCab', ['mecab.cpp'])
 
-# embed manifest
+# shared library (with protobuf)
+def do_build_library_with_protobuf():
+	return env.SharedLibrary(
+		'CMeCab_protobuf',
+		['mecab_protobuf.cpp', 'messages.pb.cc'])
+
+# manifest (Windows only)
+def do_embed_manifest(shared_lib, dll_name):
+	Clean(shared_lib, dll_name + '.dll.manifest')
+	return env.Command(
+		'Manifest' + dll_name + ".dll", shared_lib,
+		('mt.exe -manifest ${SOURCE}.manifest ' +
+		'-outputresource:${SOURCE};2 -nologo'))
+
+
+# build script
+do_javah()
+do_protoc()
+shared_lib = do_build_library()
+shared_lib_protobuf = do_build_library_with_protobuf()
+
 if env['PLATFORM'] == 'win32':
-	Clean(slib, 'CMeCab.dll.manifest')
-	env.Command('Dummy.dll', 'CMeCab.dll',
-		    ('mt.exe -manifest ${SOURCE}.manifest ' +
-		     '-outputresource:${SOURCE};2 -nologo'))
+	Default(do_embed_manifest(shared_lib, 'CMeCab'),
+			do_embed_manifest(shared_lib_protobuf, 'CMeCab_protobuf'))
+else:
+	Default(shared_lib, shared_lib_protobuf)
 

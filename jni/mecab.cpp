@@ -17,8 +17,6 @@
 #include "internal.h"
 #include "net_moraleboost_mecab_impl_StandardTagger.h"
 #include "net_moraleboost_mecab_impl_StandardNode.h"
-#include "net_moraleboost_mecab_impl_LocalProtobufTagger.h"
-#include "messages.pb.h"
 #include <iostream>
 
 
@@ -30,26 +28,13 @@ extern "C" {
 JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1create
   (JNIEnv *env, jclass clazz, jbyteArray arg)
 {
-    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
-
-    try {
-        std::string argstr = byteArrayToString(env, arg);
-        TaggerHelper* tagger = new TaggerHelper(argstr.c_str());
-        return tagger2hdl(tagger);
-    } catch (std::bad_alloc&) {
-        env->ThrowNew(oomError, "Can't allocate a tagger.");
-    } catch (...) {}
-
-    return 0;
+    return createTagger(env, clazz, arg);
 }
 
 JNIEXPORT void JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1destroy
   (JNIEnv *env, jclass clazz, jlong hdl)
 {
-    try {
-        TaggerHelper* tagger = hdl2tagger(hdl);
-        delete tagger;
-    } catch (...) {}
+    destroyTagger(env, clazz, hdl);
 }
 
 JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1parse
@@ -86,18 +71,7 @@ JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1firstNo
 JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_StandardTagger__1version
   (JNIEnv *env, jclass clazz)
 {
-    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
-    DECLARE_CLASS(mecabException, env, CLASS_MECAB_EXCEPTION, 0);
-
-    try {
-        return stringToByteArray(env, mecab_version());
-    } catch (std::bad_alloc&) {
-        env->ThrowNew(oomError, "Can't get version.");
-    } catch (...) {
-        env->ThrowNew(mecabException, "Can't get version.");
-    }
-
-    return 0;
+    return version(env, clazz);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -198,81 +172,6 @@ JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_StandardNode__1next
     }
 
     return 0;
-}
-
-////////////////////////////////////////////////////////////////////
-// net.moraleboost.mecab.impl.LocalProtobufTagger
-////////////////////////////////////////////////////////////////////
-JNIEXPORT jlong JNICALL Java_net_moraleboost_mecab_impl_LocalProtobufTagger__1create
-  (JNIEnv *env, jclass clazz, jbyteArray arg)
-{
-    return Java_net_moraleboost_mecab_impl_StandardTagger__1create(env, clazz, arg);
-}
-
-JNIEXPORT void JNICALL Java_net_moraleboost_mecab_impl_LocalProtobufTagger__1destroy
-  (JNIEnv *env, jclass clazz, jlong arg)
-{
-    Java_net_moraleboost_mecab_impl_StandardTagger__1destroy(env, clazz, arg);
-}
-
-JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_LocalProtobufTagger__1parse
-  (JNIEnv *env, jclass clazz, jlong hdl, jbyteArray requestdata)
-{
-    using namespace net::moraleboost::mecab::impl;
-
-    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
-    DECLARE_CLASS(mecabException, env, CLASS_MECAB_EXCEPTION, 0);
-
-    ByteArrayHelper helper(env, requestdata, true);
-    ParsingRequest request;
-
-    try {
-        if (!request.ParseFromArray(helper.ptr(), helper.length())) {
-            // failed to parse protobuf message
-            env->ThrowNew(mecabException, "Can't parse ParsingRequest.");
-        } else {
-            ParsingResponse response;
-            ParsingResponse_Morpheme* morpheme;
-
-            std::string text = request.text();
-            TaggerHelper* tagger = hdl2tagger(hdl);
-            const MeCab::Node* node = tagger->parse(text.c_str(), text.length());
-            node = node->next;
-            while (node && node->stat != MECAB_EOS_NODE) {
-                morpheme = response.add_morpheme();
-                morpheme->set_surface(node->surface, (size_t)(node->length));
-                if (node->length != node->rlength) {
-                    size_t blanklen = (size_t)(node->rlength - node->length);
-                    morpheme->set_blank(node->surface - blanklen, blanklen);
-                }
-                morpheme->set_feature(node->feature);
-                morpheme->set_posid(node->posid);
-
-                node = node->next;
-            }
-
-            std::string out;
-            if (!response.SerializeToString(&out)) {
-                env->ThrowNew(mecabException, "Can't write ParsingResponse."); 
-            } else {
-                return stringToByteArray(env, out);
-            }
-        }
-    } catch (ArrayException&) {
-        env->ThrowNew(mecabException, "Can't access array elements.");
-    } catch (std::bad_alloc&) {
-        env->ThrowNew(oomError, "Can't parse text.");
-    } catch (...) {
-        // unknown error
-    }
-
-    return 0;
-}
-
-JNIEXPORT jbyteArray JNICALL Java_net_moraleboost_mecab_impl_LocalProtobufTagger__1version
-  (JNIEnv *env, jclass clazz)
-{
-    return Java_net_moraleboost_mecab_impl_StandardTagger__1version(env, clazz);
 }
 
 } // end of extern "C"

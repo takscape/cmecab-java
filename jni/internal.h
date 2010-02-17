@@ -280,4 +280,43 @@ inline jbyteArray stringToByteArray(JNIEnv* env, const char* p, size_t len)
     return helper.array();
 }
 
+inline jlong createTagger(JNIEnv* env, jclass clazz, jbyteArray arg)
+{
+    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
+
+    try {
+        std::string argstr = byteArrayToString(env, arg);
+        TaggerHelper* tagger = new TaggerHelper(argstr.c_str());
+        return tagger2hdl(tagger);
+    } catch (std::bad_alloc&) {
+        env->ThrowNew(oomError, "Can't allocate a tagger.");
+    } catch (...) {}
+
+    return 0;
+}
+
+inline void destroyTagger(JNIEnv* env, jclass clazz, jlong hdl)
+{
+    try {
+        TaggerHelper* tagger = hdl2tagger(hdl);
+        delete tagger;
+    } catch (...) {}
+}
+
+inline jbyteArray version(JNIEnv *env, jclass clazz)
+{
+    DECLARE_CLASS(oomError, env, CLASS_OUT_OF_MEMORY_ERROR, 0);
+    DECLARE_CLASS(mecabException, env, CLASS_MECAB_EXCEPTION, 0);
+
+    try {
+        return stringToByteArray(env, mecab_version());
+    } catch (std::bad_alloc&) {
+        env->ThrowNew(oomError, "Can't get version.");
+    } catch (...) {
+        env->ThrowNew(mecabException, "Can't get version.");
+    }
+
+    return 0;
+}
+
 #endif
