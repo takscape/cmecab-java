@@ -29,7 +29,7 @@ import net.moraleboost.mecab.impl.Messages.ParsingResponse;
 public class LocalProtobufTagger extends ProtobufTagger
 {
     static {
-        System.loadLibrary("CMeCab");
+        System.loadLibrary("CMeCab_protobuf");
     }
 
     private long handle = 0;
