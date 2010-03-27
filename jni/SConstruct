@@ -29,11 +29,16 @@ if env['PLATFORM'] == 'win32':
 		LIBPATH=libpath,
 		LIBS=libs)
 else:
-	javahome = '/usr/lib/jvm/java-6-sun'
+	if env['PLATFORM'] == 'sunos5':
+		javahome = '/usr/java'
+		incpath = [join(javahome, 'include'),
+			   join(javahome, 'include', 'solaris')]
+	else:
+		javahome = '/usr/lib/jvm/java-6-sun'
+		incpath = [join(javahome, 'include'),
+			   join(javahome, 'include', 'linux')]
 
-	incpath = [join(javahome, 'include'),
-		   join(javahome, 'include', 'linux')]
-	
+	libpath = ['/usr/lib', '/usr/local/lib']
 	libs = ['mecab', 'protobuf']
 
 	ccflags = (['-Wall', '-g', '-O2'] +
@@ -41,6 +46,7 @@ else:
 	
 	env.AppendUnique(
 		CCFLAGS=ccflags,
+		LIBPATH=libpath,
 		LIBS=libs)
 
 
