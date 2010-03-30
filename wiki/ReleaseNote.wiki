@@ -1,6 +1,11 @@
 #summary リリースノート
 #labels Featured
 
+== v1.7 (2010/3/27) ==
+  * Lucene2.9+/Solr 1.4に本対応。
+  * ネイティブライブラリのビルドツールを、sconsに変更。
+  * ネイティブライブラリを、Protocol Buffersに依存する部分と、しない部分に分割。Protocol Buffersがインストールされていなくても、ビルド可能になった。
+
 == v1.6 (2009/5/25) ==
 
   * Solr 1.4向けに、!CharStreamに対応した一連のTokenizer, !TokenizerFactoryを追加。
