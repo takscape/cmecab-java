@@ -10,22 +10,36 @@
 
 == システム要件 ==
  * J2SE 1.5以上
- * Protocol Buffersおよび!MeCabがインストールされていること。ただし、!StandardTagger, !ProtobufStandardTaggerを利用しない場合は不要。
+ * Apache Ant
+ * !MeCabおよびそのSDKがインストールされていること（ただし、!StandardTagger, !LocalProtobufTaggerを利用しない場合は不要）
+ * Protocol BuffersおよびそのSDKがインストールされていること（ただし、!LocalProtobufTaggerを利用しない場合は不要）
+ * scons（ネイティブライブラリの構築にのみ利用）
 
 == ネイティブライブラリの構築 ==
 ※このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい
 
-配布アーカイブのjniディレクトリに移動し、make。Windowsの場合はmakefile.win、UNIX系の場合はmakefile.unixを用いる。
+配布アーカイブのjniディレクトリに移動し、sconsを実行。
 
-添付のmakefileは、WindowsではMicrosoft Visual Studio、LinuxではgccをC++コンパイラとして仮定している。異なるコンパイラを用いる場合は適宜修正すること。また、インクルードディレクトリや!MeCabのライブラリの場所も必要に応じて編集すること。
+インクルードディレクトリや!MeCabのライブラリの場所が標準と異なる場合は、SConstructファイルを編集すること。
 
-Windowsでの例
 {{{
 cd jni
-nmake -f makefile.win
+scons
 }}}
 
-ビルドが完了すると、同ディレクトリにCMeCab.dll（Windowsの場合）もしくはlibCMeCab.so（UNIX系の場合）が作成されているはず。これをJavaのライブラリパス(プロパティjava.library.pathで指定されているパス）の通った場所に置く。
+ビルドが完了すると、同ディレクトリにCMeCab.dllおよびCMeCab_protobuf.dll（Windowsの場合）もしくはlibCMeCab.soおよびlibCMeCab_protobuf.so（UNIX系の場合）が作成されているはず。これをJavaのライブラリパス(プロパティjava.library.pathで指定されているパス）の通った場所に置く。
+
+なお、CMeCab.dllのみをビルドしたい場合、以下を実行すること。
+
+Windowsの場合
+{{{
+scons ManifestCMeCab.dll
+}}}
+
+それ以外のOSの場合
+{{{
+scons libCMeCab.so
+}}}
 
 == Javaライブラリの構築 ==
 配布アーカイブのルートディレクトリでantを実行。
@@ -33,16 +47,16 @@ nmake -f makefile.win
 成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
 
 == 実行テスト ==
-!StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。Windowsにおいて、!MeCabをC:\Program Files\!MeCabにインストールし、またcmecab-java-1.6-i386.zipの内容を、c:\に展開したと想定している。
+!StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。Windowsにおいて、!MeCabをC:\Program Files\!MeCabにインストールし、またcmecab-java-1.7-i386.zipの内容を、c:\に展開したと想定している。
 
 {{{
 set PATH=C:\Program Files\MeCab\bin;%PATH%
-java -Djava.library.path=C:\cmecab-java-1.6\bin -cp c:\cmecab-java-1.6\bin\cmecab-1.6.jar;c:\cmecab-java-1.6\lib\protobuf-java-2.1.0.jar  net.moraleboost.mecab.impl.StandardTagger UTF-8 本日は晴天なり。
+java -Djava.library.path=C:\cmecab-java-1.7\bin -cp c:\cmecab-java-1.7\bin\cmecab-1.7.jar;c:\cmecab-java-1.7\lib\protobuf-java-2.3.0.jar  net.moraleboost.mecab.impl.StandardTagger UTF-8 本日は晴天なり。
 }}}
 
 !StandardTaggerの第一引数には、!MeCabの辞書の文字コード（上の例ではUTF-8）、第二引数には解析対象文字列（上の例では「本日は晴天なり。」）を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
 {{{
-MeCab version: 0.97
+MeCab version: 0.98
 
 Original text: 本日は晴天なり。
 
