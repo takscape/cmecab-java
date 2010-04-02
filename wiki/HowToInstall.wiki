@@ -3,8 +3,8 @@
 
 = インストール方法 =
 
- 1. ネイティブライブラリの構築（このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい）
  1. Javaライブラリの構築
+ 1. ネイティブライブラリの構築（このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい）
 
 の順に行う。
 
@@ -14,6 +14,11 @@
  * !MeCabおよびそのSDKがインストールされていること（ただし、!StandardTagger, !LocalProtobufTaggerを利用しない場合は不要）
  * Protocol BuffersおよびそのSDKがインストールされていること（ただし、!LocalProtobufTaggerを利用しない場合は不要）
  * scons（ネイティブライブラリの構築にのみ利用）
+
+== Javaライブラリの構築 ==
+配布アーカイブのルートディレクトリでantを実行。
+
+成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
 
 == ネイティブライブラリの構築 ==
 ※このステップは、!StandardTagger, !LocalProtobufTaggerを利用しない場合はスキップしてもよい
@@ -40,11 +45,6 @@ scons ManifestCMeCab.dll
 {{{
 scons libCMeCab.so
 }}}
-
-== Javaライブラリの構築 ==
-配布アーカイブのルートディレクトリでantを実行。
-
-成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
 
 == 実行テスト ==
 !StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。Windowsにおいて、!MeCabをC:\Program Files\!MeCabにインストールし、またcmecab-java-1.7-i386.zipの内容を、c:\に展開したと想定している。
