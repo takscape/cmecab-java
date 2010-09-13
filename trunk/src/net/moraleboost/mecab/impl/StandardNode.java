@@ -32,7 +32,6 @@ import net.moraleboost.mecab.Node;
 public class StandardNode implements Node
 {
     private CharsetDecoder decoder = null;
-    @SuppressWarnings("unused")
     private CharsetEncoder encoder = null;
     private long prevHandle = 0;
     private long handle = 0;
