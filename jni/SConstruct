@@ -1,23 +1,49 @@
+# -*- coding: utf-8 -*-
 import os
 from os.path import join, abspath
 env = Environment(ENV=os.environ)
+javahome = None
+mecabhome = None
+protobufhome = None
+nomanifest = False
+
+# $JAVA_HOME/include and $JAVA_HOME/include/(platform) are added to include path.
+if 'JAVA_HOME' in os.environ:
+	javahome = os.environ['JAVA_HOME']
+
+# $MECAB_HOME/sdk is added to include path and library path on Windows platforms.
+if 'MECAB_HOME' in os.environ:
+	mecabhome = os.environ['MECAB_HOME']
+
+# $PROTOBUF_HOME/include is added to include path.
+# $PROTOBUF_HOME/lib is added to library path.
+if 'PROTOBUF_HOME' in os.environ:
+	protobufhome = os.environ['PROTOBUF_HOME']
+
+# If set, skip manifest embedding on Windows platforms.
+if 'NO_MANIFEST' in os.environ:
+	nomanifest = True
 
 if len(COMMAND_LINE_TARGETS) > 0:
 	target = COMMAND_LINE_TARGETS[0].upper()
 else:
 	target = 'ALL'
 
-
 if env['PLATFORM'] == 'win32':
-	javahome = r'C:\Program Files\Java\jdk1.6.0_18'
+	if javahome == None or javahome == '':
+		javahome = r'C:\Program Files\Java\jdk1.6.0_21'
+	if mecabhome == None or mecabhome == '':
+		mecabhome = r'C:\Program Files\MeCab'
+	if protobufhome == None or protobufhome == '':
+		protobufhome = r'C:\Home\lib\protobuf'
 
 	incpath = [join(javahome, 'include'),
 		   join(javahome, 'include', 'win32'),
-		   r'C:\Program Files\MeCab\sdk',
-		   r'C:\Home\lib\protobuf\include']
+		   join(mecabhome, 'sdk'),
+		   join(protobufhome, 'include')]
 	
-	libpath = [r'C:\Program Files\MeCab\sdk',
-		   r'C:\Home\lib\protobuf\lib']
+	libpath = [join(mecabhome, 'sdk'),
+		   join(protobufhome, 'lib')]
 	
 	libs = ['libmecab', 'libprotobuf']
 
@@ -29,16 +55,25 @@ if env['PLATFORM'] == 'win32':
 		LIBPATH=libpath,
 		LIBS=libs)
 else:
+	if mecabhome == None or mecabhome == '':
+		mecabhome = r'/usr/local'
+	if protobufhome == None or protobufhome == '':
+		protobufhome = r'/usr/local'
+	
+	incpath = ['/usr/include', '/usr/local/include', join(mecabhome, 'include'), join(protobufhome, 'include')]
+	libpath = ['/usr/lib', '/usr/local/lib', join(mecabhome, 'lib'), join(protobufhome, 'lib')]
+	
 	if env['PLATFORM'] == 'sunos':
-		javahome = '/usr/java'
-		incpath = [join(javahome, 'include'),
-			   join(javahome, 'include', 'solaris')]
+		if javahome == None or javahome == '':
+			javahome = r'/usr/java'
+		incpath.append(join(javahome, 'include'))
+		incpath.append(join(javahome, 'include', 'solaris'))
 	else:
-		javahome = '/usr/lib/jvm/java-6-sun'
-		incpath = [join(javahome, 'include'),
-			   join(javahome, 'include', 'linux')]
+		if javahome == None or javahome == '':
+			javahome = '/usr/lib/jvm/java-6-sun'
+		incpath.append(join(javahome, 'include'))
+		incpath.append(join(javahome, 'include', 'linux'))
 
-	libpath = ['/usr/lib', '/usr/local/lib']
 	libs = ['mecab', 'protobuf']
 
 	ccflags = (['-Wall', '-g', '-O2'] +
@@ -95,7 +130,7 @@ do_protoc()
 shared_lib = do_build_library()
 shared_lib_protobuf = do_build_library_with_protobuf()
 
-if env['PLATFORM'] == 'win32':
+if env['PLATFORM'] == 'win32' and not nomanifest:
 	Default(do_embed_manifest(shared_lib, 'CMeCab'),
 			do_embed_manifest(shared_lib_protobuf, 'CMeCab_protobuf'))
 else:
