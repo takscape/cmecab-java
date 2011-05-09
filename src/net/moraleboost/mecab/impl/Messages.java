@@ -8,11 +8,19 @@ public final class Messages {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public interface ParsingRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required string text = 1;
+    boolean hasText();
+    String getText();
+  }
   public static final class ParsingRequest extends
-      com.google.protobuf.GeneratedMessage {
+      com.google.protobuf.GeneratedMessage
+      implements ParsingRequestOrBuilder {
     // Use ParsingRequest.newBuilder() to construct.
-    private ParsingRequest() {
-      initFields();
+    private ParsingRequest(Builder builder) {
+      super(builder);
     }
     private ParsingRequest(boolean noInit) {}
     
@@ -35,25 +43,60 @@ public final class Messages {
       return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingRequest_fieldAccessorTable;
     }
     
+    private int bitField0_;
     // required string text = 1;
     public static final int TEXT_FIELD_NUMBER = 1;
-    private boolean hasText;
-    private java.lang.String text_ = "";
-    public boolean hasText() { return hasText; }
-    public java.lang.String getText() { return text_; }
+    private java.lang.Object text_;
+    public boolean hasText() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public String getText() {
+      java.lang.Object ref = text_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          text_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getTextBytes() {
+      java.lang.Object ref = text_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        text_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
     
     private void initFields() {
+      text_ = "";
     }
+    private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
-      if (!hasText) return false;
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasText()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
       return true;
     }
     
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (hasText()) {
-        output.writeString(1, getText());
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getTextBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -64,13 +107,20 @@ public final class Messages {
       if (size != -1) return size;
     
       size = 0;
-      if (hasText()) {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeStringSize(1, getText());
+          .computeBytesSize(1, getTextBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
     
     public static net.moraleboost.mecab.impl.Messages.ParsingRequest parseFrom(
@@ -147,34 +197,51 @@ public final class Messages {
     }
     public Builder toBuilder() { return newBuilder(this); }
     
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> {
-      private net.moraleboost.mecab.impl.Messages.ParsingRequest result;
-      
-      // Construct using net.moraleboost.mecab.impl.Messages.ParsingRequest.newBuilder()
-      private Builder() {}
-      
-      private static Builder create() {
-        Builder builder = new Builder();
-        builder.result = new net.moraleboost.mecab.impl.Messages.ParsingRequest();
-        return builder;
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements net.moraleboost.mecab.impl.Messages.ParsingRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingRequest_descriptor;
       }
       
-      protected net.moraleboost.mecab.impl.Messages.ParsingRequest internalGetResult() {
-        return result;
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingRequest_fieldAccessorTable;
+      }
+      
+      // Construct using net.moraleboost.mecab.impl.Messages.ParsingRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
       }
       
       public Builder clear() {
-        if (result == null) {
-          throw new IllegalStateException(
-            "Cannot call clear() after build().");
-        }
-        result = new net.moraleboost.mecab.impl.Messages.ParsingRequest();
+        super.clear();
+        text_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       
       public Builder clone() {
-        return create().mergeFrom(result);
+        return create().mergeFrom(buildPartial());
       }
       
       public com.google.protobuf.Descriptors.Descriptor
@@ -186,33 +253,35 @@ public final class Messages {
         return net.moraleboost.mecab.impl.Messages.ParsingRequest.getDefaultInstance();
       }
       
-      public boolean isInitialized() {
-        return result.isInitialized();
-      }
       public net.moraleboost.mecab.impl.Messages.ParsingRequest build() {
-        if (result != null && !isInitialized()) {
+        net.moraleboost.mecab.impl.Messages.ParsingRequest result = buildPartial();
+        if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
-        return buildPartial();
+        return result;
       }
       
       private net.moraleboost.mecab.impl.Messages.ParsingRequest buildParsed()
           throws com.google.protobuf.InvalidProtocolBufferException {
-        if (!isInitialized()) {
+        net.moraleboost.mecab.impl.Messages.ParsingRequest result = buildPartial();
+        if (!result.isInitialized()) {
           throw newUninitializedMessageException(
             result).asInvalidProtocolBufferException();
         }
-        return buildPartial();
+        return result;
       }
       
       public net.moraleboost.mecab.impl.Messages.ParsingRequest buildPartial() {
-        if (result == null) {
-          throw new IllegalStateException(
-            "build() has already been called on this Builder.");
+        net.moraleboost.mecab.impl.Messages.ParsingRequest result = new net.moraleboost.mecab.impl.Messages.ParsingRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
         }
-        net.moraleboost.mecab.impl.Messages.ParsingRequest returnMe = result;
-        result = null;
-        return returnMe;
+        result.text_ = text_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
       }
       
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -233,6 +302,14 @@ public final class Messages {
         return this;
       }
       
+      public final boolean isInitialized() {
+        if (!hasText()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -245,43 +322,62 @@ public final class Messages {
           switch (tag) {
             case 0:
               this.setUnknownFields(unknownFields.build());
+              onChanged();
               return this;
             default: {
               if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 this.setUnknownFields(unknownFields.build());
+                onChanged();
                 return this;
               }
               break;
             }
             case 10: {
-              setText(input.readString());
+              bitField0_ |= 0x00000001;
+              text_ = input.readBytes();
               break;
             }
           }
         }
       }
       
+      private int bitField0_;
       
       // required string text = 1;
+      private java.lang.Object text_ = "";
       public boolean hasText() {
-        return result.hasText();
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-      public java.lang.String getText() {
-        return result.getText();
+      public String getText() {
+        java.lang.Object ref = text_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          text_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
       }
-      public Builder setText(java.lang.String value) {
+      public Builder setText(String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  result.hasText = true;
-        result.text_ = value;
+  bitField0_ |= 0x00000001;
+        text_ = value;
+        onChanged();
         return this;
       }
       public Builder clearText() {
-        result.hasText = false;
-        result.text_ = getDefaultInstance().getText();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        text_ = getDefaultInstance().getText();
+        onChanged();
         return this;
+      }
+      void setText(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000001;
+        text_ = value;
+        onChanged();
       }
       
       // @@protoc_insertion_point(builder_scope:net.moraleboost.mecab.impl.ParsingRequest)
@@ -289,18 +385,31 @@ public final class Messages {
     
     static {
       defaultInstance = new ParsingRequest(true);
-      net.moraleboost.mecab.impl.Messages.internalForceInit();
       defaultInstance.initFields();
     }
     
     // @@protoc_insertion_point(class_scope:net.moraleboost.mecab.impl.ParsingRequest)
   }
   
+  public interface ParsingResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // repeated .net.moraleboost.mecab.impl.ParsingResponse.Morpheme morpheme = 1;
+    java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> 
+        getMorphemeList();
+    net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme getMorpheme(int index);
+    int getMorphemeCount();
+    java.util.List<? extends net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder> 
+        getMorphemeOrBuilderList();
+    net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder getMorphemeOrBuilder(
+        int index);
+  }
   public static final class ParsingResponse extends
-      com.google.protobuf.GeneratedMessage {
+      com.google.protobuf.GeneratedMessage
+      implements ParsingResponseOrBuilder {
     // Use ParsingResponse.newBuilder() to construct.
-    private ParsingResponse() {
-      initFields();
+    private ParsingResponse(Builder builder) {
+      super(builder);
     }
     private ParsingResponse(boolean noInit) {}
     
@@ -323,11 +432,31 @@ public final class Messages {
       return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_fieldAccessorTable;
     }
     
+    public interface MorphemeOrBuilder
+        extends com.google.protobuf.MessageOrBuilder {
+      
+      // required string surface = 1;
+      boolean hasSurface();
+      String getSurface();
+      
+      // optional string blank = 2;
+      boolean hasBlank();
+      String getBlank();
+      
+      // required string feature = 3;
+      boolean hasFeature();
+      String getFeature();
+      
+      // required uint32 posid = 4;
+      boolean hasPosid();
+      int getPosid();
+    }
     public static final class Morpheme extends
-        com.google.protobuf.GeneratedMessage {
+        com.google.protobuf.GeneratedMessage
+        implements MorphemeOrBuilder {
       // Use Morpheme.newBuilder() to construct.
-      private Morpheme() {
-        initFields();
+      private Morpheme(Builder builder) {
+        super(builder);
       }
       private Morpheme(boolean noInit) {}
       
@@ -350,57 +479,154 @@ public final class Messages {
         return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_Morpheme_fieldAccessorTable;
       }
       
+      private int bitField0_;
       // required string surface = 1;
       public static final int SURFACE_FIELD_NUMBER = 1;
-      private boolean hasSurface;
-      private java.lang.String surface_ = "";
-      public boolean hasSurface() { return hasSurface; }
-      public java.lang.String getSurface() { return surface_; }
+      private java.lang.Object surface_;
+      public boolean hasSurface() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public String getSurface() {
+        java.lang.Object ref = surface_;
+        if (ref instanceof String) {
+          return (String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+            surface_ = s;
+          }
+          return s;
+        }
+      }
+      private com.google.protobuf.ByteString getSurfaceBytes() {
+        java.lang.Object ref = surface_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+          surface_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
       
       // optional string blank = 2;
       public static final int BLANK_FIELD_NUMBER = 2;
-      private boolean hasBlank;
-      private java.lang.String blank_ = "";
-      public boolean hasBlank() { return hasBlank; }
-      public java.lang.String getBlank() { return blank_; }
+      private java.lang.Object blank_;
+      public boolean hasBlank() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public String getBlank() {
+        java.lang.Object ref = blank_;
+        if (ref instanceof String) {
+          return (String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+            blank_ = s;
+          }
+          return s;
+        }
+      }
+      private com.google.protobuf.ByteString getBlankBytes() {
+        java.lang.Object ref = blank_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+          blank_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
       
       // required string feature = 3;
       public static final int FEATURE_FIELD_NUMBER = 3;
-      private boolean hasFeature;
-      private java.lang.String feature_ = "";
-      public boolean hasFeature() { return hasFeature; }
-      public java.lang.String getFeature() { return feature_; }
+      private java.lang.Object feature_;
+      public boolean hasFeature() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getFeature() {
+        java.lang.Object ref = feature_;
+        if (ref instanceof String) {
+          return (String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+            feature_ = s;
+          }
+          return s;
+        }
+      }
+      private com.google.protobuf.ByteString getFeatureBytes() {
+        java.lang.Object ref = feature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+          feature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
       
       // required uint32 posid = 4;
       public static final int POSID_FIELD_NUMBER = 4;
-      private boolean hasPosid;
-      private int posid_ = 0;
-      public boolean hasPosid() { return hasPosid; }
-      public int getPosid() { return posid_; }
+      private int posid_;
+      public boolean hasPosid() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public int getPosid() {
+        return posid_;
+      }
       
       private void initFields() {
+        surface_ = "";
+        blank_ = "";
+        feature_ = "";
+        posid_ = 0;
       }
+      private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
-        if (!hasSurface) return false;
-        if (!hasFeature) return false;
-        if (!hasPosid) return false;
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized != -1) return isInitialized == 1;
+        
+        if (!hasSurface()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasFeature()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasPosid()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
         return true;
       }
       
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
-        if (hasSurface()) {
-          output.writeString(1, getSurface());
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeBytes(1, getSurfaceBytes());
         }
-        if (hasBlank()) {
-          output.writeString(2, getBlank());
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeBytes(2, getBlankBytes());
         }
-        if (hasFeature()) {
-          output.writeString(3, getFeature());
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeBytes(3, getFeatureBytes());
         }
-        if (hasPosid()) {
-          output.writeUInt32(4, getPosid());
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeUInt32(4, posid_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -411,25 +637,32 @@ public final class Messages {
         if (size != -1) return size;
       
         size = 0;
-        if (hasSurface()) {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeStringSize(1, getSurface());
+            .computeBytesSize(1, getSurfaceBytes());
         }
-        if (hasBlank()) {
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeStringSize(2, getBlank());
+            .computeBytesSize(2, getBlankBytes());
         }
-        if (hasFeature()) {
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeStringSize(3, getFeature());
+            .computeBytesSize(3, getFeatureBytes());
         }
-        if (hasPosid()) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeUInt32Size(4, getPosid());
+            .computeUInt32Size(4, posid_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
         return size;
+      }
+      
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
       }
       
       public static net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme parseFrom(
@@ -506,34 +739,57 @@ public final class Messages {
       }
       public Builder toBuilder() { return newBuilder(this); }
       
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> {
-        private net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme result;
-        
-        // Construct using net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.newBuilder()
-        private Builder() {}
-        
-        private static Builder create() {
-          Builder builder = new Builder();
-          builder.result = new net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme();
-          return builder;
+          com.google.protobuf.GeneratedMessage.Builder<Builder>
+         implements net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_Morpheme_descriptor;
         }
         
-        protected net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme internalGetResult() {
-          return result;
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_Morpheme_fieldAccessorTable;
+        }
+        
+        // Construct using net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+        
+        private Builder(BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        private static Builder create() {
+          return new Builder();
         }
         
         public Builder clear() {
-          if (result == null) {
-            throw new IllegalStateException(
-              "Cannot call clear() after build().");
-          }
-          result = new net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme();
+          super.clear();
+          surface_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          blank_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          feature_ = "";
+          bitField0_ = (bitField0_ & ~0x00000004);
+          posid_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
           return this;
         }
         
         public Builder clone() {
-          return create().mergeFrom(result);
+          return create().mergeFrom(buildPartial());
         }
         
         public com.google.protobuf.Descriptors.Descriptor
@@ -545,33 +801,47 @@ public final class Messages {
           return net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.getDefaultInstance();
         }
         
-        public boolean isInitialized() {
-          return result.isInitialized();
-        }
         public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme build() {
-          if (result != null && !isInitialized()) {
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme result = buildPartial();
+          if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
-          return buildPartial();
+          return result;
         }
         
         private net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme buildParsed()
             throws com.google.protobuf.InvalidProtocolBufferException {
-          if (!isInitialized()) {
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme result = buildPartial();
+          if (!result.isInitialized()) {
             throw newUninitializedMessageException(
               result).asInvalidProtocolBufferException();
           }
-          return buildPartial();
+          return result;
         }
         
         public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme buildPartial() {
-          if (result == null) {
-            throw new IllegalStateException(
-              "build() has already been called on this Builder.");
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme result = new net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
           }
-          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme returnMe = result;
-          result = null;
-          return returnMe;
+          result.surface_ = surface_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.blank_ = blank_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.feature_ = feature_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.posid_ = posid_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
         }
         
         public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -601,6 +871,22 @@ public final class Messages {
           return this;
         }
         
+        public final boolean isInitialized() {
+          if (!hasSurface()) {
+            
+            return false;
+          }
+          if (!hasFeature()) {
+            
+            return false;
+          }
+          if (!hasPosid()) {
+            
+            return false;
+          }
+          return true;
+        }
+        
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -613,114 +899,169 @@ public final class Messages {
             switch (tag) {
               case 0:
                 this.setUnknownFields(unknownFields.build());
+                onChanged();
                 return this;
               default: {
                 if (!parseUnknownField(input, unknownFields,
                                        extensionRegistry, tag)) {
                   this.setUnknownFields(unknownFields.build());
+                  onChanged();
                   return this;
                 }
                 break;
               }
               case 10: {
-                setSurface(input.readString());
+                bitField0_ |= 0x00000001;
+                surface_ = input.readBytes();
                 break;
               }
               case 18: {
-                setBlank(input.readString());
+                bitField0_ |= 0x00000002;
+                blank_ = input.readBytes();
                 break;
               }
               case 26: {
-                setFeature(input.readString());
+                bitField0_ |= 0x00000004;
+                feature_ = input.readBytes();
                 break;
               }
               case 32: {
-                setPosid(input.readUInt32());
+                bitField0_ |= 0x00000008;
+                posid_ = input.readUInt32();
                 break;
               }
             }
           }
         }
         
+        private int bitField0_;
         
         // required string surface = 1;
+        private java.lang.Object surface_ = "";
         public boolean hasSurface() {
-          return result.hasSurface();
+          return ((bitField0_ & 0x00000001) == 0x00000001);
         }
-        public java.lang.String getSurface() {
-          return result.getSurface();
+        public String getSurface() {
+          java.lang.Object ref = surface_;
+          if (!(ref instanceof String)) {
+            String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+            surface_ = s;
+            return s;
+          } else {
+            return (String) ref;
+          }
         }
-        public Builder setSurface(java.lang.String value) {
+        public Builder setSurface(String value) {
           if (value == null) {
     throw new NullPointerException();
   }
-  result.hasSurface = true;
-          result.surface_ = value;
+  bitField0_ |= 0x00000001;
+          surface_ = value;
+          onChanged();
           return this;
         }
         public Builder clearSurface() {
-          result.hasSurface = false;
-          result.surface_ = getDefaultInstance().getSurface();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          surface_ = getDefaultInstance().getSurface();
+          onChanged();
           return this;
+        }
+        void setSurface(com.google.protobuf.ByteString value) {
+          bitField0_ |= 0x00000001;
+          surface_ = value;
+          onChanged();
         }
         
         // optional string blank = 2;
+        private java.lang.Object blank_ = "";
         public boolean hasBlank() {
-          return result.hasBlank();
+          return ((bitField0_ & 0x00000002) == 0x00000002);
         }
-        public java.lang.String getBlank() {
-          return result.getBlank();
+        public String getBlank() {
+          java.lang.Object ref = blank_;
+          if (!(ref instanceof String)) {
+            String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+            blank_ = s;
+            return s;
+          } else {
+            return (String) ref;
+          }
         }
-        public Builder setBlank(java.lang.String value) {
+        public Builder setBlank(String value) {
           if (value == null) {
     throw new NullPointerException();
   }
-  result.hasBlank = true;
-          result.blank_ = value;
+  bitField0_ |= 0x00000002;
+          blank_ = value;
+          onChanged();
           return this;
         }
         public Builder clearBlank() {
-          result.hasBlank = false;
-          result.blank_ = getDefaultInstance().getBlank();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          blank_ = getDefaultInstance().getBlank();
+          onChanged();
           return this;
+        }
+        void setBlank(com.google.protobuf.ByteString value) {
+          bitField0_ |= 0x00000002;
+          blank_ = value;
+          onChanged();
         }
         
         // required string feature = 3;
+        private java.lang.Object feature_ = "";
         public boolean hasFeature() {
-          return result.hasFeature();
+          return ((bitField0_ & 0x00000004) == 0x00000004);
         }
-        public java.lang.String getFeature() {
-          return result.getFeature();
+        public String getFeature() {
+          java.lang.Object ref = feature_;
+          if (!(ref instanceof String)) {
+            String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+            feature_ = s;
+            return s;
+          } else {
+            return (String) ref;
+          }
         }
-        public Builder setFeature(java.lang.String value) {
+        public Builder setFeature(String value) {
           if (value == null) {
     throw new NullPointerException();
   }
-  result.hasFeature = true;
-          result.feature_ = value;
+  bitField0_ |= 0x00000004;
+          feature_ = value;
+          onChanged();
           return this;
         }
         public Builder clearFeature() {
-          result.hasFeature = false;
-          result.feature_ = getDefaultInstance().getFeature();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          feature_ = getDefaultInstance().getFeature();
+          onChanged();
           return this;
+        }
+        void setFeature(com.google.protobuf.ByteString value) {
+          bitField0_ |= 0x00000004;
+          feature_ = value;
+          onChanged();
         }
         
         // required uint32 posid = 4;
+        private int posid_ ;
         public boolean hasPosid() {
-          return result.hasPosid();
+          return ((bitField0_ & 0x00000008) == 0x00000008);
         }
         public int getPosid() {
-          return result.getPosid();
+          return posid_;
         }
         public Builder setPosid(int value) {
-          result.hasPosid = true;
-          result.posid_ = value;
+          bitField0_ |= 0x00000008;
+          posid_ = value;
+          onChanged();
           return this;
         }
         public Builder clearPosid() {
-          result.hasPosid = false;
-          result.posid_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          posid_ = 0;
+          onChanged();
           return this;
         }
         
@@ -729,7 +1070,6 @@ public final class Messages {
       
       static {
         defaultInstance = new Morpheme(true);
-        net.moraleboost.mecab.impl.Messages.internalForceInit();
         defaultInstance.initFields();
       }
       
@@ -738,30 +1078,48 @@ public final class Messages {
     
     // repeated .net.moraleboost.mecab.impl.ParsingResponse.Morpheme morpheme = 1;
     public static final int MORPHEME_FIELD_NUMBER = 1;
-    private java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> morpheme_ =
-      java.util.Collections.emptyList();
+    private java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> morpheme_;
     public java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> getMorphemeList() {
       return morpheme_;
     }
-    public int getMorphemeCount() { return morpheme_.size(); }
+    public java.util.List<? extends net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder> 
+        getMorphemeOrBuilderList() {
+      return morpheme_;
+    }
+    public int getMorphemeCount() {
+      return morpheme_.size();
+    }
     public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme getMorpheme(int index) {
+      return morpheme_.get(index);
+    }
+    public net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder getMorphemeOrBuilder(
+        int index) {
       return morpheme_.get(index);
     }
     
     private void initFields() {
+      morpheme_ = java.util.Collections.emptyList();
     }
+    private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
-      for (net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme element : getMorphemeList()) {
-        if (!element.isInitialized()) return false;
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      for (int i = 0; i < getMorphemeCount(); i++) {
+        if (!getMorpheme(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
+      memoizedIsInitialized = 1;
       return true;
     }
     
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme element : getMorphemeList()) {
-        output.writeMessage(1, element);
+      for (int i = 0; i < morpheme_.size(); i++) {
+        output.writeMessage(1, morpheme_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -772,13 +1130,20 @@ public final class Messages {
       if (size != -1) return size;
     
       size = 0;
-      for (net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme element : getMorphemeList()) {
+      for (int i = 0; i < morpheme_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, element);
+          .computeMessageSize(1, morpheme_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
     }
     
     public static net.moraleboost.mecab.impl.Messages.ParsingResponse parseFrom(
@@ -855,34 +1220,56 @@ public final class Messages {
     }
     public Builder toBuilder() { return newBuilder(this); }
     
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> {
-      private net.moraleboost.mecab.impl.Messages.ParsingResponse result;
-      
-      // Construct using net.moraleboost.mecab.impl.Messages.ParsingResponse.newBuilder()
-      private Builder() {}
-      
-      private static Builder create() {
-        Builder builder = new Builder();
-        builder.result = new net.moraleboost.mecab.impl.Messages.ParsingResponse();
-        return builder;
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements net.moraleboost.mecab.impl.Messages.ParsingResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_descriptor;
       }
       
-      protected net.moraleboost.mecab.impl.Messages.ParsingResponse internalGetResult() {
-        return result;
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.moraleboost.mecab.impl.Messages.internal_static_net_moraleboost_mecab_impl_ParsingResponse_fieldAccessorTable;
+      }
+      
+      // Construct using net.moraleboost.mecab.impl.Messages.ParsingResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMorphemeFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
       }
       
       public Builder clear() {
-        if (result == null) {
-          throw new IllegalStateException(
-            "Cannot call clear() after build().");
+        super.clear();
+        if (morphemeBuilder_ == null) {
+          morpheme_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          morphemeBuilder_.clear();
         }
-        result = new net.moraleboost.mecab.impl.Messages.ParsingResponse();
         return this;
       }
       
       public Builder clone() {
-        return create().mergeFrom(result);
+        return create().mergeFrom(buildPartial());
       }
       
       public com.google.protobuf.Descriptors.Descriptor
@@ -894,37 +1281,38 @@ public final class Messages {
         return net.moraleboost.mecab.impl.Messages.ParsingResponse.getDefaultInstance();
       }
       
-      public boolean isInitialized() {
-        return result.isInitialized();
-      }
       public net.moraleboost.mecab.impl.Messages.ParsingResponse build() {
-        if (result != null && !isInitialized()) {
+        net.moraleboost.mecab.impl.Messages.ParsingResponse result = buildPartial();
+        if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
-        return buildPartial();
+        return result;
       }
       
       private net.moraleboost.mecab.impl.Messages.ParsingResponse buildParsed()
           throws com.google.protobuf.InvalidProtocolBufferException {
-        if (!isInitialized()) {
+        net.moraleboost.mecab.impl.Messages.ParsingResponse result = buildPartial();
+        if (!result.isInitialized()) {
           throw newUninitializedMessageException(
             result).asInvalidProtocolBufferException();
         }
-        return buildPartial();
+        return result;
       }
       
       public net.moraleboost.mecab.impl.Messages.ParsingResponse buildPartial() {
-        if (result == null) {
-          throw new IllegalStateException(
-            "build() has already been called on this Builder.");
+        net.moraleboost.mecab.impl.Messages.ParsingResponse result = new net.moraleboost.mecab.impl.Messages.ParsingResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (morphemeBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            morpheme_ = java.util.Collections.unmodifiableList(morpheme_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.morpheme_ = morpheme_;
+        } else {
+          result.morpheme_ = morphemeBuilder_.build();
         }
-        if (result.morpheme_ != java.util.Collections.EMPTY_LIST) {
-          result.morpheme_ =
-            java.util.Collections.unmodifiableList(result.morpheme_);
-        }
-        net.moraleboost.mecab.impl.Messages.ParsingResponse returnMe = result;
-        result = null;
-        return returnMe;
+        onBuilt();
+        return result;
       }
       
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -938,14 +1326,44 @@ public final class Messages {
       
       public Builder mergeFrom(net.moraleboost.mecab.impl.Messages.ParsingResponse other) {
         if (other == net.moraleboost.mecab.impl.Messages.ParsingResponse.getDefaultInstance()) return this;
-        if (!other.morpheme_.isEmpty()) {
-          if (result.morpheme_.isEmpty()) {
-            result.morpheme_ = new java.util.ArrayList<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme>();
+        if (morphemeBuilder_ == null) {
+          if (!other.morpheme_.isEmpty()) {
+            if (morpheme_.isEmpty()) {
+              morpheme_ = other.morpheme_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureMorphemeIsMutable();
+              morpheme_.addAll(other.morpheme_);
+            }
+            onChanged();
           }
-          result.morpheme_.addAll(other.morpheme_);
+        } else {
+          if (!other.morpheme_.isEmpty()) {
+            if (morphemeBuilder_.isEmpty()) {
+              morphemeBuilder_.dispose();
+              morphemeBuilder_ = null;
+              morpheme_ = other.morpheme_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              morphemeBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMorphemeFieldBuilder() : null;
+            } else {
+              morphemeBuilder_.addAllMessages(other.morpheme_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
+      }
+      
+      public final boolean isInitialized() {
+        for (int i = 0; i < getMorphemeCount(); i++) {
+          if (!getMorpheme(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
       }
       
       public Builder mergeFrom(
@@ -960,11 +1378,13 @@ public final class Messages {
           switch (tag) {
             case 0:
               this.setUnknownFields(unknownFields.build());
+              onChanged();
               return this;
             default: {
               if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 this.setUnknownFields(unknownFields.build());
+                onChanged();
                 return this;
               }
               break;
@@ -979,56 +1399,192 @@ public final class Messages {
         }
       }
       
+      private int bitField0_;
       
       // repeated .net.moraleboost.mecab.impl.ParsingResponse.Morpheme morpheme = 1;
+      private java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> morpheme_ =
+        java.util.Collections.emptyList();
+      private void ensureMorphemeIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          morpheme_ = new java.util.ArrayList<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme>(morpheme_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder, net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder> morphemeBuilder_;
+      
       public java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> getMorphemeList() {
-        return java.util.Collections.unmodifiableList(result.morpheme_);
+        if (morphemeBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(morpheme_);
+        } else {
+          return morphemeBuilder_.getMessageList();
+        }
       }
       public int getMorphemeCount() {
-        return result.getMorphemeCount();
+        if (morphemeBuilder_ == null) {
+          return morpheme_.size();
+        } else {
+          return morphemeBuilder_.getCount();
+        }
       }
       public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme getMorpheme(int index) {
-        return result.getMorpheme(index);
-      }
-      public Builder setMorpheme(int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (morphemeBuilder_ == null) {
+          return morpheme_.get(index);
+        } else {
+          return morphemeBuilder_.getMessage(index);
         }
-        result.morpheme_.set(index, value);
+      }
+      public Builder setMorpheme(
+          int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme value) {
+        if (morphemeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMorphemeIsMutable();
+          morpheme_.set(index, value);
+          onChanged();
+        } else {
+          morphemeBuilder_.setMessage(index, value);
+        }
         return this;
       }
-      public Builder setMorpheme(int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder builderForValue) {
-        result.morpheme_.set(index, builderForValue.build());
+      public Builder setMorpheme(
+          int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder builderForValue) {
+        if (morphemeBuilder_ == null) {
+          ensureMorphemeIsMutable();
+          morpheme_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          morphemeBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       public Builder addMorpheme(net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme value) {
-        if (value == null) {
-          throw new NullPointerException();
+        if (morphemeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMorphemeIsMutable();
+          morpheme_.add(value);
+          onChanged();
+        } else {
+          morphemeBuilder_.addMessage(value);
         }
-        if (result.morpheme_.isEmpty()) {
-          result.morpheme_ = new java.util.ArrayList<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme>();
-        }
-        result.morpheme_.add(value);
         return this;
       }
-      public Builder addMorpheme(net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder builderForValue) {
-        if (result.morpheme_.isEmpty()) {
-          result.morpheme_ = new java.util.ArrayList<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme>();
+      public Builder addMorpheme(
+          int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme value) {
+        if (morphemeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMorphemeIsMutable();
+          morpheme_.add(index, value);
+          onChanged();
+        } else {
+          morphemeBuilder_.addMessage(index, value);
         }
-        result.morpheme_.add(builderForValue.build());
+        return this;
+      }
+      public Builder addMorpheme(
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder builderForValue) {
+        if (morphemeBuilder_ == null) {
+          ensureMorphemeIsMutable();
+          morpheme_.add(builderForValue.build());
+          onChanged();
+        } else {
+          morphemeBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addMorpheme(
+          int index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder builderForValue) {
+        if (morphemeBuilder_ == null) {
+          ensureMorphemeIsMutable();
+          morpheme_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          morphemeBuilder_.addMessage(index, builderForValue.build());
+        }
         return this;
       }
       public Builder addAllMorpheme(
           java.lang.Iterable<? extends net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme> values) {
-        if (result.morpheme_.isEmpty()) {
-          result.morpheme_ = new java.util.ArrayList<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme>();
+        if (morphemeBuilder_ == null) {
+          ensureMorphemeIsMutable();
+          super.addAll(values, morpheme_);
+          onChanged();
+        } else {
+          morphemeBuilder_.addAllMessages(values);
         }
-        super.addAll(values, result.morpheme_);
         return this;
       }
       public Builder clearMorpheme() {
-        result.morpheme_ = java.util.Collections.emptyList();
+        if (morphemeBuilder_ == null) {
+          morpheme_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          morphemeBuilder_.clear();
+        }
         return this;
+      }
+      public Builder removeMorpheme(int index) {
+        if (morphemeBuilder_ == null) {
+          ensureMorphemeIsMutable();
+          morpheme_.remove(index);
+          onChanged();
+        } else {
+          morphemeBuilder_.remove(index);
+        }
+        return this;
+      }
+      public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder getMorphemeBuilder(
+          int index) {
+        return getMorphemeFieldBuilder().getBuilder(index);
+      }
+      public net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder getMorphemeOrBuilder(
+          int index) {
+        if (morphemeBuilder_ == null) {
+          return morpheme_.get(index);  } else {
+          return morphemeBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder> 
+           getMorphemeOrBuilderList() {
+        if (morphemeBuilder_ != null) {
+          return morphemeBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(morpheme_);
+        }
+      }
+      public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder addMorphemeBuilder() {
+        return getMorphemeFieldBuilder().addBuilder(
+            net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.getDefaultInstance());
+      }
+      public net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder addMorphemeBuilder(
+          int index) {
+        return getMorphemeFieldBuilder().addBuilder(
+            index, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.getDefaultInstance());
+      }
+      public java.util.List<net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder> 
+           getMorphemeBuilderList() {
+        return getMorphemeFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder, net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder> 
+          getMorphemeFieldBuilder() {
+        if (morphemeBuilder_ == null) {
+          morphemeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme, net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme.Builder, net.moraleboost.mecab.impl.Messages.ParsingResponse.MorphemeOrBuilder>(
+                  morpheme_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          morpheme_ = null;
+        }
+        return morphemeBuilder_;
       }
       
       // @@protoc_insertion_point(builder_scope:net.moraleboost.mecab.impl.ParsingResponse)
@@ -1036,7 +1592,6 @@ public final class Messages {
     
     static {
       defaultInstance = new ParsingResponse(true);
-      net.moraleboost.mecab.impl.Messages.internalForceInit();
       defaultInstance.initFields();
     }
     
@@ -1112,8 +1667,6 @@ public final class Messages {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
   }
-  
-  public static void internalForceInit() {}
   
   // @@protoc_insertion_point(outer_class_scope)
 }
