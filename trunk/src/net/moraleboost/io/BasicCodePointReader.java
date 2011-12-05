@@ -24,7 +24,7 @@ import java.io.Reader;
  * Readerをラップして、ひとつずつUnicodeコードポイントを
  * 取得するためのデコレータクラス。サロゲートペアを正しく認識する。<br>
  * 
- * 不正なサロゲートペアは、{@link #getAlternativeCodePoint()}で得られる
+ * 不正なサロゲートペアは、{@link #getAlternationCodePoint()}で得られる
  * 代替コードポイントに置換される。
  */
 public class BasicCodePointReader implements CodePointReader
@@ -42,7 +42,7 @@ public class BasicCodePointReader implements CodePointReader
     /**
      * コードポイントイテレータを構築する。
      * 
-     * @param sequence
+     * @param reader
      *            ソースとなるcharのシーケンス
      */
     public BasicCodePointReader(Reader reader)

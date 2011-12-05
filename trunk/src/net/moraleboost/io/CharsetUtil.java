@@ -42,7 +42,7 @@ public abstract class CharsetUtil
      * @param unmappableCharacterAction
      *            指定した文字コードに存在しない文字への対処方法
      * @return 作成した変換器
-     * @throws IllegalCharsetNameException
+     * @throws java.nio.charset.IllegalCharsetNameException
      *             文字コード名が不正
      * @throws UnsupportedCharsetException
      *             JVMが文字コードをサポートしていない
@@ -74,7 +74,7 @@ public abstract class CharsetUtil
      * @param unmappableCharacterAction
      *            指定した文字コードに存在しない文字への対処方法
      * @return 作成した変換器
-     * @throws IllegalCharsetNameException
+     * @throws java.nio.charset.IllegalCharsetNameException
      *             文字コード名が不正。
      * @throws UnsupportedCharsetException
      *             JVMが文字コードをサポートしていない。

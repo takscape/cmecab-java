@@ -27,7 +27,7 @@ public interface CodePointReader
     /**
      * 不正なサロゲートペアを置換するための代替文字をセットする。
      * このメソッドを呼び出さない場合の既定値は、
-     * 「{@value #DEFAULT_ALTERNATIVE_CODEPOINT}」である。
+     * 「{@value BasicCodePointReader#DEFAULT_ALTERNATION_CODEPOINT}」である。
      * 
      * @param cp
      *            代替文字のコードポイント
