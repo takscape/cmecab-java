@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.impl.Messages.ParsingResponse;
-import net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme;;
+import net.moraleboost.mecab.impl.Messages.ParsingResponse.Morpheme;
 
 /**
  * ProtobufTagger派生クラスが返すNode。
