@@ -20,8 +20,8 @@ import java.io.Reader;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 import net.moraleboost.mecab.MeCabException;
@@ -51,7 +51,7 @@ public abstract class MeCabTokenizer extends Tokenizer
     /**
      * トークンのターム属性
      */
-    private TermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute = null;
     /**
      * トークンのオフセット属性
      */
@@ -79,9 +79,9 @@ public abstract class MeCabTokenizer extends Tokenizer
         
         this.tagger = tagger;
 
-        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
-        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
-        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
         
         parse();
     }
@@ -114,9 +114,9 @@ public abstract class MeCabTokenizer extends Tokenizer
         }
 
         offset = end;
-        
-        termAttribute.setTermBuffer(tokenString);
-        termAttribute.setTermLength(tokenString.length());
+
+        termAttribute.setEmpty();
+        termAttribute.append(tokenString);
         offsetAttribute.setOffset(
                 correctOffset(start),
                 correctOffset(end));

@@ -22,8 +22,8 @@ import java.io.Reader;
 import net.java.sen.StreamTagger;
 
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 /**
@@ -43,7 +43,7 @@ public class SenTokenizer extends Tokenizer
     /**
      * トークンのターム属性
      */
-    private TermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute = null;
     /**
      * トークンのオフセット属性
      */
@@ -68,9 +68,9 @@ public class SenTokenizer extends Tokenizer
         this.confFile = confFile;
         tagger = new StreamTagger(in, confFile);
         
-        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
-        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
-        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
     }
     
     @Override
@@ -94,8 +94,8 @@ public class SenTokenizer extends Tokenizer
         }
         
         String tokenString = token.getSurface();
-        termAttribute.setTermBuffer(tokenString);
-        termAttribute.setTermLength(tokenString.length());
+        termAttribute.setEmpty();
+        termAttribute.append(tokenString);
         offsetAttribute.setOffset(
                 correctOffset(token.start()),
                 correctOffset(token.end()));
