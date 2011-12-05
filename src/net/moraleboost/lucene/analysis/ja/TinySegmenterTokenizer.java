@@ -23,8 +23,8 @@ import net.moraleboost.io.BasicCodePointReader;
 import net.moraleboost.tinysegmenter.TinySegmenter;
 
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 /**
@@ -43,7 +43,7 @@ public class TinySegmenterTokenizer extends Tokenizer
     /**
      * トークンのターム属性
      */
-    private TermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute = null;
     /**
      * トークンのオフセット属性
      */
@@ -57,9 +57,9 @@ public class TinySegmenterTokenizer extends Tokenizer
     {
         super(in);
         
-        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
-        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
-        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
         
         segmenter = new TinySegmenter(new BasicCodePointReader(in));
     }
@@ -72,9 +72,9 @@ public class TinySegmenterTokenizer extends Tokenizer
         if (baseToken == null) {
             return false;
         }
-        
-        termAttribute.setTermBuffer(baseToken.str);
-        termAttribute.setTermLength(baseToken.str.length());
+
+        termAttribute.setEmpty();
+        termAttribute.append(baseToken.str);
         offsetAttribute.setOffset(
                 correctOffset((int)baseToken.start),
                 correctOffset((int)baseToken.end));

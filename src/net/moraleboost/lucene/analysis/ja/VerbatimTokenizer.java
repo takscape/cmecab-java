@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.Reader;
 
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 
 /**
  * 入力を単一のトークンとして出力するTokenizer
@@ -24,7 +24,7 @@ public class VerbatimTokenizer extends Tokenizer
     /**
      * トークンのターム属性
      */
-    private TermAttribute termAttribute;
+    private CharTermAttribute termAttribute;
     /**
      * トークンのオフセット属性
      */
@@ -39,8 +39,8 @@ public class VerbatimTokenizer extends Tokenizer
     {
         super(in);
         buffer = new char[bufferSize];
-        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
-        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
     }
     
     public boolean incrementToken() throws IOException
@@ -51,7 +51,9 @@ public class VerbatimTokenizer extends Tokenizer
         if (nread <= 0) {
             return false;
         } else if (nread < buffer.length) {
-            termAttribute.setTermBuffer(new String(buffer, 0, nread));
+            termAttribute.resizeBuffer(nread);
+            termAttribute.copyBuffer(buffer, 0, nread);
+            termAttribute.setLength(nread);
             offsetAttribute.setOffset(correctOffset(0), correctOffset(nread));
             return true;
         } else {
@@ -60,7 +62,8 @@ public class VerbatimTokenizer extends Tokenizer
             while ((nread=input.read(buffer, 0, buffer.length)) > 0) {
                 builder.append(buffer, 0, nread);
             }
-            termAttribute.setTermBuffer(builder.toString());
+            termAttribute.setEmpty();
+            termAttribute.append(builder);
             offsetAttribute.setOffset(correctOffset(0), builder.length());
             return true;
         }

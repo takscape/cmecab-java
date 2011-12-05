@@ -21,8 +21,8 @@ import net.moraleboost.io.CodePointReader;
 import net.moraleboost.io.PushbackCodePointReader;
 
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.apache.lucene.util.AttributeSource;
 
@@ -257,13 +257,14 @@ public class CJKTokenizer2 extends Tokenizer
             return prevType;
         }
 
-        public String getTokenString()
+        public void copyToTermAttribute(CharTermAttribute attr)
         {
             StringBuilder builder = new StringBuilder();
             for (int i=0; i<tokenLength; ++i) {
                 builder.appendCodePoint(buffer[i].normCodePoint);
             }
-            return builder.toString();
+            attr.setEmpty();
+            attr.append(builder);
         }
         
         public int getStartOffset()
@@ -488,7 +489,7 @@ public class CJKTokenizer2 extends Tokenizer
     /**
      * トークンのターム属性
      */
-    private TermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute = null;
     /**
      * トークンのオフセット属性
      */
@@ -536,9 +537,9 @@ public class CJKTokenizer2 extends Tokenizer
         pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), ngram);
         assert(ngram > 0);
         tokenInfo = new TokenInfo(ngram);
-        termAttribute = (TermAttribute)addAttribute(TermAttribute.class);
-        offsetAttribute = (OffsetAttribute)addAttribute(OffsetAttribute.class);
-        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
     }
 
     public boolean incrementToken() throws IOException
@@ -565,9 +566,7 @@ public class CJKTokenizer2 extends Tokenizer
         if (type == null) {
             return false;
         } else {
-            String term = tokenInfo.getTokenString();
-            termAttribute.setTermBuffer(term);
-            termAttribute.setTermLength(term.length());
+            tokenInfo.copyToTermAttribute(termAttribute);
             offsetAttribute.setOffset(
                     correctOffset(tokenInfo.getStartOffset()),
                     correctOffset(tokenInfo.getEndOffset()));
