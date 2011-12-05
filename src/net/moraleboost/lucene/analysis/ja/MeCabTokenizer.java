@@ -66,7 +66,6 @@ public abstract class MeCabTokenizer extends Tokenizer
      * 
      * @param in 入力
      * @param tagger 形態素解析器
-     * @param ownTagger trueを指定すると、finalize()時にTaggerを閉じる。falseを指定すると、閉じない。
      * @param maxSize 入力から読み込む最大文字数(in chars)
      * @throws MeCabException
      * @throws IOException

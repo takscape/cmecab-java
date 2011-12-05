@@ -36,7 +36,7 @@ import java.io.Reader;
  * {@link TokenInfo#type}変数がTokenizerの現在の状態を表し、
  * そこに入力される文字のタイプ{@link CharInfo#type}に
  * 応じて、次の状態に遷移する（あるいは、終了状態に遷移、
- * すなわち{@link CJKTokenizer2#next()}メソッドから抜ける）。<br>
+ * すなわち{@link #incrementToken()}メソッドから抜ける）。<br>
  * <br>
  * {@link TokenInfo#type}に加え、Tokenizerの前の状態を記録しておくための
  * {@link TokenInfo#prevType}変数が存在する。

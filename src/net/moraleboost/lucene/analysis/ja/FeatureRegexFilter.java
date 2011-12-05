@@ -70,8 +70,7 @@ public class FeatureRegexFilter extends TokenFilter
     /**
      * tokenのtypeが構築時に指定したパターンのいずれかにマッチするかどうかを調べる。
      * 
-     * @param token
-     *            トークン
+     * @param feature 素性(tokenのtype)
      * @return いずれかのパターンにマッチすればtrue。全くマッチしなければfalse。
      */
     private boolean match(String feature)
