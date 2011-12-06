@@ -25,11 +25,8 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
-public class FeatureRegexFilter extends TokenFilter
+public class FeatureRegexFilter extends AbstractRegexFilter
 {
-    private Pattern[] patterns = null;
-    private Matcher[] matchers = null;
-
     /**
      * トークンのタイプ属性
      */
@@ -50,48 +47,9 @@ public class FeatureRegexFilter extends TokenFilter
      */
     public FeatureRegexFilter(TokenStream input, String[] stopPatterns)
     {
-        super(input);
-        buildPatterns(stopPatterns);
+        super(input, stopPatterns);
         typeAttribute = addAttribute(TypeAttribute.class);
         posIncAttribute = addAttribute(PositionIncrementAttribute.class);
-    }
-
-    private void buildPatterns(String[] stopPatterns)
-    {
-        patterns = new Pattern[stopPatterns.length];
-        matchers = new Matcher[stopPatterns.length];
-        
-        for (int i = 0; i < stopPatterns.length; ++i) {
-            patterns[i] = Pattern.compile(stopPatterns[i]);
-            matchers[i] = null;
-        }
-    }
-
-    /**
-     * tokenのtypeが構築時に指定したパターンのいずれかにマッチするかどうかを調べる。
-     * 
-     * @param feature 素性(tokenのtype)
-     * @return いずれかのパターンにマッチすればtrue。全くマッチしなければfalse。
-     */
-    private boolean match(String feature)
-    {
-        Matcher m = null;
-        
-        for (int i = 0; i < matchers.length; ++i) {
-            m = matchers[i];
-            if (m == null) {
-                m = patterns[i].matcher(feature);
-                matchers[i] = m;
-            } else {
-                m.reset(feature);
-            }
-
-            if (m.matches()) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     @Override
