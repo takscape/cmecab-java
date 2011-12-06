@@ -7,10 +7,10 @@
 
 -->
 <project name="ipadic" default="create" basedir=".">
+  <property name="perl.bin" value="c:/cygwin/bin/perl.exe"/>
 <!--
-  <property name="perl.bin" value="c:/usr/cygwin/bin/perl.exe"/>
--->
   <property name="perl.bin" value="/usr/bin/perl"/>
+-->
   <property name="ipa2mecab"  value="./ipa2mecab.pl"/>
   <property name="compound"  value="./compound.pl"/>
   <property name="ipadic.home" value="http://chasen.aist-nara.ac.jp/stable/ipadic"/>

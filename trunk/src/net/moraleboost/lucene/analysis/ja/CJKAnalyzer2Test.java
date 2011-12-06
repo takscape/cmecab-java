@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriter.MaxFieldLength;
+import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -62,13 +62,14 @@ public class CJKAnalyzer2Test
     {
         directory = new RAMDirectory();
         analyzer = new CJKAnalyzer2(ngram);
-        writer = new IndexWriter(directory, analyzer, new MaxFieldLength(4096));
+        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30, analyzer);
+        writer = new IndexWriter(directory, config);
     }
     
     private void setUpSearcher() throws Exception
     {
         searcher = new IndexSearcher(directory, true);
-        parser = new QueryParser(Version.LUCENE_29, "text", analyzer);
+        parser = new QueryParser(Version.LUCENE_30, "text", analyzer);
         parser.setDefaultOperator(QueryParser.Operator.OR);
     }
     

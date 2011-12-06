@@ -31,7 +31,7 @@ else:
 
 if env['PLATFORM'] == 'win32':
 	if javahome == None or javahome == '':
-		javahome = r'C:\Program Files\Java\jdk1.6.0_21'
+		javahome = r'C:\Program Files\Java\jdk1.6.0_29'
 	if mecabhome == None or mecabhome == '':
 		mecabhome = r'C:\Program Files\MeCab'
 	if protobufhome == None or protobufhome == '':
