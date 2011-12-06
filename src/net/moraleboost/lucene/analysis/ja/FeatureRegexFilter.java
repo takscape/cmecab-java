@@ -52,8 +52,8 @@ public class FeatureRegexFilter extends TokenFilter
     {
         super(input);
         buildPatterns(stopPatterns);
-        typeAttribute = (TypeAttribute)addAttribute(TypeAttribute.class);
-        posIncAttribute = (PositionIncrementAttribute)addAttribute(PositionIncrementAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
+        posIncAttribute = addAttribute(PositionIncrementAttribute.class);
     }
 
     private void buildPatterns(String[] stopPatterns)
