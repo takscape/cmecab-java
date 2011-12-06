@@ -23,7 +23,7 @@ import java.io.StringReader;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
 import org.junit.Test;
 
@@ -34,13 +34,13 @@ public class CJKTokenizer2Test
     {
         int i = 0;
         
-        TermAttribute termAttr =
-            (TermAttribute)ts.getAttribute(TermAttribute.class);
+        CharTermAttribute termAttr =
+            ts.getAttribute(CharTermAttribute.class);
         OffsetAttribute offAttr =
             (OffsetAttribute)ts.getAttribute(OffsetAttribute.class);
         
         while (ts.incrementToken()) {
-            String term = termAttr.term();
+            String term = new String(termAttr.buffer(), 0, termAttr.length());
             int startOff = offAttr.startOffset();
             int endOff = offAttr.endOffset();
             

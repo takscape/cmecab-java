@@ -18,20 +18,15 @@ package net.moraleboost.lucene.analysis.ja;
 
 import static org.junit.Assert.fail;
 
+import org.apache.lucene.index.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.index.TermDocs;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermFreqVector;
-import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.store.RAMDirectory;
@@ -53,7 +48,8 @@ public class StandardMeCabAnalyzerTest
         String[] filters = new String[] { "^助詞,.*$" };
         analyzer = new StandardMeCabAnalyzer(DIC_ENCODING, "", filters);
         directory = new RAMDirectory();
-        writer = new IndexWriter(directory, analyzer, new MaxFieldLength(4096));
+        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30, analyzer);
+        writer = new IndexWriter(directory, config);
 
         // ドキュメント追加
         Document doc = new Document();
@@ -109,7 +105,7 @@ public class StandardMeCabAnalyzerTest
     {
         try {
             IndexSearcher searcher = new IndexSearcher(directory, true);
-            QueryParser parser = new QueryParser(Version.LUCENE_29, "text", analyzer);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, "text", analyzer);
             parser.setDefaultOperator(QueryParser.Operator.OR);
 
             Query query = parser.parse("本日も晴天");
