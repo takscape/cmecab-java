@@ -37,7 +37,7 @@ public class CJKTokenizer2Test
         CharTermAttribute termAttr =
             ts.getAttribute(CharTermAttribute.class);
         OffsetAttribute offAttr =
-            (OffsetAttribute)ts.getAttribute(OffsetAttribute.class);
+            ts.getAttribute(OffsetAttribute.class);
         
         while (ts.incrementToken()) {
             String term = new String(termAttr.buffer(), 0, termAttr.length());

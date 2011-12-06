@@ -3,6 +3,7 @@ package net.moraleboost.lucene.analysis.ja;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
 import java.io.IOException;
 
@@ -10,8 +11,10 @@ public class JapaneseNormalizationFilter extends TokenFilter
 {
     private boolean normFullWidth; // 全角英数字＋記号を半角に変換
     private boolean normHalfWidth; // 半角カナを全角カナに変換
+    private boolean normBlank;     // 空白文字をスキップ
 
     private final CharTermAttribute termAttribute;
+    private final PositionIncrementAttribute posIncAttribute;
 
     private static final int[][] HALFWIDTH_KANA_TABLE = new int[][] {
             new int[] {'。', 0, 0}, new int[] {'「', 0, 0}, new int[] {'」', 0, 0}, new int[] {'、', 0, 0},
@@ -32,12 +35,15 @@ public class JapaneseNormalizationFilter extends TokenFilter
             new int[] {'ン', 0, 0}, new int[] {'゛', 0, 0}, new int[] {'゜', 0, 0}
     };
 
-    public JapaneseNormalizationFilter(TokenStream input, boolean normFullWidth, boolean normHalfWidth)
+    public JapaneseNormalizationFilter(
+            TokenStream input, boolean normFullWidth, boolean normHalfWidth, boolean normBlank)
     {
         super(input);
         this.normFullWidth = normFullWidth;
         this.normHalfWidth = normHalfWidth;
+        this.normBlank = normBlank;
         termAttribute = addAttribute(CharTermAttribute.class);
+        posIncAttribute = addAttribute(PositionIncrementAttribute.class);
     }
 
     @Override
@@ -59,7 +65,7 @@ public class JapaneseNormalizationFilter extends TokenFilter
                     tblpos = c - 0xFF61;
                     // 濁音？
                     if (HALFWIDTH_KANA_TABLE[tblpos][1] != 0) {
-                        if (i+1 < len && buf[i+1] == '゛') {
+                        if (i+1 < len && (buf[i+1] == '゛' || buf[i+1] == 'ﾞ')) {
                             // 次の文字が濁点
                             buf[j] = (char)HALFWIDTH_KANA_TABLE[tblpos][1];
                             i += 2; ++j;
@@ -68,7 +74,7 @@ public class JapaneseNormalizationFilter extends TokenFilter
                     }
                     // 半濁音？
                     if (HALFWIDTH_KANA_TABLE[tblpos][2] != 0) {
-                        if (i+1 < len && buf[i+1] == '゜') {
+                        if (i+1 < len && (buf[i+1] == '゜' || buf[i+1] == 'ﾟ')) {
                             // 次の文字が半濁点
                             buf[j] = (char)HALFWIDTH_KANA_TABLE[tblpos][2];
                             i += 2; ++j;
@@ -76,7 +82,10 @@ public class JapaneseNormalizationFilter extends TokenFilter
                         }
                     }
                     // 濁音でも半濁音でもない
-                    buf[j] = buf[i];
+                    buf[j] = (char)HALFWIDTH_KANA_TABLE[tblpos][0];
+                    ++i; ++j;
+                } else if (normBlank && Character.isWhitespace(c)) {
+                    buf[j] = ' '; // 半角スペースに変換
                     ++i; ++j;
                 } else {
                     // 無変換
