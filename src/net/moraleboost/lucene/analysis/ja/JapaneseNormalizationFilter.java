@@ -17,7 +17,7 @@ public class JapaneseNormalizationFilter extends TokenFilter
 
     private static final int[][] HALFWIDTH_KANA_TABLE = new int[][] {
             new int[] {'。', 0, 0}, new int[] {'「', 0, 0}, new int[] {'」', 0, 0}, new int[] {'、', 0, 0},
-            new int[] {'・', 0, 0}, new int[] {'ヲ', 0, 0}, new int[] {'ァ', 0, 0}, new int[] {'ィ', 0, 0},
+            new int[] {'・', 0, 0}, new int[] {'ヲ', 'ヺ', 0}, new int[] {'ァ', 0, 0}, new int[] {'ィ', 0, 0},
             new int[] {'ゥ', 0, 0}, new int[] {'ェ', 0, 0}, new int[] {'ォ', 0, 0}, new int[] {'ャ', 0, 0},
             new int[] {'ュ', 0, 0}, new int[] {'ョ', 0, 0}, new int[] {'ッ', 0, 0}, new int[] {'ー', 0, 0},
             new int[] {'ア', 0, 0}, new int[] {'イ', 0, 0}, new int[] {'ウ', 'ヴ', 0}, new int[] {'エ', 0, 0},
@@ -30,7 +30,7 @@ public class JapaneseNormalizationFilter extends TokenFilter
             new int[] {'ヘ', 'ベ', 'ペ'}, new int[] {'ホ', 'ボ', 'ポ'}, new int[] {'マ', 0, 0}, new int[] {'ミ', 0, 0},
             new int[] {'ム', 0, 0}, new int[] {'メ', 0, 0}, new int[] {'モ', 0, 0}, new int[] {'ヤ', 0, 0},
             new int[] {'ユ', 0, 0}, new int[] {'ヨ', 0, 0}, new int[] {'ラ', 0, 0}, new int[] {'リ', 0, 0},
-            new int[] {'ル', 0, 0}, new int[] {'レ', 0, 0}, new int[] {'ロ', 0, 0}, new int[] {'ワ', 0, 0},
+            new int[] {'ル', 0, 0}, new int[] {'レ', 0, 0}, new int[] {'ロ', 0, 0}, new int[] {'ワ', 'ヷ', 0},
             new int[] {'ン', 0, 0}, new int[] {'゛', 0, 0}, new int[] {'゜', 0, 0}
     };
 
