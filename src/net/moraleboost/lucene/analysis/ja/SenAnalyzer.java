@@ -86,9 +86,7 @@ public class SenAnalyzer extends Analyzer
             info.tokenizer = tokenizer;
             
             if (stopPatterns != null) {
-                FeatureRegexFilter filter =
-                    new FeatureRegexFilter(tokenizer, stopPatterns);
-                info.filter = filter;
+                info.filter = new FeatureRegexFilter(tokenizer, stopPatterns);
             }
             
             setPreviousTokenStream(info);

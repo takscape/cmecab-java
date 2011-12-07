@@ -52,7 +52,7 @@ public class TinySegmenterTest
                 {7, 8}
         };
         
-        TinySegmenter.Token token = null;
+        TinySegmenter.Token token;
         int i = 0;
         while ((token = segmenter.next()) != null) {
             assertEquals(terms[i], token.str);
@@ -85,8 +85,8 @@ public class TinySegmenterTest
         TinySegmenter segmenter2 =
             new TinySegmenter(cpreader2, 1024, TinySegmenter.DEFAULT_MAX_TOKEN_SIZE);
         
-        TinySegmenter.Token token = null;
-        TinySegmenter.Token token2 = null;
+        TinySegmenter.Token token;
+        TinySegmenter.Token token2;
         while (true) {
             token = segmenter.next();
             token2 = segmenter2.next();
@@ -153,7 +153,7 @@ public class TinySegmenterTest
                 {13, 14}
         };
 
-        TinySegmenter.Token token = null;
+        TinySegmenter.Token token;
         int i = 0;
         while ((token = segmenter.next()) != null) {
             assertEquals(terms[i], token.str);

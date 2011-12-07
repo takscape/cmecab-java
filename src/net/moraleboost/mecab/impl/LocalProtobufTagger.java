@@ -49,8 +49,9 @@ public class LocalProtobufTagger extends ProtobufTagger
         }
     }
     
-    protected void finalize()
+    protected void finalize() throws Throwable
     {
+        super.finalize();
         close();
     }
 

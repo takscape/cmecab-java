@@ -116,47 +116,9 @@ public class CJKTokenizer2 extends Tokenizer
         public long end = 0; // end offset in chars
         public int type = CHARTYPE_SYMBOL; // one of CHARTPE_*
 
-        /**
-         * 半角濁点ならtrue
-         * @return
-         */
-        public boolean isHalfwidthKatakanaVoicedSoundMark()
-        {
-            return (codePoint == 0xFF9E);
-        }
-        
-        /**
-         * 半角半濁点ならtrue
-         * @return
-         */
-        public boolean isHalfwidthKatakanaVoicedSemiSoundMark()
-        {
-            return (codePoint == 0xFF9F);
-        }
-        
-        /**
-         * 半角の「カ・サ・タ・ハ行」の文字、もしくは「ウ」ならtrue
-         * @return
-         */
-        public boolean isCandidateForVoicedSound()
-        {
-            return ((0xFF76 <= codePoint && codePoint <= 0xFF84) || // カ～ト
-                    (0xFF8A <= codePoint && codePoint <= 0xFF8E) || // ハ～ホ
-                    codePoint == 0xFF73);                           // ウ
-        }
-        
-        /**
-         * 半角の「ハ行」の文字ならtrue
-         * @return
-         */
-        public boolean isCandidateForSemiVoicedSound()
-        {
-            return (0xFF8A <= codePoint && codePoint <= 0xFF8E); // ハ～ホ
-        }
-
         public void read(CodePointReader reader) throws IOException
         {
-            Character.UnicodeBlock ub = null;
+            Character.UnicodeBlock ub;
 
             start = reader.getPosition();
             codePoint = reader.read();

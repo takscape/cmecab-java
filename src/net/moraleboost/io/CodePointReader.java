@@ -54,6 +54,7 @@ public interface CodePointReader
      * 次のコードポイントを取得する。
      * 
      * @return Unicodeコードポイント。
+     * @throws java.io.IOException
      */
     public abstract int read() throws IOException;
 

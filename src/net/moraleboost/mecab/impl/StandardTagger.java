@@ -122,7 +122,7 @@ public class StandardTagger implements Tagger
         if (nodehdl == 0) {
             throw new MeCabException("Failed to parse text.");
         }
-        node = new StandardNode(nodehdl, decoder, encoder);
+        node = new StandardNode(nodehdl, decoder);
 
         return node;
     }
@@ -138,7 +138,7 @@ public class StandardTagger implements Tagger
         if (nodehdl == 0) {
             throw new MeCabException("Failed to get first node.");
         }
-        node = new StandardNode(nodehdl, decoder, encoder);
+        node = new StandardNode(nodehdl, decoder);
         
         return node;
     }

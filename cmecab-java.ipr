@@ -265,24 +265,19 @@
   <component name="libraryTable">
     <library name="libs-run">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/sen.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/protobuf-java-2.4.1.jar!/" />
+        <root url="file://$PROJECT_DIR$/lib" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
     </library>
     <library name="libs-test">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/test/lib/junit.jar!/" />
-        <root url="jar://$PROJECT_DIR$/test/lib/slf4j-jdk14-1.5.5.jar!/" />
-        <root url="jar://$PROJECT_DIR$/test/lib/slf4j-api-1.5.5.jar!/" />
-        <root url="jar://$PROJECT_DIR$/test/lib/apache-solr-core-3.1.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/test/lib/js.jar!/" />
-        <root url="jar://$PROJECT_DIR$/test/lib/lucene-core-3.1.0.jar!/" />
+        <root url="file://$PROJECT_DIR$/test/lib" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/test/lib" recursive="false" />
     </library>
   </component>
 </project>

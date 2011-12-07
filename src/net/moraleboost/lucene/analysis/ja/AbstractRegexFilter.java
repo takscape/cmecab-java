@@ -36,7 +36,7 @@ public abstract class AbstractRegexFilter extends TokenFilter
      */
     protected boolean match(CharSequence value)
     {
-        Matcher m = null;
+        Matcher m;
 
         for (int i = 0; i < matchers.length; ++i) {
             m = matchers[i];
