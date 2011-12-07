@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class JapaneseNormalizationFilterFactory extends BaseTokenFilterFactory
 {
-    private boolean normFullWidth = true;
-    private boolean normHalfWidth = true;
+    private boolean normAscii = true;
+    private boolean normKana = true;
     private boolean normBlank = true;
 
     public JapaneseNormalizationFilterFactory()
@@ -19,16 +19,16 @@ public class JapaneseNormalizationFilterFactory extends BaseTokenFilterFactory
 
     public void init(Map<String, String> args)
     {
-        String full = args.get("normFullWidth");
-        String half = args.get("normHalfWidth");
+        String ascii = args.get("normAscii");
+        String kana = args.get("normKana");
         String blank = args.get("normBlank");
 
-        if (full != null) {
-            normFullWidth = Boolean.parseBoolean(full);
+        if (ascii != null) {
+            normAscii = Boolean.parseBoolean(ascii);
         }
 
-        if (half != null) {
-            normHalfWidth = Boolean.parseBoolean(half);
+        if (kana != null) {
+            normKana = Boolean.parseBoolean(kana);
         }
 
         if (blank != null) {
@@ -38,6 +38,6 @@ public class JapaneseNormalizationFilterFactory extends BaseTokenFilterFactory
 
     public TokenStream create(TokenStream tokenStream)
     {
-        return new JapaneseNormalizationFilter(tokenStream, normFullWidth, normHalfWidth, normBlank);
+        return new JapaneseNormalizationFilter(tokenStream, normAscii, normKana, normBlank);
     }
 }
