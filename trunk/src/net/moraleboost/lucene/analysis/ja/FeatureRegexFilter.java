@@ -17,10 +17,7 @@
 package net.moraleboost.lucene.analysis.ja;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;

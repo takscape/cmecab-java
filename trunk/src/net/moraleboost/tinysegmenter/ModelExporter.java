@@ -60,10 +60,10 @@ public class ModelExporter
             ctx.evaluateReader(scope, isr, f.getName(), 1, null);
         } finally {
             if (isr != null) {
-                try { isr.close(); } catch (Exception e) {}
+                try { isr.close(); } catch (Exception ignored) {}
             }
             if (fis != null) {
-                try { fis.close(); } catch (Exception e) {}
+                try { fis.close(); } catch (Exception ignored) {}
             }
         }
     }
@@ -80,10 +80,10 @@ public class ModelExporter
             emitToWriter(ctx, scope, osw);
         } finally {
             if (osw != null) {
-                try { osw.close(); } catch (Exception e) {}
+                try { osw.close(); } catch (Exception ignored) {}
             }
             if (fos != null) {
-                try { fos.close(); } catch (Exception e) {}
+                try { fos.close(); } catch (Exception ignored) {}
             }
         }
     }

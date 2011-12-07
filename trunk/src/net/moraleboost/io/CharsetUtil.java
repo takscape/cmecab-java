@@ -112,7 +112,7 @@ public abstract class CharsetUtil
         ByteBuffer buf = encoder.encode(CharBuffer.wrap(text));
         int size = buf.limit();
 
-        byte[] ret = null;
+        byte[] ret;
         if (terminateWithNull) {
             // \0を追加する。
             ret = new byte[size + 1];

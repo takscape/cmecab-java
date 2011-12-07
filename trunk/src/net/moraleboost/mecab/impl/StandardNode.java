@@ -32,7 +32,6 @@ import net.moraleboost.mecab.Node;
 public class StandardNode implements Node
 {
     private CharsetDecoder decoder = null;
-    private CharsetEncoder encoder = null;
     private long prevHandle = 0;
     private long handle = 0;
     private String surfaceCache = null;
@@ -46,20 +45,17 @@ public class StandardNode implements Node
      *            Nodeのハンドル
      * @param dec
      *            MeCabからの出力をデコードするためのデコーダ
-     * @param enc
-     *            MeCabへの入力をエンコードするためのエンコーダ
      * @throws CharacterCodingException
      *             文字コードの変換エラーが発生
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー。
      */
-    public StandardNode(long hdl, CharsetDecoder dec, CharsetEncoder enc)
+    public StandardNode(long hdl, CharsetDecoder dec)
     throws CharacterCodingException, MeCabException
     {
         prevHandle = 0;
         handle = hdl;
         decoder = dec;
-        encoder = enc;
 
         nextMorpheme(); // BOSをスキップ
     }

@@ -154,7 +154,7 @@ public abstract class MeCabTokenizer extends Tokenizer
         char[] buffer = new char[DEFAULT_BUFFER_SIZE];
         StringBuilder builder = new StringBuilder(DEFAULT_BUFFER_SIZE);
         long total = 0;
-        int nread = 0;
+        int nread;
         while (-1 != (nread = input.read(buffer))) {
             builder.append(buffer, 0, nread);
             total += nread;

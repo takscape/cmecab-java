@@ -16,17 +16,9 @@
  */
 package net.moraleboost.solr;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
 
 import net.moraleboost.lucene.analysis.ja.FeatureRegexFilter;
-import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
 /**
  * {@link FeatureRegexFilter}のファクトリ。

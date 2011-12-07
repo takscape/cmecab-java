@@ -1,13 +1,8 @@
 package net.moraleboost.lucene.analysis.ja;
 
 import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
-import static org.junit.Assert.fail;
 
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 
 import java.io.StringReader;
 

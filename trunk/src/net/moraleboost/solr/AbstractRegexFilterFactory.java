@@ -42,7 +42,7 @@ public abstract class AbstractRegexFilterFactory extends BaseTokenFilterFactory
         InputStreamReader isr = null;
         BufferedReader br = null;
         ArrayList<String> regexList = new ArrayList<String>();
-        String regex = null;
+        String regex;
 
         try {
             fis = new FileInputStream(source);
@@ -60,20 +60,17 @@ public abstract class AbstractRegexFilterFactory extends BaseTokenFilterFactory
             if (br != null) {
                 try {
                     br.close();
-                } catch (Exception e) {
-                }
+                } catch (Exception ignored) {}
             }
             if (isr != null) {
                 try {
                     isr.close();
-                } catch (Exception e) {
-                }
+                } catch (Exception ignored) {}
             }
             if (fis != null) {
                 try {
                     fis.close();
-                } catch (Exception e) {
-                }
+                } catch (Exception ignored) {}
             }
         }
     }

@@ -91,6 +91,7 @@ public class PushbackCodePointReader implements CodePointReader
      *            プッシュバックするコードポイント
      * @param length
      *            cpの幅をchar数単位で指定
+     * @throws java.io.IOException
      */
     public void unread(int cp, int length) throws IOException
     {

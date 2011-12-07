@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryParser.QueryParser;
@@ -46,7 +47,6 @@ public class CJKAnalyzer2Test
         setUpWriter(ngram);
         addDocument("1", text);
         writer.commit();
-        writer.optimize();
         writer.close();
         
         setUpSearcher();
@@ -68,7 +68,8 @@ public class CJKAnalyzer2Test
     
     private void setUpSearcher() throws Exception
     {
-        searcher = new IndexSearcher(directory, true);
+        IndexReader reader = IndexReader.open(directory, true);
+        searcher = new IndexSearcher(reader);
         parser = new QueryParser(Version.LUCENE_30, "text", analyzer);
         parser.setDefaultOperator(QueryParser.Operator.OR);
     }

@@ -39,7 +39,6 @@ public class StandardMeCabAnalyzerTest
 
     private StandardMeCabAnalyzer analyzer = null;
     private RAMDirectory directory = null;
-    private IndexWriter writer = null;
 
     @Before
     public void setUp() throws Exception
@@ -49,14 +48,13 @@ public class StandardMeCabAnalyzerTest
         analyzer = new StandardMeCabAnalyzer(DIC_ENCODING, "", filters);
         directory = new RAMDirectory();
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30, analyzer);
-        writer = new IndexWriter(directory, config);
+        IndexWriter writer = new IndexWriter(directory, config);
 
         // ドキュメント追加
         Document doc = new Document();
         addField(doc, "text", "本日は晴天なり。");
         writer.addDocument(doc);
         writer.commit();
-        writer.optimize();
         writer.close();
     }
 
@@ -104,7 +102,8 @@ public class StandardMeCabAnalyzerTest
     public void testSearch()
     {
         try {
-            IndexSearcher searcher = new IndexSearcher(directory, true);
+            IndexReader reader = IndexReader.open(directory, true);
+            IndexSearcher searcher = new IndexSearcher(reader);
             QueryParser parser = new QueryParser(Version.LUCENE_30, "text", analyzer);
             parser.setDefaultOperator(QueryParser.Operator.OR);
 

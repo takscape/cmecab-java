@@ -1,21 +1,15 @@
 package net.moraleboost.lucene.analysis.ja;
 
 
-import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
 import java.io.IOException;
 import java.nio.CharBuffer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TermRegexFilter extends AbstractRegexFilter
 {
-    private Pattern[] patterns = null;
-    private Matcher[] matchers = null;
-
     private CharTermAttribute termAttribute = null;
     private PositionIncrementAttribute posIncAttribute = null;
 
