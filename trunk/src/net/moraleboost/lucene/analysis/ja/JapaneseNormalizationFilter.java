@@ -9,12 +9,11 @@ import java.io.IOException;
 
 public class JapaneseNormalizationFilter extends TokenFilter
 {
-    private boolean normFullWidth; // 全角英数字＋記号を半角に変換
-    private boolean normHalfWidth; // 半角カナを全角カナに変換
-    private boolean normBlank;     // 空白文字をスキップ
+    private boolean normAscii; // 全角英数字＋記号を半角に変換
+    private boolean normKana;  // 半角カナを全角カナに変換
+    private boolean normBlank; // 空白文字をスキップ
 
     private final CharTermAttribute termAttribute;
-    private final PositionIncrementAttribute posIncAttribute;
 
     private static final int[][] HALFWIDTH_KANA_TABLE = new int[][] {
             new int[] {'。', 0, 0}, new int[] {'「', 0, 0}, new int[] {'」', 0, 0}, new int[] {'、', 0, 0},
@@ -36,14 +35,13 @@ public class JapaneseNormalizationFilter extends TokenFilter
     };
 
     public JapaneseNormalizationFilter(
-            TokenStream input, boolean normFullWidth, boolean normHalfWidth, boolean normBlank)
+            TokenStream input, boolean normAscii, boolean normKana, boolean normBlank)
     {
         super(input);
-        this.normFullWidth = normFullWidth;
-        this.normHalfWidth = normHalfWidth;
+        this.normAscii = normAscii;
+        this.normKana = normKana;
         this.normBlank = normBlank;
         termAttribute = addAttribute(CharTermAttribute.class);
-        posIncAttribute = addAttribute(PositionIncrementAttribute.class);
     }
 
     @Override
@@ -56,11 +54,11 @@ public class JapaneseNormalizationFilter extends TokenFilter
             int i, j;
             for (i=0, j=0; i<len;) {
                 c = buf[i];
-                if (normFullWidth && 0xFF01 <= c && c <= 0xFF5D) {
+                if (normAscii && 0xFF01 <= c && c <= 0xFF5D) {
                     // 全角記号、全角数字、全角アルファベット（「～」を除く）
                     buf[j] = (char)(c - 65248); // 半角に変換
                     ++i; ++j;
-                } else if (normHalfWidth && 0xFF61 <= c && c <= 0xFF9F) {
+                } else if (normKana && 0xFF61 <= c && c <= 0xFF9F) {
                     // 半角カナ
                     tblpos = c - 0xFF61;
                     // 濁音？
