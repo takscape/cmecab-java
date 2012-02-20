@@ -31,29 +31,19 @@ public interface Tagger
      * 以降、parse()の呼び出しにより返された既存のNodeは、
      * 正常に動作することが保証されない。
      */
-    public abstract void close();
+    public void close();
 
     /**
      * 形態素解析を行う。
      * 
-     * @param text
-     *            解析対象文字列
+     * @param lattice
+     *            ラティス
      * @return Nodeオブジェクト
      * @throws CharacterCodingException
      *             textをバイト列にエンコードできなかった
      * @throws MeCabException
      *             ネイティブライブラリの内部エラー
      */
-    public abstract Node parse(CharSequence text)
-            throws CharacterCodingException, MeCabException;
-
-    /**
-     * 直前に呼び出されたparse()の戻り値を返す。
-     * 
-     * @return 直前に呼び出されたparse()の戻り値
-     * @throws CharacterCodingException
-     * @throws MeCabException
-     */
-    public abstract Node reset()
+    public void parse(Lattice lattice)
             throws CharacterCodingException, MeCabException;
 }

@@ -22,6 +22,7 @@ import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
 
 import net.moraleboost.io.CharsetUtil;
+import net.moraleboost.mecab.Lattice;
 import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
@@ -34,37 +35,7 @@ import net.moraleboost.mecab.Tagger;
  */
 public class StandardTagger implements Tagger
 {
-    static {
-        System.loadLibrary("CMeCab");
-    }
-
-    public static void main(String[] args) throws Exception
-    {
-        if (args.length != 2) {
-            System.err.println("Usage: java StandardTagger DICTIONARY_ENCODING TEXT");
-            System.exit(1);
-        }
-        
-        System.out.println("MeCab version " + StandardTagger.version());
-        System.out.println();
-
-        String text = args[1];
-        System.out.println("Original text: " + text);
-        System.out.println();
-
-        System.out.println("Morphemes:");
-        Tagger tagger = new StandardTagger(args[0], "");
-        Node node = tagger.parse(text);
-        while (node.hasNext()) {
-            String surface = node.next();
-            String feature = node.feature();
-            System.out.println(surface + "\t" + feature);
-        }
-    }
-
-    private CharsetDecoder decoder = null;
-    private CharsetEncoder encoder = null;
-    private StandardNode node = null;
+    private String dicCharset = null;
     private long handle = 0;
 
     /**
@@ -72,22 +43,15 @@ public class StandardTagger implements Tagger
      * 
      * @param dicCharset
      *            MeCabの辞書の文字コード。WindowsではShift_JIS、UNIX系ではEUC-JPであることが多いであろう。
-     * @param arg
-     *            MeCabに与える引数。MeCab::createTagger(const char*)の引数として与えられる。
+     * @param handle
+     *            Taggerのハンドル。
      * @throws MeCabException
      *             ネイティブライブラリの内部エラー
      */
-    public StandardTagger(String dicCharset, String arg) throws MeCabException
+    protected StandardTagger(String dicCharset, long handle)
     {
-        decoder = CharsetUtil.createDecoder(dicCharset,
-                CodingErrorAction.IGNORE, CodingErrorAction.IGNORE);
-        encoder = CharsetUtil.createEncoder(dicCharset,
-                CodingErrorAction.IGNORE, CodingErrorAction.IGNORE);
-
-        handle = _create(arg.getBytes());
-        if (handle == 0) {
-            throw new MeCabException("Failed to create a tagger.");
-        }
+        this.dicCharset = dicCharset;
+        this.handle = handle;
     }
 
     protected void finalize()
@@ -97,69 +61,21 @@ public class StandardTagger implements Tagger
 
     public void close()
     {
-        if (node != null) {
-            node.close();
-            node = null;
-        }
-
         if (handle != 0) {
             _destroy(handle);
             handle = 0;
         }
     }
 
-    public StandardNode parse(CharSequence text) throws CharacterCodingException,
+    public void parse(Lattice lattice) throws CharacterCodingException,
             MeCabException
     {
-        // 前の解析結果のノードを無効化する
-        if (node != null) {
-            node.close();
-            node = null;
-        }
-
-        // 新しいテキストを解析
-        long nodehdl = _parse(handle, CharsetUtil.encode(encoder, text, false));
-        if (nodehdl == 0) {
+        StandardLattice standardLattice = (StandardLattice)lattice;
+        if (!_parse(standardLattice.getHandle())) {
             throw new MeCabException("Failed to parse text.");
         }
-        node = new StandardNode(nodehdl, decoder);
-
-        return node;
     }
-    
-    public StandardNode reset() throws CharacterCodingException, MeCabException
-    {
-        if (node != null) {
-            node.close();
-            node = null;
-        }
-        
-        long nodehdl = _firstNode(handle);
-        if (nodehdl == 0) {
-            throw new MeCabException("Failed to get first node.");
-        }
-        node = new StandardNode(nodehdl, decoder);
-        
-        return node;
-    }
-
-    /**
-     * バージョン文字列を取得する
-     * 
-     * @return バージョン文字列
-     */
-    public static String version()
-    {
-        return new String(_version());
-    }
-
-    private static native long _create(byte[] arg);
 
     private static native void _destroy(long hdl);
-
-    private static native long _parse(long hdl, byte[] str);
-    
-    private static native long _firstNode(long hdl);
-
-    private static native byte[] _version();
+    private static native boolean _parse(long hdl);
 }
