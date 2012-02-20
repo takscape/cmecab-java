@@ -31,7 +31,7 @@ public interface Node extends Iterator<String>
      * Nodeを閉じる。
      * close()呼び出し以降にNodeのメソッドを呼び出した場合、結果は未定義である。
      */
-    public abstract void close();
+    public void close();
 
     /**
      * 次の形態素に移動し、その表層形を取得する。
@@ -42,7 +42,7 @@ public interface Node extends Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリの内部エラー
      */
-    public abstract String nextMorpheme()
+    public String nextMorpheme()
     throws CharacterCodingException, MeCabException;
 
     /**
@@ -54,7 +54,7 @@ public interface Node extends Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー
      */
-    public abstract String feature()
+    public String feature()
     throws CharacterCodingException, MeCabException;
 
     /**
@@ -64,7 +64,7 @@ public interface Node extends Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー
      */
-    public abstract int posid()
+    public int posid()
     throws MeCabException;
 
     /**
@@ -76,7 +76,7 @@ public interface Node extends Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー
      */
-    public abstract String surface()
+    public String surface()
     throws CharacterCodingException, MeCabException;
 
     /**
@@ -88,6 +88,6 @@ public interface Node extends Iterator<String>
      * @throws MeCabException
      *             ネイティブライブラリ内部のエラー
      */
-    public abstract String blank()
+    public String blank()
     throws CharacterCodingException, MeCabException;
 }
