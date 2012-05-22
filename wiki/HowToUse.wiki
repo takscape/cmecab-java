@@ -17,33 +17,38 @@ import net.moraleboost.mecab.Node;
 
 public static void main(String[] args) throws Exception
 {
-    // バージョン文字列を取得
-    System.out.println("MeCab version: " + StandardTagger.version());
-    System.out.println();
-
-    String text = "本日は晴天なり。";
-    System.out.println("Original text: " + text);
-    System.out.println();
-
-    System.out.println("Morphemes:");
     // Taggerを構築。
-    // 第一引数には、MeCabの辞書の文字コードを与える。
-    // 第二引数には、MeCabのcreateTagger()関数に与える引数を与える。
-    Tagger tagger = new StandardTagger("Shift_JIS", "");
+    // 引数には、MeCabのcreateTagger()関数に与える引数を与える。
+    StandardTagger tagger = new StandardTagger("");
+
+    // バージョン文字列を取得
+    System.out.println("MeCab version " + tagger.version());
+
+    // Lattice（形態素解析に必要な実行情報が格納されるオブジェクト）を構築
+    Lattice lattice = tagger.createLattice();
+
+    // 解析対象文字列をセット
+    String text = "本日は晴天なり。";
+    lattice.setSentence(text);
 
     // tagger.parse()を呼び出して、文字列を形態素解析する。
-    // 返されるオブジェクトは、Iterator<String>を実装している。
-    Node node = tagger.parse(text);
+    tagger.parse(lattice);
+
+    // 形態素解析結果を出力
+    System.out.println(lattice.toString());
 
     // 一つずつ形態素をたどりながら、表層形と素性を出力
-    while (node.hasNext()) {
-        String surface = node.next();
+    Node node = lattice.bosNode();
+    while (node != null) {
+        String surface = node.surface();
         String feature = node.feature();
         System.out.println(surface + "\t" + feature);
+        node = node.next();
     }
 
-    // taggerをクローズ
-    tagger.close();
+    // lattice, taggerを破壊
+    lattice.destroy();
+    tagger.destroy();
 }
 }}}
 
@@ -52,7 +57,7 @@ public static void main(String[] args) throws Exception
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java テストケース]を参照。
 
 == Solrから使用する ==
- * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、protobuf-java-2.1.0.jar（!LocalProtobufMeCabTokenizerを利用する場合に必要）をコピー。
+ * Solrのlibディレクトリ（プラグインディレクトリ）に、cmecab-(ver).jarと、bridj-0.6.1.jarをコピー。
  * schema.xmlに、!StandardMeCabTokenizerFactory等を用いてフィールドタイプを定義。
 
 {{{
