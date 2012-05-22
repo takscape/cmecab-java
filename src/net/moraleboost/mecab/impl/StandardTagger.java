@@ -120,4 +120,27 @@ public class StandardTagger implements Tagger
             return p.getCString();
         }
     }
+
+    public static void main(String[] args)
+    {
+        StringBuilder text = new StringBuilder();
+        for (String arg: args) {
+            if (text.length() != 0) {
+                text.append(" ");
+            }
+            text.append(arg);
+        }
+
+        StandardTagger tagger = new StandardTagger("");
+        Lattice lattice = tagger.createLattice();
+        lattice.setSentence(text.toString());
+        tagger.parse(lattice);
+
+        System.out.println("MeCab version " + tagger.version());
+        System.out.println();
+        System.out.println("Original text: " + text.toString());
+        System.out.println();
+        System.out.println("Morphemes:");
+        System.out.println(lattice.toString());
+    }
 }
