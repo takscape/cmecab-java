@@ -10,7 +10,7 @@
 	<property name="dist" location="bin"/>
 	<property name="doc" location="doc"/>
 	<property name="test" location="test"/>
-	<property name="version" value="1.8"/>
+	<property name="version" value="2.0"/>
 	
 	<path id="compile.classpath">
 		<fileset dir="${lib}">
@@ -52,13 +52,9 @@
 		</javac>
 	</target>
 	
-	<property name="test.path" refid="test.library.path"/>
-	<property name="test.encoding" value="UTF-8"/>
 	<target name="test" depends="compile">
 		<junit fork="yes" printsummary="yes" haltonfailure="yes">
 			<classpath refid="test.classpath"/>
-			<jvmarg value="-Djava.library.path=${test.path}"/>
-			<jvmarg value="-Dnet.moraleboost.mecab.encoding=${test.encoding}"/>
 			<formatter type="plain"/>
 			<batchtest>
 				<fileset dir="${src}">

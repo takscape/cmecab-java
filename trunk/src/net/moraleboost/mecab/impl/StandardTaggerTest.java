@@ -18,6 +18,7 @@ package net.moraleboost.mecab.impl;
 
 import static org.junit.Assert.*;
 
+import net.moraleboost.mecab.Lattice;
 import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
 
@@ -38,46 +39,19 @@ public class StandardTaggerTest
     public void testParse()
     {
         try {
-            Tagger tagger = new StandardTagger(DIC_ENCODING, "");
-            Node node = tagger.parse("本日は晴天なり。");
+            Tagger tagger = new StandardTagger("");
+            Lattice lattice = tagger.createLattice();
+            lattice.setSentence("本日は晴天なり。");
+            tagger.parse(lattice);
+            Node node = lattice.bosNode().next();
 
-            while (node.hasNext()) {
-                System.out.println("Surface = " + node.next());
+            while (node != null && node.stat() != Node.TYPE_EOS_NODE) {
+                System.out.println("Surface = " + node.surface());
                 System.out.println("Feature = " + node.feature());
+                node = node.next();
             }
-            tagger.close();
-        } catch (Exception e) {
-            fail(e.toString());
-        }
-    }
-
-    @Test
-    public void testParse2()
-    {
-        try {
-            Tagger tagger = new StandardTagger(DIC_ENCODING, "");
-            Node node = tagger.parse("本日は晴天なり。");
-
-            // taggerが閉じられたあとは、nodeは無効化されなくてはならない。
-            tagger.close();
-
-            assertFalse(node.hasNext());
-        } catch (Exception e) {
-            fail(e.toString());
-        }
-    }
-
-    @Test
-    public void testParse3()
-    {
-        try {
-            Tagger tagger = new StandardTagger(DIC_ENCODING, "");
-            Node node1 = tagger.parse("本日は晴天なり。");
-
-            // ここでparse()を呼び出した時点で、古い形態素解析結果であるnode1は無効化されなければならない。
-            tagger.parse("働けども働けども我が暮し楽にならざりぢっと手を見る.");
-
-            assertFalse(node1.hasNext());
+            lattice.destroy();
+            tagger.destroy();
         } catch (Exception e) {
             fail(e.toString());
         }
@@ -87,34 +61,36 @@ public class StandardTaggerTest
     public void testPerf()
     {
         try {
-            Tagger tagger = new StandardTagger(DIC_ENCODING, "");
+            Tagger tagger = new StandardTagger("");
+            Lattice lattice = tagger.createLattice();
+            String[] leadingSpaceAndSurface = new String[2];
 
             // warming up
             for (int i=0; i<100; ++i) {
-                Node node = tagger.parse(TEXTS[i % TEXTS.length]);
-    
-                while (node.hasNext()) {
-                    @SuppressWarnings("unused")
-                    String surface = node.next();
-                    @SuppressWarnings("unused")
-                    String blank = node.blank();
-                    @SuppressWarnings("unused")
+                lattice.clear();
+                lattice.setSentence(TEXTS[i % TEXTS.length]);
+                tagger.parse(lattice);
+                Node node = lattice.bosNode().next();
+
+                while (node != null && node.stat() != Node.TYPE_EOS_NODE) {
+                    node.leadingSpaceAndSurface(leadingSpaceAndSurface);
                     String feature = node.feature();
+                    node = node.next();
                 }
             }
 
             long start = System.currentTimeMillis();
 
             for (int i=0; i<1000; ++i) {
-                Node node = tagger.parse(TEXTS[i % TEXTS.length]);
-    
-                while (node.hasNext()) {
-                    @SuppressWarnings("unused")
-                    String surface = node.next();
-                    @SuppressWarnings("unused")
-                    String blank = node.blank();
-                    @SuppressWarnings("unused")
+                lattice.clear();
+                lattice.setSentence(TEXTS[i % TEXTS.length]);
+                tagger.parse(lattice);
+                Node node = lattice.bosNode().next();
+
+                while (node != null && node.stat() != Node.TYPE_EOS_NODE) {
+                    node.leadingSpaceAndSurface(leadingSpaceAndSurface);
                     String feature = node.feature();
+                    node = node.next();
                 }
             }
             
@@ -122,7 +98,8 @@ public class StandardTaggerTest
             
             System.out.println("Total: " + Long.toString(end-start) + " millis.");
 
-            tagger.close();
+            lattice.destroy();
+            tagger.destroy();
         } catch (Exception e) {
             fail(e.toString());
         }

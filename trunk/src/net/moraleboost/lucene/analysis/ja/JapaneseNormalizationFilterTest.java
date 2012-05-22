@@ -2,17 +2,22 @@ package net.moraleboost.lucene.analysis.ja;
 
 import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
 
+import net.moraleboost.mecab.impl.StandardTagger;
 import org.junit.Test;
 
 import java.io.StringReader;
 
 public class JapaneseNormalizationFilterTest
 {
+    public static final String DIC_ENCODING = System
+            .getProperty("net.moraleboost.mecab.encoding");
+
     @Test
     public void testBlank() throws Exception
     {
         StringReader reader = new StringReader("あ　い　う え\nお\tか");
-        SenTokenizer tokenizer = new SenTokenizer(reader, "etc/sen/conf/sen.xml");
+        StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
         JapaneseNormalizationFilter filter = new JapaneseNormalizationFilter(tokenizer, false, false, true);
 
         // 全角スペースは半角になっている。半角スペース、改行、タブは形態素解析器がスキップ。
@@ -31,19 +36,20 @@ public class JapaneseNormalizationFilterTest
     public void testAlphaDigits() throws Exception
     {
         StringReader reader = new StringReader("Ｖｉｅｗカードを５１枚作った～。");
-        SenTokenizer tokenizer = new SenTokenizer(reader, "etc/sen/conf/sen.xml");
+        StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
         JapaneseNormalizationFilter filter = new JapaneseNormalizationFilter(tokenizer, true, false, false);
 
         // 英数字は半角に統一。「～」はそのまま。
         String[] terms = {
-                "V","i","e","w",
+                "View",
                 "カード","を",
                 "5","1","枚",
                 "作っ","た","～","。"
         };
 
         int[][] offsets = {
-                {0,1}, {1,2}, {2,3}, {3,4},
+                {0,4},
                 {4,7}, {7,8},
                 {8,9}, {9,10}, {10,11},
                 {11,13}, {13,14}, {14,15}, {15,16}
@@ -56,7 +62,8 @@ public class JapaneseNormalizationFilterTest
     public void testKana() throws Exception
     {
         StringReader reader = new StringReader("あのｶﾝｶﾞﾙｰはいいﾊﾟﾝﾁを持っている。");
-        SenTokenizer tokenizer = new SenTokenizer(reader, "etc/sen/conf/sen.xml");
+        StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
         JapaneseNormalizationFilter filter = new JapaneseNormalizationFilter(tokenizer, false, true, false);
 
         // 濁点、半濁点が前の文字に結合されていることを確認。

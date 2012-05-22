@@ -1,81 +1,123 @@
-/*
- **
- **  Mar. 1, 2008
- **
- **  The author disclaims copyright to this source code.
- **  In place of a legal notice, here is a blessing:
- **
- **    May you do good and not evil.
- **    May you find forgiveness for yourself and forgive others.
- **    May you share freely, never taking more than you give.
- **
- **                                         Stolen from SQLite :-)
- **  Any feedback is welcome.
- **  Kohei TAKETA <k-tak@void.in>
- **
- */
 package net.moraleboost.mecab.impl;
 
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
-
-import net.moraleboost.io.CharsetUtil;
 import net.moraleboost.mecab.Lattice;
-import net.moraleboost.mecab.MeCabException;
-import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
+import org.bridj.BridJ;
+import org.bridj.Platform;
+import org.bridj.Pointer;
+import org.bridj.ann.Library;
 
-/**
- * JNIを用いてMeCabを呼び出すTagger。
- * 
- * @author taketa
- *
- */
+import java.nio.charset.Charset;
+
+@Library("mecab")
 public class StandardTagger implements Tagger
 {
-    private String dicCharset = null;
-    private long handle = 0;
-
-    /**
-     * 形態素解析器を構築する。
-     * 
-     * @param dicCharset
-     *            MeCabの辞書の文字コード。WindowsではShift_JIS、UNIX系ではEUC-JPであることが多いであろう。
-     * @param handle
-     *            Taggerのハンドル。
-     * @throws MeCabException
-     *             ネイティブライブラリの内部エラー
-     */
-    protected StandardTagger(String dicCharset, long handle)
-    {
-        this.dicCharset = dicCharset;
-        this.handle = handle;
+    static {
+        if (Platform.isWindows()) {
+            BridJ.setNativeLibraryActualName("mecab", "libmecab");
+        }
+        BridJ.register();
     }
 
-    protected void finalize()
+    private static native Pointer<?> mecab_new2(Pointer<Byte> arg);
+    private static native Pointer<Byte> mecab_version();
+    private static native Pointer<Byte> mecab_strerror(Pointer<?> pTagger);
+    private static native void mecab_destroy(Pointer<?> pTagger);
+    private static native int mecab_parse_lattice(Pointer<?> pTagger, Pointer<?> pLattice);
+    private static native Pointer<StandardDictionaryInfo> mecab_dictionary_info(Pointer<?> pTagger);
+
+    private Pointer<?> pTagger;
+    private Charset charset;
+
+    public StandardTagger(String arg)
     {
-        close();
+        Pointer<Byte> parg = Pointer.pointerToCString(arg);
+        try {
+            pTagger = mecab_new2(parg);
+        } finally {
+            Pointer.release(parg);
+        }
+
+        StandardDictionaryInfo dictInfo = dictionaryInfo();
+        charset = Charset.forName(dictInfo.charset());
     }
 
-    public void close()
+    public StandardTagger(String arg, Charset charset)
     {
-        if (handle != 0) {
-            _destroy(handle);
-            handle = 0;
+        Pointer<Byte> parg = Pointer.pointerToCString(arg);
+        try {
+            pTagger = mecab_new2(parg);
+        } finally {
+            Pointer.release(parg);
+        }
+
+        this.charset = charset;
+    }
+
+    protected StandardTagger(Pointer<?> p, Charset charset)
+    {
+        this.pTagger = p;
+        this.charset = charset;
+    }
+
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+        destroy();
+    }
+
+    public void destroy()
+    {
+        try {
+            if (pTagger != null) {
+                mecab_destroy(pTagger);
+            }
+        } finally {
+            pTagger = null;
         }
     }
 
-    public void parse(Lattice lattice) throws CharacterCodingException,
-            MeCabException
+    public StandardLattice createLattice()
     {
-        StandardLattice standardLattice = (StandardLattice)lattice;
-        if (!_parse(standardLattice.getHandle())) {
-            throw new MeCabException("Failed to parse text.");
+        return new StandardLattice(charset);
+    }
+
+    public boolean parse(Lattice lattice)
+    {
+        if (lattice != null && (lattice instanceof StandardLattice)) {
+            return (mecab_parse_lattice(pTagger, ((StandardLattice)lattice).getPointer()) != 0);
+        } else {
+            return false;
         }
     }
 
-    private static native void _destroy(long hdl);
-    private static native boolean _parse(long hdl);
+    public StandardDictionaryInfo dictionaryInfo()
+    {
+        Pointer<StandardDictionaryInfo> p = mecab_dictionary_info(pTagger);
+        if (p == null) {
+            throw new OutOfMemoryError("mecab_dictionary_info() failed.");
+        } else {
+            return new StandardDictionaryInfo(p);
+        }
+    }
+
+    public String what()
+    {
+        Pointer<Byte> p = mecab_strerror(pTagger);
+        if (p == null) {
+            return null;
+        } else {
+            return p.getString(Pointer.StringType.C, charset);
+        }
+    }
+
+    public String version()
+    {
+        Pointer<Byte> p = mecab_version();
+        if (p == null) {
+            return null;
+        } else {
+            return p.getCString();
+        }
+    }
 }
