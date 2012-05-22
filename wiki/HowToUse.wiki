@@ -24,7 +24,7 @@ public static void main(String[] args) throws Exception
     // バージョン文字列を取得
     System.out.println("MeCab version " + tagger.version());
 
-    // Lattice（形態素解析に必要な実行情報が格納されるオブジェクト）を構築
+    // Lattice（形態素解析に必要な実行時情報が格納されるオブジェクト）を構築
     Lattice lattice = tagger.createLattice();
 
     // 解析対象文字列をセット
