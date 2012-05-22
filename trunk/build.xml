@@ -6,7 +6,6 @@
 
 	<property name="src" location="src"/>
 	<property name="lib" location="lib"/>
-	<property name="jni" location="jni"/>
 	<property name="dist" location="bin"/>
 	<property name="doc" location="doc"/>
 	<property name="test" location="test"/>
