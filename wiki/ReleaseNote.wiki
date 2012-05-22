@@ -1,7 +1,16 @@
 #summary リリースノート
 #labels Featured
 
+== v2.0 (2012/5/23) ==
+
+  * Lucene/Solr 3.5+に対応。
+  * !MeCab 0.993以上を必要とするようになった。
+  * BridJの導入により、ネイティブライブラリのビルドが不要になった。
+  * Protocol Buffers, Senのコードを除去。Senについては、後継のlucene-gosenが存在し、パッケージに含める意義が薄れたため。
+  * 半角カナの全角化、全角英数字の半角化を行うフィルタ、「!JapaneseNormalizationFilter」を追加。
+
 == v1.7 (2010/3/27) ==
+
   * Lucene2.9+/Solr 1.4に本対応。
   * ネイティブライブラリのビルドツールを、sconsに変更。
   * ネイティブライブラリを、Protocol Buffersに依存する部分と、しない部分に分割。Protocol Buffersがインストールされていなくても、ビルド可能になった。
