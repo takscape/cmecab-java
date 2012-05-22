@@ -18,6 +18,7 @@ package net.moraleboost.lucene.analysis.ja;
 
 import static org.junit.Assert.fail;
 
+import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.index.*;
 import org.junit.Test;
 import org.junit.Before;
@@ -34,9 +35,6 @@ import org.apache.lucene.util.Version;
 
 public class StandardMeCabAnalyzerTest
 {
-    public static final String DIC_ENCODING = System
-            .getProperty("net.moraleboost.mecab.encoding");
-
     private StandardMeCabAnalyzer analyzer = null;
     private RAMDirectory directory = null;
 
@@ -45,7 +43,7 @@ public class StandardMeCabAnalyzerTest
     {
         // 助詞をフィルタリングするAnalyzerを作成
         String[] filters = new String[] { "^助詞,.*$" };
-        analyzer = new StandardMeCabAnalyzer(DIC_ENCODING, "", filters);
+        analyzer = new StandardMeCabAnalyzer(new StandardTagger(""), Integer.MAX_VALUE, filters);
         directory = new RAMDirectory();
         IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30, analyzer);
         IndexWriter writer = new IndexWriter(directory, config);

@@ -20,20 +20,19 @@ import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens
 
 import java.io.StringReader;
 
+import net.moraleboost.mecab.impl.StandardTagger;
 import org.junit.Test;
 
 public class StandardMeCabTokenizerTest
 {
-    public static final String DIC_ENCODING = System
-            .getProperty("net.moraleboost.mecab.encoding");
-
     @Test
     public void testSurrogatePair() throws Exception
     {
         // 好物は「ほっけ」です。
         String str = "好物は\uD867\uDE3Dです。";
         StringReader reader = new StringReader(str);
-        StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
+        StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
 
         String[] terms = {
                 "好物",
@@ -59,7 +58,8 @@ public class StandardMeCabTokenizerTest
     {
         String str = "本日   は晴天\nなり\r\n。";
         StringReader reader = new StringReader(str);
-        StandardMeCabTokenizer tokenizer = new StandardMeCabTokenizer(reader, DIC_ENCODING, "");
+        StandardMeCabTokenizer tokenizer =
+                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
 
         String[] terms = {
                 "本日",

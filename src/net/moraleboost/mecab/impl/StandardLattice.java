@@ -1,74 +1,257 @@
 package net.moraleboost.mecab.impl;
 
-import net.moraleboost.io.CharsetUtil;
 import net.moraleboost.mecab.Lattice;
-import net.moraleboost.mecab.MeCabException;
-import net.moraleboost.mecab.Node;
+import org.bridj.BridJ;
+import org.bridj.Platform;
+import org.bridj.Pointer;
+import org.bridj.SizeT;
+import org.bridj.ann.Library;
 
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
+import java.nio.charset.Charset;
 
+@Library("mecab")
 public class StandardLattice implements Lattice
 {
-    private long handle = 0;
-    private CharsetEncoder encoder = null;
-    private CharsetDecoder decoder = null;
+    static {
+        if (Platform.isWindows()) {
+            BridJ.setNativeLibraryActualName("mecab", "libmecab");
+        }
+        BridJ.register();
+    }
 
-    public StandardLattice(String dicCharset, long handle) throws MeCabException
+    private static native Pointer<?> mecab_lattice_new();
+    private static native void mecab_lattice_destroy(Pointer<?> pLattice);
+    private static native void mecab_lattice_clear(Pointer<?> pLattice);
+    private static native int mecab_lattice_is_available(Pointer<?> pLattice);
+    private static native Pointer<StandardNode> mecab_lattice_get_bos_node(Pointer<?> pLattice);
+    private static native Pointer<StandardNode> mecab_lattice_get_eos_node(Pointer<?> pLattice);
+    private static native Pointer<StandardNode> mecab_lattice_get_begin_nodes(Pointer<?> pLattice, SizeT pos);
+    private static native Pointer<StandardNode> mecab_lattice_get_end_nodes(Pointer<?> pLattice, SizeT pos);
+    private static native Pointer<Byte> mecab_lattice_get_sentence(Pointer<?> pLattice);
+    private static native void mecab_lattice_set_sentence(Pointer<?> pLattice, Pointer<Byte> sentence);
+    private static native SizeT mecab_lattice_get_size(Pointer<?> pLattice);
+    private static native double mecab_lattice_get_z(Pointer<?> pLattice);
+    private static native void mecab_lattice_set_z(Pointer<?> pLattice, double Z);
+    private static native double mecab_lattice_get_theta(Pointer<?> pLattice);
+    private static native void mecab_lattice_set_theta(Pointer<?> pLattice, double theta);
+    private static native int mecab_lattice_next(Pointer<?> pLattice);
+    private static native int mecab_lattice_get_request_type(Pointer<?> pLattice);
+    private static native int mecab_lattice_has_request_type(Pointer<?> pLattice, int requestType);
+    private static native void mecab_lattice_set_request_type(Pointer<?> pLattice, int requestType);
+    private static native void mecab_lattice_add_request_type(Pointer<?> pLattice, int requestType);
+    private static native void mecab_lattice_remove_request_type(Pointer<?> pLattice, int requestType);
+    private static native Pointer<Byte> mecab_lattice_tostr(Pointer<?> pLattice);
+    private static native Pointer<Byte> mecab_lattice_nbest_tostr(Pointer<?> pLattice, SizeT N);
+    private static native Pointer<Byte> mecab_lattice_strerror(Pointer<?> pLattice);
+
+    private Pointer<?> pLattice;
+    private Pointer<Byte> pSentence;
+    private Charset charset;
+
+    public StandardLattice(Charset charset)
     {
-        this.handle = handle;
+        pLattice = mecab_lattice_new();
+        if (pLattice == null) {
+            throw new OutOfMemoryError("mecab_lattice_new() failed.");
+        }
+        this.charset = charset;
+    }
+
+    protected StandardLattice(Pointer<?> p, Charset charset)
+    {
+        this.pLattice = p;
+        this.charset = charset;
+    }
+
+    protected Pointer<?> getPointer()
+    {
+        return pLattice;
+    }
+
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+        destroy();
+    }
+
+    public void destroy()
+    {
         try {
-            encoder = CharsetUtil.createEncoder(
-                    dicCharset, CodingErrorAction.IGNORE, CodingErrorAction.IGNORE);
-            decoder = CharsetUtil.createDecoder(
-                    dicCharset, CodingErrorAction.IGNORE, CodingErrorAction.IGNORE);
-        } catch (RuntimeException re) {
-            close();
-            throw re;
-        } catch (Exception e) {
-            close();
-            throw new MeCabException(e);
+            if (pLattice != null) {
+                mecab_lattice_destroy(pLattice);
+            }
+            if (pSentence != null) {
+                pSentence.release();
+            }
+        } finally {
+            pSentence = null;
+            pLattice = null;
         }
     }
 
-    protected long getHandle()
+    public void clear()
     {
-        return handle;
-    }
-
-    public void close()
-    {
-        if (handle != 0) {
-            _destroy(handle);
-            handle = 0;
+        try {
+            mecab_lattice_clear(pLattice);
+            if (pSentence != null) {
+                pSentence.release();
+            }
+        } finally {
+            pSentence = null;
         }
     }
 
-    protected void finalize()
+    public boolean isAvailable()
     {
-        close();
+        return (mecab_lattice_is_available(pLattice) != 0);
     }
 
-    public void setSentence(CharSequence sentence) throws CharacterCodingException
+    public StandardNode bosNode()
     {
-        byte[] byteSentence = CharsetUtil.encode(encoder, sentence, false);
-        _setSentence(handle, byteSentence);
+        Pointer<StandardNode> p = mecab_lattice_get_bos_node(pLattice);
+        if (p == null) {
+            return null;
+        } else {
+            return new StandardNode(p, charset);
+        }
     }
 
-    public Node bosNode() throws MeCabException, CharacterCodingException
+    public StandardNode eosNode()
     {
-        return new StandardNode(_bosNode(handle), decoder);
+        Pointer<StandardNode> p = mecab_lattice_get_eos_node(pLattice);
+        if (p == null) {
+            return null;
+        } else {
+            return new StandardNode(p, charset);
+        }
     }
 
-    public Node eosNode() throws MeCabException, CharacterCodingException
+    public StandardNode beginNodes(long pos)
     {
-        return new StandardNode(_eosNode(handle), decoder);
+        Pointer<StandardNode> p = mecab_lattice_get_begin_nodes(pLattice, SizeT.valueOf(pos));
+        if (p == null) {
+            return null;
+        } else {
+            return new StandardNode(p, charset);
+        }
     }
 
-    private static native void _destroy(long hdl);
-    private static native void _setSentence(long hdl, byte[] sentence);
-    private static native long _bosNode(long hdl);
-    private static native long _eosNode(long hdl);
+    public StandardNode endNodes(long pos)
+    {
+        Pointer<StandardNode> p = mecab_lattice_get_end_nodes(pLattice, SizeT.valueOf(pos));
+        if (p == null) {
+            return null;
+        } else {
+            return new StandardNode(p, charset);
+        }
+    }
+
+    public String sentence()
+    {
+        Pointer<Byte> p = mecab_lattice_get_sentence(pLattice);
+        if (p == null) {
+            return null;
+        }
+
+        return p.getString(Pointer.StringType.C, charset);
+    }
+
+    public void setSentence(String sentence)
+    {
+        try {
+            if (pSentence != null) {
+                pSentence.release();
+            }
+        } finally {
+            pSentence = null;
+        }
+        pSentence = Pointer.pointerToString(sentence, Pointer.StringType.C, charset).as(Byte.class);
+        mecab_lattice_set_sentence(pLattice, pSentence);
+    }
+
+    public long size()
+    {
+        return mecab_lattice_get_size(pLattice).longValue();
+    }
+
+    public double Z()
+    {
+        return mecab_lattice_get_z(pLattice);
+    }
+
+    public void setZ(double Z)
+    {
+        mecab_lattice_set_z(pLattice, Z);
+    }
+
+    public double theta()
+    {
+        return mecab_lattice_get_theta(pLattice);
+    }
+
+    public void setTheta(double theta)
+    {
+        mecab_lattice_set_theta(pLattice, theta);
+    }
+
+    public boolean next()
+    {
+        return (mecab_lattice_next(pLattice) != 0);
+    }
+
+    public int requestType()
+    {
+        return mecab_lattice_get_request_type(pLattice);
+    }
+
+    public boolean hasRequestType(int requestType)
+    {
+        return (mecab_lattice_has_request_type(pLattice, requestType) != 0);
+    }
+
+    public void setRequestType(int requestType)
+    {
+        mecab_lattice_set_request_type(pLattice, requestType);
+    }
+
+    public void addRequestType(int requestType)
+    {
+        mecab_lattice_add_request_type(pLattice, requestType);
+    }
+
+    public void removeRequestType(int requestType)
+    {
+        mecab_lattice_remove_request_type(pLattice, requestType);
+    }
+
+    @Override
+    public String toString()
+    {
+        Pointer<Byte> p = mecab_lattice_tostr(pLattice);
+        if (p == null) {
+            return null;
+        } else {
+            return p.getString(Pointer.StringType.C, charset);
+        }
+    }
+
+    public String enumNBestAsString(long N)
+    {
+        Pointer<Byte> p = mecab_lattice_nbest_tostr(pLattice, SizeT.valueOf(N));
+        if (p == null) {
+            return null;
+        } else {
+            return p.getString(Pointer.StringType.C, charset);
+        }
+    }
+
+    public String what()
+    {
+        Pointer<Byte> p = mecab_lattice_strerror(pLattice);
+        if (p == null) {
+            return null;
+        } else {
+            return p.getString(Pointer.StringType.C, charset);
+        }
+    }
 }

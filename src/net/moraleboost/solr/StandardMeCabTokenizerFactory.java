@@ -22,10 +22,12 @@ import java.nio.charset.Charset;
 
 import java.util.Map;
 
+import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
+import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.solr.analysis.BaseTokenizerFactory;
 
-import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
 /**
@@ -38,6 +40,7 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
     private String dicCharset = null;
     private String mecabArg = null;
     private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
+    private Tagger tagger;
 
     public StandardMeCabTokenizerFactory()
     {
@@ -63,11 +66,11 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
      * ファクトリを初期化する。 初期化パラメータとして、「charset」、「arg」、
      * 「maxSize」をとる。<br>
      * 「charset」には、MeCabの辞書の文字コードを指定する。
-     * 省略すると、Javaの既定文字コードが用いられる。<br>
+     * 省略すると、辞書の文字コードが用いられる。<br>
      * 「arg」には、MeCabに与えるオプションを指定する。
      * 省略すると、空文字列とみなされる。<br>
      * 残りのパラメータの意味については、
-     * {@link StandardMeCabTokenizer#StandardMeCabTokenizer(Reader, String, String, int)}
+     * {@link StandardMeCabTokenizer#StandardMeCabTokenizer(Reader, Tagger, int)}
      * を参照。
      * 
      * @param args
@@ -84,7 +87,7 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
         if (charset != null) {
             dicCharset = charset;
         } else {
-            dicCharset = Charset.defaultCharset().name();
+            dicCharset = null;
         }
 
         if (arg != null) {
@@ -96,12 +99,18 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
         if (maxSizeStr != null) {
             maxSize = Integer.parseInt(maxSizeStr);
         }
+
+        if (dicCharset == null) {
+            tagger = new StandardTagger(mecabArg);
+        } else {
+            tagger = new StandardTagger(mecabArg, Charset.forName(dicCharset));
+        }
     }
 
     public Tokenizer create(Reader reader)
     {
         try {
-            return new StandardMeCabTokenizer(reader, dicCharset, mecabArg, maxSize);
+            return new StandardMeCabTokenizer(reader, tagger, maxSize);
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }

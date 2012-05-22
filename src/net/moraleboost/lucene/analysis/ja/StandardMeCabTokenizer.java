@@ -1,6 +1,6 @@
 /*
  **
- **  Mar. 5, 2008
+ **  May. 17, 2009
  **
  **  The author disclaims copyright to this source code.
  **  In place of a legal notice, here is a blessing:
@@ -19,54 +19,169 @@ package net.moraleboost.lucene.analysis.ja;
 import java.io.Reader;
 import java.io.IOException;
 
-import net.moraleboost.mecab.MeCabException;
+import net.moraleboost.mecab.Lattice;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+
+import net.moraleboost.mecab.Node;
 import net.moraleboost.mecab.Tagger;
-import net.moraleboost.mecab.impl.StandardTagger;
 
-public class StandardMeCabTokenizer extends MeCabTokenizer
+/**
+ * MeCabを用いて入力を分かち書きするTokenizerのベース。
+ * <br><br>
+ * 生成されるTokenのtermには、形態素の表層形が格納される。
+ * typeには、形態素の素性が格納される。
+ * 
+ * @author taketa
+ *
+ */
+public class StandardMeCabTokenizer extends Tokenizer
 {
-    /**
-     * MeCabを用いて入力を分かち書きするTokenizerを構築する。
-     * 
-     * @param in
-     *            入力
-     * @param dicCharset
-     *            MeCabの辞書の文字コード
-     * @param arg
-     *            MeCabに与えるオプション
-     * @throws MeCabException
-     * @throws IOException
-     */
-    public StandardMeCabTokenizer(Reader in, String dicCharset, String arg)
-    throws MeCabException, IOException
-    {
-        this(in, dicCharset, arg, DEFAULT_MAX_SIZE);
-    }
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
+    public static final int DEFAULT_MAX_SIZE = 10 * 1024 * 1024;
+
+    private int maxSize = DEFAULT_MAX_SIZE;
+
+    private Tagger tagger = null;
+    private Lattice lattice = null;
+    private Node node = null;
+    private int offset = 0;
 
     /**
-     * MeCabを用いて入力を分かち書きするTokenizerを構築する。
-     * 
-     * @param in
-     *            入力
-     * @param dicCharset
-     *            MeCabの辞書の文字コード
-     * @param arg
-     *            MeCabに与えるオプション
-     * @param maxSize
-     *            入力から読み込んだデータの量がこの値を超えると、
-     *            解析は失敗し、MeCabExceptionが発生する。
-     * @throws IOException
-     * @throws MeCabException
+     * トークンのターム属性
      */
-    public StandardMeCabTokenizer(Reader in, String dicCharset, String arg, int maxSize)
-    throws MeCabException, IOException
+    private CharTermAttribute termAttribute = null;
+    /**
+     * トークンのオフセット属性
+     */
+    private OffsetAttribute offsetAttribute = null;
+    /**
+     * トークンのタイプ属性
+     */
+    private TypeAttribute typeAttribute = null;
+
+    /**
+     * オブジェクトを構築する。
+     * 
+     * @param in 入力
+     * @param tagger 形態素解析器
+     * @param maxSize 入力から読み込む最大文字数(in chars)
+     * @throws IOException
+     */
+    public StandardMeCabTokenizer(Reader in, Tagger tagger, int maxSize)
+    throws IOException
     {
-        this(in, new StandardTagger(dicCharset, arg), maxSize);
+        super(in);
+
+        this.maxSize = maxSize;
+        
+        this.tagger = tagger;
+        this.lattice = tagger.createLattice();
+
+        termAttribute = addAttribute(CharTermAttribute.class);
+        offsetAttribute = addAttribute(OffsetAttribute.class);
+        typeAttribute = addAttribute(TypeAttribute.class);
+        
+        parse();
     }
     
-    public StandardMeCabTokenizer(Reader in, Tagger tagger, int maxSize)
-    throws MeCabException, IOException
+    protected Tagger getTagger()
     {
-        super(in, tagger, maxSize);
+        return tagger;
+    }
+    
+    @Override
+    public boolean incrementToken() throws IOException
+    {
+        if (node == null || node.stat() == Node.TYPE_EOS_NODE) {
+            lattice.clear();
+            return false;
+        }
+
+        clearAttributes();
+
+        String[] leadingSpaceAndSurface = new String[2];
+        if (!node.leadingSpaceAndSurface(leadingSpaceAndSurface)) {
+            throw new IOException("Can't get leading space and surface from node.");
+        }
+        String tokenString = leadingSpaceAndSurface[1];
+        String blankString = leadingSpaceAndSurface[0];
+        int start;
+        int end;
+
+        if (blankString != null) {
+            start = offset + blankString.length();
+            end = start + tokenString.length();
+        } else {
+            start = offset;
+            end = start + tokenString.length();
+        }
+
+        offset = end;
+
+        termAttribute.setEmpty();
+        termAttribute.append(tokenString);
+        offsetAttribute.setOffset(
+                correctOffset(start),
+                correctOffset(end));
+        typeAttribute.setType(node.feature());
+
+        node = node.next();
+        return true;
+    }
+    
+    @Override
+    public void end()
+    {
+        int finalOffset = correctOffset(offset);
+        offsetAttribute.setOffset(finalOffset, finalOffset);
+    }
+    
+    @Override
+    public void reset() throws IOException
+    {
+        offset = 0;
+        node = lattice.bosNode();
+        if (node != null) {
+            node = node.next();
+        }
+    }
+    
+    @Override
+    public void reset(Reader in) throws IOException
+    {
+        super.reset(in); // this.input = in;
+        offset = 0;
+        node = null;
+        parse();
+    }
+
+    private void parse() throws IOException
+    {
+        // drain input
+        char[] buffer = new char[DEFAULT_BUFFER_SIZE];
+        StringBuilder builder = new StringBuilder(DEFAULT_BUFFER_SIZE);
+        long total = 0;
+        int nread;
+        while (-1 != (nread = input.read(buffer))) {
+            builder.append(buffer, 0, nread);
+            total += nread;
+            if (total > maxSize) {
+                throw new IOException("Max size exceeded.");
+            }
+        }
+
+        // parse
+        lattice.clear();
+        lattice.setSentence(builder.toString());
+        if (!tagger.parse(lattice)) {
+            throw new IOException(lattice.what());
+        }
+        node = lattice.bosNode();
+        if (node != null) {
+            node = node.next();
+        }
     }
 }

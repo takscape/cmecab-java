@@ -1,93 +1,35 @@
-/*
- **
- **  May. 17, 2009
- **
- **  The author disclaims copyright to this source code.
- **  In place of a legal notice, here is a blessing:
- **
- **    May you do good and not evil.
- **    May you find forgiveness for yourself and forgive others.
- **    May you share freely, never taking more than you give.
- **
- **                                         Stolen from SQLite :-)
- **  Any feedback is welcome.
- **  Kohei TAKETA <k-tak@void.in>
- **
- */
 package net.moraleboost.mecab;
 
-import java.nio.charset.CharacterCodingException;
-import java.util.Iterator;
-
-/**
- * 形態素を表すインターフェース。
- * 
- * @author taketa
- *
- */
-public interface Node extends Iterator<String>
+public interface Node
 {
-    /**
-     * Nodeを閉じる。
-     * close()呼び出し以降にNodeのメソッドを呼び出した場合、結果は未定義である。
-     */
-    public void close();
+    int TYPE_NOR_NODE = 0;
+    int TYPE_UNK_NODE = 1;
+    int TYPE_BOS_NODE = 2;
+    int TYPE_EOS_NODE = 3;
+    int TYPE_EON_NODE = 4;
 
-    /**
-     * 次の形態素に移動し、その表層形を取得する。
-     * 
-     * @return 次の形態素の表層形
-     * @throws CharacterCodingException
-     *             表層形をJava文字列にデコードできなかった
-     * @throws MeCabException
-     *             ネイティブライブラリの内部エラー
-     */
-    public String nextMorpheme()
-    throws CharacterCodingException, MeCabException;
-
-    /**
-     * 現在の位置の形態素の素性情報を返す。
-     * 
-     * @return 素性情報
-     * @throws CharacterCodingException
-     *             素性情報をJava文字列にデコードできなかった
-     * @throws MeCabException
-     *             ネイティブライブラリ内部のエラー
-     */
-    public String feature()
-    throws CharacterCodingException, MeCabException;
-
-    /**
-     * 現在の位置の形態素の品詞IDを返す。
-     * 
-     * @return 品詞ID
-     * @throws MeCabException
-     *             ネイティブライブラリ内部のエラー
-     */
-    public int posid()
-    throws MeCabException;
-
-    /**
-     * 現在の位置の形態素の表層形を返す。
-     * 
-     * @return 表層形
-     * @throws CharacterCodingException
-     *             表層形をJava文字列にデコードできなかった
-     * @throws MeCabException
-     *             ネイティブライブラリ内部のエラー
-     */
-    public String surface()
-    throws CharacterCodingException, MeCabException;
-
-    /**
-     * surfaceに先立つ空白を返す。
-     * 
-     * @return surfaceに先立つ空白。空白が存在しなかった場合はnullを返す。
-     * @throws CharacterCodingException
-     *             空白をJava文字列にデコードできなかった
-     * @throws MeCabException
-     *             ネイティブライブラリ内部のエラー
-     */
-    public String blank()
-    throws CharacterCodingException, MeCabException;
+    Node prev();
+    Node next();
+    Node enext();
+    Node bnext();
+    Path rpath();
+    Path lpath();
+    String surface();
+    String rsurface();
+    boolean leadingSpaceAndSurface(String[] leadingSpaceAndSurface);
+    String feature();
+    long id();
+    int length();
+    int rlength();
+    int rcAttr();
+    int lcAttr();
+    int posid();
+    int charType();
+    int stat();
+    boolean isbest();
+    float alpha();
+    float beta();
+    float prob();
+    short wcost();
+    long cost();
 }

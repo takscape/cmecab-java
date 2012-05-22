@@ -1,72 +1,116 @@
 package net.moraleboost.mecab.impl;
 
-import net.moraleboost.mecab.Lattice;
-import net.moraleboost.mecab.MeCabException;
 import net.moraleboost.mecab.Model;
-import net.moraleboost.mecab.Tagger;
+import org.bridj.BridJ;
+import org.bridj.Platform;
+import org.bridj.Pointer;
+import org.bridj.ann.Library;
 
+import java.nio.charset.Charset;
+
+@Library("mecab")
 public class StandardModel implements Model
 {
     static {
-        System.loadLibrary("CMeCab");
+        if (Platform.isWindows()) {
+            BridJ.setNativeLibraryActualName("mecab", "libmecab");
+        }
+        BridJ.register();
     }
 
-    String dicCharset = null;
-    private long handle = 0;
+    private static native Pointer<?> mecab_model_new2(Pointer<Byte> arg);
+    private static native void mecab_model_destroy(Pointer<?> pModel);
+    private static native Pointer<?> mecab_model_new_tagger(Pointer<?> pModel);
+    private static native Pointer<?> mecab_model_new_lattice(Pointer<?> pModel);
+    private static native int mecab_model_swap(Pointer<?> pModel, Pointer<?> pNewModel);
+    private static native Pointer<StandardDictionaryInfo> mecab_model_dictionary_info(Pointer<?> pModel);
 
-    public StandardModel(String dicCharset, String arg) throws MeCabException
+    private Pointer<?> pModel;
+    private Charset charset;
+
+    public StandardModel(String arg)
     {
-        this.dicCharset = dicCharset;
-        handle = _create(arg.getBytes());
-        if (handle == 0) {
-            throw new MeCabException("Failed to create a model.");
+        Pointer<Byte> parg = Pointer.pointerToCString(arg);
+        try {
+            pModel = mecab_model_new2(parg);
+        } finally {
+            Pointer.release(parg);
+        }
+
+        StandardDictionaryInfo dictInfo = dictionaryInfo();
+        charset = Charset.forName(dictInfo.charset());
+    }
+
+    public StandardModel(String arg, Charset charset)
+    {
+        Pointer<Byte> parg = Pointer.pointerToCString(arg);
+        try {
+            pModel = mecab_model_new2(parg);
+        } finally {
+            Pointer.release(parg);
+        }
+
+        this.charset = charset;
+    }
+
+    protected Pointer<?> getPointer()
+    {
+        return pModel;
+    }
+
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+        destroy();
+    }
+
+    public void destroy()
+    {
+        try {
+            if (pModel != null) {
+                mecab_model_destroy(pModel);
+            }
+        } finally {
+            pModel = null;
         }
     }
 
-    protected void finalize()
+    public StandardTagger createTagger()
     {
-        close();
-    }
-
-    public void close()
-    {
-        if (handle != 0) {
-            _destroy(handle);
-            handle = 0;
+        Pointer<?> p = mecab_model_new_tagger(pModel);
+        if (p == null) {
+            throw new OutOfMemoryError("mecab_model_new_tagger() failed.");
+        } else {
+            return new StandardTagger(p, charset);
         }
     }
-    
-    public Tagger createTagger() throws MeCabException
+
+    public StandardLattice createLattice()
     {
-        long taggerHandle = _createTagger();
-        if (taggerHandle == 0) {
-            throw new MeCabException("Failed to create a tagger.");
+        Pointer<?> p = mecab_model_new_lattice(pModel);
+        if (p == null) {
+            throw new OutOfMemoryError("mecab_model_new_lattice() failed.");
+        } else {
+            return new StandardLattice(p, charset);
         }
-        return new StandardTagger(dicCharset, taggerHandle);
     }
 
-    public Lattice createLattice() throws MeCabException
+    public boolean swap(Model model)
     {
-        long latticeHandle = _createLattice();
-        if (latticeHandle == 0) {
-            throw new MeCabException("Failed to create a lattice.");
+        if (model != null && (model instanceof StandardModel)) {
+            return (mecab_model_swap(pModel, ((StandardModel)model).getPointer()) != 0);
+        } else {
+            return false;
         }
-        return new StandardLattice(dicCharset, latticeHandle);
     }
 
-    /**
-     * バージョン文字列を取得する
-     *
-     * @return バージョン文字列
-     */
-    public static String version()
+    public StandardDictionaryInfo dictionaryInfo()
     {
-        return new String(_version());
+        Pointer<StandardDictionaryInfo> p = mecab_model_dictionary_info(pModel);
+        if (p == null) {
+            throw new OutOfMemoryError("mecab_model_dictionary_info() failed.");
+        } else {
+            return new StandardDictionaryInfo(p);
+        }
     }
-
-    private static native long _create(byte[] arg);
-    private static native void _destroy(long hdl);
-    private static native long _createTagger();
-    private static native long _createLattice();
-    private static native byte[] _version();
 }

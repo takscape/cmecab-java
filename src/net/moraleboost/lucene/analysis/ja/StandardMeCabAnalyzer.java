@@ -18,7 +18,10 @@ package net.moraleboost.lucene.analysis.ja;
 
 import java.io.Reader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
+import net.moraleboost.mecab.Tagger;
+import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 
@@ -30,42 +33,41 @@ import org.apache.lucene.analysis.TokenStream;
  */
 public class StandardMeCabAnalyzer extends Analyzer
 {
-    private String dicCharset = null;
-    private String mecabArg = null;
+    private Tagger tagger = null;
+    private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
     private String[] stopPatterns = null;
 
     /**
      * StandardMeCabTokenizerをTokenizerとして用いるAnalyzerを構築する。
      * 
-     * @param dicCharset
-     *            MeCabの辞書の文字コード
-     * @param mecabArg
-     *            MeCabに与えるオプション
+     * @param tagger
+     *            Taggerインスタンス
+     * @param maxSize
+     *            入力から読み込む最大文字数(in chars)
      */
-    public StandardMeCabAnalyzer(String dicCharset, String mecabArg)
+    public StandardMeCabAnalyzer(Tagger tagger, int maxSize)
     {
         super();
-        this.dicCharset = dicCharset;
-        this.mecabArg = mecabArg;
+        this.tagger = tagger;
+        this.maxSize = maxSize;
     }
 
     /**
      * StandardMeCabTokenizerによって分かち書きされたトークンを
      * FeatureRegexFilterによってフィルタリングするAnalyzerを構築する。
      * 
-     * @param dicCharset
-     *            MeCabの辞書の文字コード
-     * @param mecabArg
-     *            MeCabに与えるオプション
+     * @param tagger
+     *            Taggerインスタンス
+     * @param maxSize
+     *            入力から読み込む最大文字数(in chars)
      * @param stopPatterns
      *            FeatureRegexFilterに与える正規表現の配列
      */
-    public StandardMeCabAnalyzer(String dicCharset, String mecabArg,
-            String[] stopPatterns)
+    public StandardMeCabAnalyzer(Tagger tagger, int maxSize, String[] stopPatterns)
     {
         super();
-        this.dicCharset = dicCharset;
-        this.mecabArg = mecabArg;
+        this.tagger = tagger;
+        this.maxSize = maxSize;
         this.stopPatterns = stopPatterns;
     }
 
@@ -73,8 +75,8 @@ public class StandardMeCabAnalyzer extends Analyzer
     public TokenStream tokenStream(String fieldName, Reader reader)
     {
         try {
-            TokenStream stream = new StandardMeCabTokenizer(reader, dicCharset,
-                    mecabArg);
+            TokenStream stream =
+                    new StandardMeCabTokenizer(reader, tagger, maxSize);
 
             if (stopPatterns != null) {
                 stream = new FeatureRegexFilter(stream, stopPatterns);
@@ -96,7 +98,7 @@ public class StandardMeCabAnalyzer extends Analyzer
             info = new TokenStreamInfo();
             
             StandardMeCabTokenizer tokenizer =
-                new StandardMeCabTokenizer(reader, dicCharset, mecabArg);
+                new StandardMeCabTokenizer(reader, tagger, maxSize);
             info.tokenizer = tokenizer;
             
             if (stopPatterns != null) {
