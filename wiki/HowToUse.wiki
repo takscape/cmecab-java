@@ -64,24 +64,8 @@ public static void main(String[] args) throws Exception
 <!-- MeCabを用いたTokenizer -->
 <fieldType name="text_mecab" class="solr.TextField">
     <analyzer>
-        <!-- charsetパラメータには、辞書の文字コードを指定 -->
+        <!-- charsetパラメータには、辞書の文字コードを明示的に指定できる。省略すると、辞書内に記録された文字コードを読み取って使用。 -->
         <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
-    </analyzer>
-</fieldType>
-
-<!-- 高速なMeCabを用いたTokenizer -->
-<fieldType name="text_mecab_protobuf" class="solr.TextField">
-    <analyzer>
-        <!-- 辞書の文字コードは、UTF-8固定 -->
-        <tokenizer class="net.moraleboost.solr.LocalProtobufMeCabTokenizerFactory" />
-    </analyzer>
-</fieldType>
-
-<!-- Senを用いたTokenizer -->
-<fieldType name="text_sen" class="solr.TextField">
-    <analyzer>
-        <!-- confFileパラメータには、Senの設定ファイル(sen.xml)のパスを指定 -->
-        <tokenizer class="net.moraleboost.solr.SenTokenizerFactory" confFile="/etc/sen/sen.xml" />
     </analyzer>
 </fieldType>
 
