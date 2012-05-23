@@ -52,6 +52,10 @@ public static void main(String[] args) throws Exception
 }
 }}}
 
+== スレッドセーフティについて ==
+ * 複数のスレッドから、Tagger.parse()を安全に同時に呼び出せます。
+ * Latticeは、スレッドごとに個別のインスタンスを持つ必要があります。
+
 == Luceneから使用する ==
  * !StandardMeCabAnalzyer、!StandardMeCabTokenizer、!FeatureRegexFilter等を直接インスタンス化して利用。
  * [http://cmecab-java.googlecode.com/svn/trunk/src/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java テストケース]を参照。
