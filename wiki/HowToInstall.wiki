@@ -24,7 +24,7 @@ java -cp "c:\cmecab\cmecab-2.0.jar;c:\cmecab\lib\bridj-0.6.1.jar" net.moraleboos
 
 !StandardTaggerの引数には、解析対象文字列（上の例では「本日は晴天なり。」）を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
 {{{
-MeCab version: 0.993
+MeCab version 0.993
 
 Original text: 本日は晴天なり。
 
