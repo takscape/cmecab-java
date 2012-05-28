@@ -38,6 +38,10 @@ public class StandardTagger implements Tagger
             Pointer.release(parg);
         }
 
+        if (pTagger == null) {
+            throw new OutOfMemoryError("mecab_new2() failed.");
+        }
+
         StandardDictionaryInfo dictInfo = dictionaryInfo();
         charset = Charset.forName(dictInfo.charset());
     }
@@ -49,6 +53,10 @@ public class StandardTagger implements Tagger
             pTagger = mecab_new2(parg);
         } finally {
             Pointer.release(parg);
+        }
+
+        if (pTagger == null) {
+            throw new OutOfMemoryError("mecab_new2() failed.");
         }
 
         this.charset = charset;

@@ -37,6 +37,10 @@ public class StandardModel implements Model
             Pointer.release(parg);
         }
 
+        if (pModel == null) {
+            throw new OutOfMemoryError("mecab_model_new2() failed.");
+        }
+
         StandardDictionaryInfo dictInfo = dictionaryInfo();
         charset = Charset.forName(dictInfo.charset());
     }
@@ -48,6 +52,10 @@ public class StandardModel implements Model
             pModel = mecab_model_new2(parg);
         } finally {
             Pointer.release(parg);
+        }
+
+        if (pModel == null) {
+            throw new OutOfMemoryError("mecab_model_new2() failed.");
         }
 
         this.charset = charset;
