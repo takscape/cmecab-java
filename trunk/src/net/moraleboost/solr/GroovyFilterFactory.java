@@ -15,6 +15,7 @@ import java.util.Map;
 public class GroovyFilterFactory extends BaseTokenFilterFactory
 {
     private File file;
+    private boolean recompile = false;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 
@@ -40,7 +41,7 @@ public class GroovyFilterFactory extends BaseTokenFilterFactory
         CompilerConfiguration config = new CompilerConfiguration();
 
         if (recompile != null) {
-            config.setRecompileGroovySource(Boolean.parseBoolean(recompile));
+            this.recompile = Boolean.parseBoolean(recompile);
         }
         if (encoding != null) {
             config.setSourceEncoding(encoding);
@@ -62,6 +63,9 @@ public class GroovyFilterFactory extends BaseTokenFilterFactory
     public TokenStream create(TokenStream tokenStream)
     {
         try {
+            if (recompile) {
+                classLoader.clearCache();
+            }
             Class cls = classLoader.parseClass(this.file);
             Constructor ctor = cls.getConstructor(TokenStream.class, Map.class);
             return (TokenStream)ctor.newInstance(tokenStream, arguments);

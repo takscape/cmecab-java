@@ -16,6 +16,7 @@ import java.util.Map;
 public class GroovyTokenizerFactory extends BaseTokenizerFactory
 {
     private File file;
+    private boolean recompile = false;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 
@@ -41,7 +42,7 @@ public class GroovyTokenizerFactory extends BaseTokenizerFactory
         CompilerConfiguration config = new CompilerConfiguration();
 
         if (recompile != null) {
-            config.setRecompileGroovySource(Boolean.parseBoolean(recompile));
+            this.recompile = Boolean.parseBoolean(recompile);
         }
         if (encoding != null) {
             config.setSourceEncoding(encoding);
@@ -63,6 +64,9 @@ public class GroovyTokenizerFactory extends BaseTokenizerFactory
     public Tokenizer create(Reader reader)
     {
         try {
+            if (recompile) {
+                classLoader.clearCache();
+            }
             Class cls = classLoader.parseClass(this.file);
             Constructor ctor = cls.getConstructor(Reader.class, Map.class);
             return (Tokenizer)ctor.newInstance(reader, arguments);
