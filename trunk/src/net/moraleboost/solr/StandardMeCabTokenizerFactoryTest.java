@@ -28,14 +28,10 @@ import java.io.StringReader;
 
 public class StandardMeCabTokenizerFactoryTest
 {
-    public static final String DIC_ENCODING = System
-            .getProperty("net.moraleboost.mecab.encoding");
-
     @Test
     public void testCreate() throws Exception
     {
         Map<String, String> args = new HashMap<String, String>();
-        args.put("charset", DIC_ENCODING);
         args.put("arg", "");
 
         StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory();

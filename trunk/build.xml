@@ -9,7 +9,7 @@
 	<property name="dist" location="bin"/>
 	<property name="doc" location="doc"/>
 	<property name="test" location="test"/>
-	<property name="version" value="2.0"/>
+	<property name="version" value="2.0.1"/>
 	
 	<path id="compile.classpath">
 		<fileset dir="${lib}">
@@ -28,7 +28,6 @@
 	
 	<path id="test.library.path">
 		<pathelement path="${java.library.path}"/>
-		<pathelement location="${jni}"/>
 	</path>
 
 	<target name="init">
