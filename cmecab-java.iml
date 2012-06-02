@@ -11,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="libs-run" level="project" />
     <orderEntry type="library" name="libs-test" level="project" />
+    <orderEntry type="library" name="libs-run" level="project" />
   </component>
 </module>
 
