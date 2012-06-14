@@ -68,8 +68,11 @@ public class StandardModel implements Model
 
     protected void finalize() throws Throwable
     {
-        super.finalize();
-        destroy();
+        try {
+            destroy();
+        } finally {
+            super.finalize();
+        }
     }
 
     public void destroy()

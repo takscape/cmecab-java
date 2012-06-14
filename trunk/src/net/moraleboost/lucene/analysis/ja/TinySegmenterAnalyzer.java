@@ -14,13 +14,13 @@ public class TinySegmenterAnalyzer extends Analyzer
     }
 
     @Override
-    public TokenStream tokenStream(String fieldName, Reader reader)
+    public final TokenStream tokenStream(String fieldName, Reader reader)
     {
         return new TinySegmenterTokenizer(reader);
     }
     
     @Override
-    public TokenStream reusableTokenStream(String fieldName, Reader reader)
+    public final TokenStream reusableTokenStream(String fieldName, Reader reader)
     throws IOException
     {
         TinySegmenterTokenizer tokenizer =

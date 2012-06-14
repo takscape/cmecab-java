@@ -70,8 +70,11 @@ public class StandardTagger implements Tagger
 
     protected void finalize() throws Throwable
     {
-        super.finalize();
-        destroy();
+        try {
+            destroy();
+        } finally {
+            super.finalize();
+        }
     }
 
     public void destroy()

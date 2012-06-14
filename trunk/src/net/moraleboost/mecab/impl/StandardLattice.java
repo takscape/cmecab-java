@@ -70,8 +70,11 @@ public class StandardLattice implements Lattice
 
     protected void finalize() throws Throwable
     {
-        super.finalize();
-        destroy();
+        try {
+            destroy();
+        } finally {
+            super.finalize();
+        }
     }
 
     public void destroy()

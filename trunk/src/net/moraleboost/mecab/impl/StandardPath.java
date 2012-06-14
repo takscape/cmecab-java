@@ -1,6 +1,7 @@
 package net.moraleboost.mecab.impl;
 
 import net.moraleboost.mecab.Path;
+import org.bridj.BridJUtil;
 import org.bridj.Pointer;
 import org.bridj.StructObject;
 import org.bridj.ann.Field;
@@ -20,7 +21,7 @@ public class StandardPath extends StructObject implements Path
     @Field(0)
     public Pointer<StandardNode> _rnode()
     {
-        return this.io.getPointerField(this, 0);
+        return BridJUtil.getPointerField(this, 0);
     }
 
     public StandardNode rnode()
@@ -32,7 +33,7 @@ public class StandardPath extends StructObject implements Path
     @Field(1)
     public Pointer<StandardPath> _rnext()
     {
-        return this.io.getPointerField(this, 1);
+        return BridJUtil.getPointerField(this, 1);
     }
 
     public StandardPath rnext()
@@ -44,7 +45,7 @@ public class StandardPath extends StructObject implements Path
     @Field(2)
     public Pointer<StandardNode> _lnode()
     {
-        return this.io.getPointerField(this, 2);
+        return BridJUtil.getPointerField(this, 2);
     }
 
     public StandardNode lnode()
@@ -56,7 +57,7 @@ public class StandardPath extends StructObject implements Path
     @Field(3)
     public Pointer<StandardPath> _lnext()
     {
-        return this.io.getPointerField(this, 3);
+        return BridJUtil.getPointerField(this, 3);
     }
 
     public StandardPath lnext()

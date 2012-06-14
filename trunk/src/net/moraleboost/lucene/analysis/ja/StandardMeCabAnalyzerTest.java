@@ -112,6 +112,7 @@ public class StandardMeCabAnalyzerTest
                 fail("No hit.");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.toString());
         }
     }

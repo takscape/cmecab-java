@@ -1,6 +1,7 @@
 package net.moraleboost.mecab.impl;
 
 import net.moraleboost.mecab.Node;
+import org.bridj.BridJUtil;
 import org.bridj.Pointer;
 import org.bridj.StructObject;
 import org.bridj.ann.CLong;
@@ -21,7 +22,7 @@ public class StandardNode extends StructObject implements Node
     @Field(0)
     public Pointer<StandardNode> _prev()
     {
-        return this.io.getPointerField(this, 0);
+        return BridJUtil.getPointerField(this, 0);
     }
 
     public StandardNode prev()
@@ -37,7 +38,7 @@ public class StandardNode extends StructObject implements Node
     @Field(1)
     public Pointer<StandardNode> _next()
     {
-        return this.io.getPointerField(this, 1);
+        return BridJUtil.getPointerField(this, 1);
     }
 
     public StandardNode next()
@@ -53,7 +54,7 @@ public class StandardNode extends StructObject implements Node
     @Field(2)
     public Pointer<StandardNode> _enext()
     {
-        return this.io.getPointerField(this, 2);
+        return BridJUtil.getPointerField(this, 2);
     }
 
     public StandardNode enext()
@@ -69,7 +70,7 @@ public class StandardNode extends StructObject implements Node
     @Field(3)
     public Pointer<StandardNode> _bnext()
     {
-        return this.io.getPointerField(this, 3);
+        return BridJUtil.getPointerField(this, 3);
     }
 
     public StandardNode bnext()
@@ -85,7 +86,7 @@ public class StandardNode extends StructObject implements Node
     @Field(4)
     public Pointer<StandardPath> _rpath()
     {
-        return this.io.getPointerField(this, 4);
+        return BridJUtil.getPointerField(this, 4);
     }
 
     public StandardPath rpath()
@@ -101,7 +102,7 @@ public class StandardNode extends StructObject implements Node
     @Field(5)
     public Pointer<StandardPath> _lpath()
     {
-        return this.io.getPointerField(this, 5);
+        return BridJUtil.getPointerField(this, 5);
     }
 
     public StandardPath lpath()
@@ -117,7 +118,7 @@ public class StandardNode extends StructObject implements Node
     @Field(6)
     public Pointer<Byte> _surface()
     {
-        return this.io.getPointerField(this, 6);
+        return BridJUtil.getPointerField(this, 6);
     }
 
     public String surface()
@@ -167,7 +168,7 @@ public class StandardNode extends StructObject implements Node
     @Field(7)
     public Pointer<Byte> _feature()
     {
-        return this.io.getPointerField(this, 7);
+        return BridJUtil.getPointerField(this, 7);
     }
 
     public String feature()
