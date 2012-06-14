@@ -15,16 +15,16 @@
 成功すれば、binディレクトリに、cmecab-(バージョン番号).jarができているはず。
 
 == 実行テスト ==
-!StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。Windowsにおいて、!MeCabをC:\Program Files\!MeCabにインストールし、またcmecab-java-2.0.zipの内容を、c:\cmecabに展開したと想定している。
+!StandardTaggerクラスのmain関数を呼び出して、形態素解析結果を表示してみる。Windowsにおいて、!MeCabをC:\Program Files\!MeCabにインストールし、またcmecab-java-2.0.1.zipの内容を、c:\cmecabに展開したと想定している。
 
 {{{
 set PATH=C:\Program Files\MeCab\bin;%PATH%
-java -cp "c:\cmecab\cmecab-2.0.jar;c:\cmecab\lib\bridj-0.6.1.jar" net.moraleboost.mecab.impl.StandardTagger 本日は晴天なり。
+java -cp "c:\cmecab\cmecab-2.0.1.jar;c:\cmecab\lib\bridj-0.6.1.jar" net.moraleboost.mecab.impl.StandardTagger 本日は晴天なり。
 }}}
 
 !StandardTaggerの引数には、解析対象文字列（上の例では「本日は晴天なり。」）を指定。成功すれば以下のような結果が表示される（IPA辞書を利用する場合）。
 {{{
-MeCab version 0.993
+MeCab version 0.994
 
 Original text: 本日は晴天なり。
 
