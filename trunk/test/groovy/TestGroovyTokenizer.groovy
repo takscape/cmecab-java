@@ -22,7 +22,7 @@ class TestGroovyTokenizer extends Tokenizer
     }
 
     @Override
-    boolean incrementToken()
+    final boolean incrementToken()
     {
         while (iter.hasNext()) {
             termAttr.setEmpty()
