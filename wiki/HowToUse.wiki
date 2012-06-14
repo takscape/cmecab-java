@@ -11,6 +11,7 @@ APIリファレンスは、ソースパッケージに同梱。
 == 単体で使用する ==
  * !StandardTaggerクラスをインスタンス化し、parseを呼び出す。
 {{{
+import net.moraleboost.mecab.Lattice;
 import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.StandardTagger;
 import net.moraleboost.mecab.Node;
