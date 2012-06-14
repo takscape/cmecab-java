@@ -154,8 +154,15 @@ public class StandardMeCabTokenizer extends Tokenizer
     public void reset(Reader in) throws IOException
     {
         super.reset(in); // this.input = in;
-        offset = 0;
-        node = null;
+        try {
+            if (lattice != null) {
+                lattice.destroy();
+            }
+        } finally {
+            offset = 0;
+            node = null;
+            lattice = null;
+        }
         parse();
     }
 
