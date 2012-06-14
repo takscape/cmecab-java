@@ -52,6 +52,7 @@
 	
 	<target name="test" depends="compile">
 		<junit fork="yes" printsummary="yes" haltonfailure="yes">
+            <jvmarg value="-ea" />
 			<classpath refid="test.classpath"/>
 			<formatter type="plain"/>
 			<batchtest>

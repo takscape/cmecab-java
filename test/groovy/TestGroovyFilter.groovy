@@ -17,7 +17,7 @@ class TestGroovyFilter extends TokenFilter
     }
 
     @Override
-    boolean incrementToken()
+    final boolean incrementToken()
     {
         while (input.incrementToken()) {
             term.setEmpty()

@@ -92,7 +92,7 @@ public class StandardMeCabTokenizer extends Tokenizer
     }
     
     @Override
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         if (node == null || node.stat() == Node.TYPE_EOS_NODE) {
             lattice.clear();
