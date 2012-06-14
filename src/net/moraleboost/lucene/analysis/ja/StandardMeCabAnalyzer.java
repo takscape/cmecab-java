@@ -72,7 +72,7 @@ public class StandardMeCabAnalyzer extends Analyzer
     }
 
     @Override
-    public TokenStream tokenStream(String fieldName, Reader reader)
+    public final TokenStream tokenStream(String fieldName, Reader reader)
     {
         try {
             TokenStream stream =
@@ -89,7 +89,7 @@ public class StandardMeCabAnalyzer extends Analyzer
     }
     
     @Override
-    public TokenStream reusableTokenStream(String fieldName, Reader reader)
+    public final TokenStream reusableTokenStream(String fieldName, Reader reader)
     throws IOException
     {
         TokenStreamInfo info = (TokenStreamInfo)getPreviousTokenStream();
@@ -102,7 +102,7 @@ public class StandardMeCabAnalyzer extends Analyzer
             info.tokenizer = tokenizer;
             
             if (stopPatterns != null) {
-                info.filter = new FeatureRegexFilter(tokenizer, stopPatterns);;
+                info.filter = new FeatureRegexFilter(tokenizer, stopPatterns);
             }
             
             setPreviousTokenStream(info);
@@ -121,7 +121,7 @@ public class StandardMeCabAnalyzer extends Analyzer
             return info.tokenizer;
         }
     }
-    
+
     private static class TokenStreamInfo
     {
         public StandardMeCabTokenizer tokenizer;

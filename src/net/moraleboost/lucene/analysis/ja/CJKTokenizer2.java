@@ -504,7 +504,7 @@ public class CJKTokenizer2 extends Tokenizer
         typeAttribute = addAttribute(TypeAttribute.class);
     }
 
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         clearAttributes();
         

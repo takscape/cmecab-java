@@ -43,7 +43,7 @@ public class VerbatimTokenizer extends Tokenizer
         offsetAttribute = addAttribute(OffsetAttribute.class);
     }
     
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         clearAttributes();
         

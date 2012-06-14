@@ -44,7 +44,7 @@ public class JapaneseNormalizationFilter extends TokenFilter
     }
 
     @Override
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         if (input.incrementToken()) {
             char[] buf = termAttribute.buffer();

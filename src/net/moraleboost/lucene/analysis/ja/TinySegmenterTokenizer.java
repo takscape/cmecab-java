@@ -65,7 +65,7 @@ public class TinySegmenterTokenizer extends Tokenizer
     }
     
     @Override
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         TinySegmenter.Token baseToken = segmenter.next();
         

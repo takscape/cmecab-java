@@ -21,7 +21,7 @@ public class TermRegexFilter extends AbstractRegexFilter
     }
 
     @Override
-    public boolean incrementToken() throws IOException
+    public final boolean incrementToken() throws IOException
     {
         int skippedPositions = 0;
         while (input.incrementToken()) {

@@ -78,7 +78,6 @@ public class StandardMeCabTokenizer extends Tokenizer
         this.maxSize = maxSize;
         
         this.tagger = tagger;
-        this.lattice = tagger.createLattice();
 
         termAttribute = addAttribute(CharTermAttribute.class);
         offsetAttribute = addAttribute(OffsetAttribute.class);
@@ -138,7 +137,8 @@ public class StandardMeCabTokenizer extends Tokenizer
         int finalOffset = correctOffset(offset);
         offsetAttribute.setOffset(finalOffset, finalOffset);
     }
-    
+
+    /*
     @Override
     public void reset() throws IOException
     {
@@ -148,6 +148,7 @@ public class StandardMeCabTokenizer extends Tokenizer
             node = node.next();
         }
     }
+    */
     
     @Override
     public void reset(Reader in) throws IOException
@@ -158,8 +159,18 @@ public class StandardMeCabTokenizer extends Tokenizer
         parse();
     }
 
+    public void close() throws IOException
+    {
+        node = null;
+        lattice.destroy();
+        lattice = null;
+        super.close();
+    }
+
     private void parse() throws IOException
     {
+        lattice = tagger.createLattice();
+
         // drain input
         char[] buffer = new char[DEFAULT_BUFFER_SIZE];
         StringBuilder builder = new StringBuilder(DEFAULT_BUFFER_SIZE);
@@ -174,7 +185,6 @@ public class StandardMeCabTokenizer extends Tokenizer
         }
 
         // parse
-        lattice.clear();
         lattice.setSentence(builder.toString());
         if (!tagger.parse(lattice)) {
             throw new IOException(lattice.what());
