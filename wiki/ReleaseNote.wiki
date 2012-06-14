@@ -1,6 +1,12 @@
 #summary リリースノート
 #labels Featured
 
+== v2.0.1 (2012/6/14) ==
+
+ * !StandardMeCabTokenizerをSolrから使用すると、リクエストを繰り返すうちに使用メモリ量が単調に増加する問題に対処。
+ * Groovyでフィルタ/トークナイザを書ける、!GroovyFilterFactory / !GroovyTokenizerFactoryを追加。
+ * その他細々としたバグ修正。
+
 == v2.0 (2012/5/23) ==
 
 ※※ 前のバージョンとの互換性が失われています ※※
