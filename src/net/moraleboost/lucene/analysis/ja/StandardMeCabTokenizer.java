@@ -138,18 +138,18 @@ public class StandardMeCabTokenizer extends Tokenizer
         offsetAttribute.setOffset(finalOffset, finalOffset);
     }
 
-    /*
     @Override
     public void reset() throws IOException
     {
         offset = 0;
-        node = lattice.bosNode();
-        if (node != null) {
-            node = node.next();
+        if (lattice != null) {
+            node = lattice.bosNode();
+            if (node != null) {
+                node = node.next();
+            }
         }
     }
-    */
-    
+
     @Override
     public void reset(Reader in) throws IOException
     {
@@ -159,12 +159,18 @@ public class StandardMeCabTokenizer extends Tokenizer
         parse();
     }
 
+    @Override
     public void close() throws IOException
     {
-        node = null;
-        lattice.destroy();
-        lattice = null;
-        super.close();
+        try {
+            if (lattice != null) {
+                lattice.destroy();
+            }
+        } finally {
+            node = null;
+            lattice = null;
+            super.close();
+        }
     }
 
     private void parse() throws IOException
