@@ -8,14 +8,14 @@
 	<property name="lib" location="lib"/>
 	<property name="dist" location="bin"/>
 	<property name="doc" location="doc"/>
-	<property name="test" location="test"/>
+	<property name="test" location="src/test"/>
 	<property name="version" value="2.0.1"/>
 	
 	<path id="compile.classpath">
 		<fileset dir="${lib}">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${test}/lib">
+		<fileset dir="/src/test/lib">
 			<include name="*.jar"/>
 		</fileset>
 		<pathelement path="${java.class.path}"/>
