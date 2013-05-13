@@ -20,22 +20,32 @@ import java.io.Reader;
 import java.util.Map;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
 
 import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
+import org.apache.lucene.util.AttributeSource;
 
 /**
  * {@link CJKTokenizer2}のファクトリ。
  * @author taketa
  *
  */
-public class CJKTokenizer2Factory extends BaseTokenizerFactory
+public class CJKTokenizer2Factory extends TokenizerFactory
 {
     private int ngram = CJKTokenizer2.DEFAULT_NGRAM;
     
-    public CJKTokenizer2Factory()
+    /**
+     * パラメータ「ngram」を取る。ngramには、N-gramのNを指定。
+     * 1を指定すると、unigram。2を指定すると、bigram、3を指定するとtrigram。
+     * 省略した場合のデフォルトは{@value CJKTokenizer2#DEFAULT_NGRAM}である。
+     */
+    public CJKTokenizer2Factory(Map<String, String> args)
     {
-        super();
+        super(args);
+        String argNgram = args.get("ngram");
+        if (argNgram != null) {
+            ngram = Integer.parseInt(argNgram);
+        }
     }
     
     public int getNgram()
@@ -43,23 +53,9 @@ public class CJKTokenizer2Factory extends BaseTokenizerFactory
         return ngram;
     }
 
-    /**
-     * パラメータ「ngram」を取る。ngramには、N-gramのNを指定。
-     * 1を指定すると、unigram。2を指定すると、bigram、3を指定するとtrigram。
-     * 省略した場合のデフォルトは{@value CJKTokenizer2#DEFAULT_NGRAM}である。
-     */
-    public void init(Map<String, String> args)
+    @Override
+    public Tokenizer create(AttributeSource.AttributeFactory factory, Reader input)
     {
-        super.init(args);
-
-        String argNgram = args.get("ngram");
-        if (argNgram != null) {
-            ngram = Integer.parseInt(argNgram);
-        }
-    }
-
-    public Tokenizer create(Reader in)
-    {
-        return new CJKTokenizer2(in, ngram);
+        return new CJKTokenizer2(input, ngram);
     }
 }
