@@ -1,7 +1,7 @@
 package net.moraleboost.solr;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
+import org.apache.lucene.analysis.util.TokenFilterFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -9,13 +9,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 
-public abstract class AbstractRegexFilterFactory extends BaseTokenFilterFactory
+public abstract class AbstractRegexFilterFactory extends TokenFilterFactory
 {
     private String[] stopPattern = null;
 
-    public AbstractRegexFilterFactory()
+    public AbstractRegexFilterFactory(Map<String, String> args)
     {
-        super();
+        super(args);
+        init(args);
     }
 
     public String[] getStopPattern()
@@ -33,7 +34,7 @@ public abstract class AbstractRegexFilterFactory extends BaseTokenFilterFactory
      * @param args
      *            初期化パラメータ
      */
-    public void init(Map<String, String> args)
+    protected void init(Map<String, String> args)
     {
         String source = args.get("source");
         String charset = args.get("charset");

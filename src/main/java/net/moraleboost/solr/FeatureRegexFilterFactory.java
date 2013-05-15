@@ -20,6 +20,8 @@ import org.apache.lucene.analysis.TokenStream;
 
 import net.moraleboost.lucene.analysis.ja.FeatureRegexFilter;
 
+import java.util.Map;
+
 /**
  * {@link FeatureRegexFilter}のファクトリ。
  * @author taketa
@@ -27,9 +29,9 @@ import net.moraleboost.lucene.analysis.ja.FeatureRegexFilter;
  */
 public class FeatureRegexFilterFactory extends AbstractRegexFilterFactory
 {
-    public FeatureRegexFilterFactory()
+    public FeatureRegexFilterFactory(Map<String, String> args)
     {
-        super();
+        super(args);
     }
 
     public TokenStream create(TokenStream input)

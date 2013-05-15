@@ -24,6 +24,7 @@ import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 
 /**
  * {@link StandardMeCabTokenizer}を用いて入力を分かち書きするAnalyzer。
@@ -33,9 +34,9 @@ import org.apache.lucene.analysis.TokenStream;
  */
 public class StandardMeCabAnalyzer extends Analyzer
 {
-    private Tagger tagger = null;
-    private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
-    private String[] stopPatterns = null;
+    private Tagger tagger;
+    private int maxSize;
+    private String[] stopPatterns;
 
     /**
      * StandardMeCabTokenizerをTokenizerとして用いるAnalyzerを構築する。
@@ -47,9 +48,7 @@ public class StandardMeCabAnalyzer extends Analyzer
      */
     public StandardMeCabAnalyzer(Tagger tagger, int maxSize)
     {
-        super();
-        this.tagger = tagger;
-        this.maxSize = maxSize;
+        this(tagger, maxSize, null);
     }
 
     /**
@@ -72,59 +71,19 @@ public class StandardMeCabAnalyzer extends Analyzer
     }
 
     @Override
-    public final TokenStream tokenStream(String fieldName, Reader reader)
-    {
+    protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
         try {
-            TokenStream stream =
+            Tokenizer tokenizer =
                     new StandardMeCabTokenizer(reader, tagger, maxSize);
 
             if (stopPatterns != null) {
-                stream = new FeatureRegexFilter(stream, stopPatterns);
+                return new TokenStreamComponents(tokenizer,
+                        new FeatureRegexFilter(tokenizer, stopPatterns));
+            } else {
+                return new TokenStreamComponents(tokenizer);
             }
-
-            return stream;
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }
-    }
-    
-    @Override
-    public final TokenStream reusableTokenStream(String fieldName, Reader reader)
-    throws IOException
-    {
-        TokenStreamInfo info = (TokenStreamInfo)getPreviousTokenStream();
-        
-        if (info == null) {
-            info = new TokenStreamInfo();
-            
-            StandardMeCabTokenizer tokenizer =
-                new StandardMeCabTokenizer(reader, tagger, maxSize);
-            info.tokenizer = tokenizer;
-            
-            if (stopPatterns != null) {
-                info.filter = new FeatureRegexFilter(tokenizer, stopPatterns);
-            }
-            
-            setPreviousTokenStream(info);
-        } else {
-            if (info.filter != null) {
-                info.filter.reset();
-            }
-            if (info.tokenizer != null) {
-                info.tokenizer.reset(reader);
-            }
-        }
-
-        if (info.filter != null) {
-            return info.filter;
-        } else {
-            return info.tokenizer;
-        }
-    }
-
-    private static class TokenStreamInfo
-    {
-        public StandardMeCabTokenizer tokenizer;
-        public FeatureRegexFilter filter;
     }
 }

@@ -34,8 +34,7 @@ public class StandardMeCabTokenizerFactoryTest
         Map<String, String> args = new HashMap<String, String>();
         args.put("arg", "");
 
-        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory();
-        factory.init(args);
+        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory(args);
 
         StringReader reader = new StringReader("本日は晴天なり。");
         TokenStream stream = factory.create(reader);

@@ -6,24 +6,30 @@ import java.util.Map;
 import net.moraleboost.lucene.analysis.ja.VerbatimTokenizer;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource;
 
-public class VerbatimTokenizerFactory extends BaseTokenizerFactory
+public class VerbatimTokenizerFactory extends TokenizerFactory
 {
     private int bufferSize = VerbatimTokenizer.DEFAULT_BUFFER_SIZE;
-    
-    public void init(Map<String, String> args)
-    {
-        super.init(args);
 
+    public VerbatimTokenizerFactory(Map<String, String> args)
+    {
+        super(args);
+        init(args);
+    }
+    
+    protected void init(Map<String, String> args)
+    {
         String argBufferSize = args.get("bufferSize");
         if (argBufferSize != null) {
             bufferSize = Integer.parseInt(argBufferSize);
         }
     }
 
-    public Tokenizer create(Reader in)
+    @Override
+    public Tokenizer create(AttributeSource.AttributeFactory factory, Reader input)
     {
-        return new VerbatimTokenizer(in, bufferSize);
+        return new VerbatimTokenizer(factory, input, bufferSize);
     }
 }

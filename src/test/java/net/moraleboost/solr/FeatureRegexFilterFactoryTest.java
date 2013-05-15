@@ -39,8 +39,7 @@ public class FeatureRegexFilterFactoryTest
         Map<String, String> args = new HashMap<String, String>();
         args.put("arg", "");
 
-        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory();
-        factory.init(args);
+        StandardMeCabTokenizerFactory factory = new StandardMeCabTokenizerFactory(args);
 
         StringReader reader = new StringReader("本日は晴天なり。");
         tokenizer = factory.create(reader);
@@ -53,8 +52,7 @@ public class FeatureRegexFilterFactoryTest
         args.put("charset", "Shift_JIS");
         args.put("source", "test" + java.io.File.separator + "regexfilter.txt");
 
-        FeatureRegexFilterFactory factory = new FeatureRegexFilterFactory();
-        factory.init(args);
+        FeatureRegexFilterFactory factory = new FeatureRegexFilterFactory(args);
 
         TokenStream stream = factory.create(tokenizer);
         CharTermAttribute termAttr =

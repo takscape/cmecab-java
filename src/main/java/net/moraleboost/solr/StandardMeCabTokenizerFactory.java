@@ -26,7 +26,8 @@ import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource;
 
 import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 
@@ -35,16 +36,17 @@ import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
  * @author taketa
  *
  */
-public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
+public class StandardMeCabTokenizerFactory extends TokenizerFactory
 {
     private String dicCharset = null;
     private String mecabArg = null;
     private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
     private Tagger tagger;
 
-    public StandardMeCabTokenizerFactory()
+    public StandardMeCabTokenizerFactory(Map<String, String> args)
     {
-        super();
+        super(args);
+        init(args);
     }
     
     public String getDicCharset()
@@ -76,10 +78,8 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
      * @param args
      *            初期化パラメータ
      */
-    public void init(Map<String, String> args)
+    protected void init(Map<String, String> args)
     {
-        super.init(args);
-
         String charset = args.get("charset");
         String arg = args.get("arg");
         String maxSizeStr = args.get("maxSize");
@@ -107,10 +107,11 @@ public class StandardMeCabTokenizerFactory extends BaseTokenizerFactory
         }
     }
 
-    public Tokenizer create(Reader reader)
+    @Override
+    public Tokenizer create(AttributeSource.AttributeFactory factory, Reader input)
     {
         try {
-            return new StandardMeCabTokenizer(reader, tagger, maxSize);
+            return new StandardMeCabTokenizer(factory, input, tagger, maxSize);
         } catch (IOException e) {
             throw new MeCabTokenizerException(e);
         }

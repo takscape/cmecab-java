@@ -23,8 +23,7 @@ public class GroovyFilterFactoryTest
         Map<String, String> args = new HashMap<String, String>();
         args.put("file", "test/groovy/TestGroovyFilter.groovy");
 
-        GroovyFilterFactory factory = new GroovyFilterFactory();
-        factory.init(args);
+        GroovyFilterFactory factory = new GroovyFilterFactory(args);
 
         Reader reader = new StringReader("本日は晴天なり。");
 

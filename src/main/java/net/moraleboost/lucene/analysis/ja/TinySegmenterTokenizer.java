@@ -37,25 +37,30 @@ public class TinySegmenterTokenizer extends Tokenizer
 {
     public static final String TOKENTYPE_WORD = "word".intern();
 
-    private TinySegmenter segmenter = null;
-    private long lastOffset = 0;
+    private TinySegmenter segmenter;
+    private long lastOffset;
     
     /**
      * トークンのターム属性
      */
-    private CharTermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute;
     /**
      * トークンのオフセット属性
      */
-    private OffsetAttribute offsetAttribute = null;
+    private OffsetAttribute offsetAttribute;
     /**
      * トークンのタイプ属性
      */
-    private TypeAttribute typeAttribute = null;
+    private TypeAttribute typeAttribute;
 
     public TinySegmenterTokenizer(Reader in)
     {
-        super(in);
+        this(AttributeFactory.DEFAULT_ATTRIBUTE_FACTORY, in);
+    }
+
+    public TinySegmenterTokenizer(AttributeFactory factory, Reader in)
+    {
+        super(factory, in);
         
         termAttribute = addAttribute(CharTermAttribute.class);
         offsetAttribute = addAttribute(OffsetAttribute.class);
@@ -91,12 +96,11 @@ public class TinySegmenterTokenizer extends Tokenizer
         int finalOffset = correctOffset((int)lastOffset);
         offsetAttribute.setOffset(finalOffset, finalOffset);
     }
-    
+
     @Override
-    public void reset(Reader in) throws IOException
+    public void reset()
     {
-        super.reset(in);
-        segmenter = new TinySegmenter(new BasicCodePointReader(in));
-        lastOffset = 0;
+        segmenter = new TinySegmenter(new BasicCodePointReader(input));
+        clearAttributes();
     }
 }

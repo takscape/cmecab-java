@@ -2,7 +2,8 @@ package net.moraleboost.solr;
 
 import groovy.lang.GroovyClassLoader;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
@@ -13,19 +14,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroovyTokenizerFactory extends BaseTokenizerFactory
+public class GroovyTokenizerFactory extends TokenizerFactory
 {
     private File file;
     private boolean recompile = false;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 
-    public GroovyTokenizerFactory()
+    public GroovyTokenizerFactory(Map<String, String> args)
     {
-        super();
+        super(args);
+        init(args);
     }
 
-    public void init(Map<String, String> args)
+    protected void init(Map<String, String> args)
     {
         String srcFile = args.get("file");
         String recompile = args.get("recompile");
@@ -61,15 +63,16 @@ public class GroovyTokenizerFactory extends BaseTokenizerFactory
     }
 
     @SuppressWarnings("unchecked")
-    public Tokenizer create(Reader reader)
+    @Override
+    public Tokenizer create(AttributeSource.AttributeFactory factory, Reader input)
     {
         try {
             if (recompile) {
                 classLoader.clearCache();
             }
             Class cls = classLoader.parseClass(this.file);
-            Constructor ctor = cls.getConstructor(Reader.class, Map.class);
-            return (Tokenizer)ctor.newInstance(reader, arguments);
+            Constructor ctor = cls.getConstructor(AttributeSource.AttributeFactory.class, Reader.class, Map.class);
+            return (Tokenizer)ctor.newInstance(factory, input, arguments);
         } catch (IOException e) {
             throw new RuntimeException("Can't parse class.", e);
         } catch (InstantiationException e) {

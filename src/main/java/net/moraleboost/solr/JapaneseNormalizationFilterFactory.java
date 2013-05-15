@@ -2,22 +2,23 @@ package net.moraleboost.solr;
 
 import net.moraleboost.lucene.analysis.ja.JapaneseNormalizationFilter;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
+import org.apache.lucene.analysis.util.TokenFilterFactory;
 
 import java.util.Map;
 
-public class JapaneseNormalizationFilterFactory extends BaseTokenFilterFactory
+public class JapaneseNormalizationFilterFactory extends TokenFilterFactory
 {
     private boolean normAscii = true;
     private boolean normKana = true;
     private boolean normBlank = true;
 
-    public JapaneseNormalizationFilterFactory()
+    public JapaneseNormalizationFilterFactory(Map<String, String> args)
     {
-        super();
+        super(args);
+        init(args);
     }
 
-    public void init(Map<String, String> args)
+    protected void init(Map<String, String> args)
     {
         String ascii = args.get("normAscii");
         String kana = args.get("normKana");

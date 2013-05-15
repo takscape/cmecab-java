@@ -468,8 +468,7 @@ public class CJKTokenizer2 extends Tokenizer
 
     public CJKTokenizer2(Reader in, int ngram)
     {
-        super(in);
-        init(in, ngram);
+        this(AttributeFactory.DEFAULT_ATTRIBUTE_FACTORY, in, ngram);
     }
     
     public CJKTokenizer2(AttributeFactory factory, Reader in, int ngram)
@@ -478,11 +477,6 @@ public class CJKTokenizer2 extends Tokenizer
         init(in, ngram);
     }
     
-    public CJKTokenizer2(AttributeFactory factory, Reader in)
-    {
-        this(factory, in, DEFAULT_NGRAM);
-    }
-
     private void init(Reader in, int ngram)
     {
         pbinput = new PushbackCodePointReader(new BasicCodePointReader(in), ngram);
@@ -540,5 +534,6 @@ public class CJKTokenizer2 extends Tokenizer
         pbinput = new PushbackCodePointReader(new BasicCodePointReader(input), pbinput.getStackSize());
         // 二度呼び出してprevTypeをnullにする。
         tokenInfo.clear(); tokenInfo.clear();
+        clearAttributes();
     }
 }

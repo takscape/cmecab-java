@@ -26,8 +26,7 @@ public class GroovyTokenizerFactoryTest
         args.put("classpath", "test\\groovy");
         args.put("encoding", "UTF-8");
 
-        GroovyTokenizerFactory factory = new GroovyTokenizerFactory();
-        factory.init(args);
+        GroovyTokenizerFactory factory = new GroovyTokenizerFactory(args);
 
         Reader reader = new StringReader("");
 

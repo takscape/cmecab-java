@@ -2,7 +2,7 @@ package net.moraleboost.solr;
 
 import groovy.lang.GroovyClassLoader;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.solr.analysis.BaseTokenFilterFactory;
+import org.apache.lucene.analysis.util.TokenFilterFactory;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
@@ -12,19 +12,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroovyFilterFactory extends BaseTokenFilterFactory
+public class GroovyFilterFactory extends TokenFilterFactory
 {
     private File file;
     private boolean recompile = false;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 
-    public GroovyFilterFactory()
+    public GroovyFilterFactory(Map<String, String> args)
     {
-        super();
+        super(args);
+        init(args);
     }
 
-    public void init(Map<String, String> args)
+    protected void init(Map<String, String> args)
     {
         String srcFile = args.get("file");
         String recompile = args.get("recompile");

@@ -27,11 +27,11 @@ public class FeatureRegexFilter extends AbstractRegexFilter
     /**
      * トークンのタイプ属性
      */
-    private TypeAttribute typeAttribute = null;
+    private TypeAttribute typeAttribute;
     /**
      * トークンの位置増加分属性
      */
-    private PositionIncrementAttribute posIncAttribute = null;
+    private PositionIncrementAttribute posIncAttribute;
 
     /**
      * typeが指定したパターンに合致するtokenをふるい落とすフィルタを構築する。
