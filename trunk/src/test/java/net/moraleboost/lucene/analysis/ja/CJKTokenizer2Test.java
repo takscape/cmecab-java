@@ -16,16 +16,16 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import static org.junit.Assert.*;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class CJKTokenizer2Test
 {

@@ -16,16 +16,15 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import net.moraleboost.io.BasicCodePointReader;
 import net.moraleboost.tinysegmenter.TinySegmenter;
-
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * {@link TinySegmenter}を用いて入力を分かち書きするTokenizer。

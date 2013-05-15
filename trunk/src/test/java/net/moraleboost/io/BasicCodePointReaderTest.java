@@ -16,14 +16,15 @@
  */
 package net.moraleboost.io;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 import java.io.CharArrayReader;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class BasicCodePointReaderTest
 {

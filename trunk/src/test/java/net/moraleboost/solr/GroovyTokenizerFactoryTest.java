@@ -1,8 +1,5 @@
 package net.moraleboost.solr;
 
-import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
-import net.moraleboost.mecab.impl.StandardTagger;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;
@@ -12,9 +9,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GroovyTokenizerFactoryTest
 {

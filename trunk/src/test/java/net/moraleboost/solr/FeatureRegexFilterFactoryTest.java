@@ -16,18 +16,16 @@
  */
 package net.moraleboost.solr;
 
-import static org.junit.Assert.fail;
-
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.io.StringReader;
+import static org.junit.Assert.fail;
 
 public class FeatureRegexFilterFactoryTest
 {

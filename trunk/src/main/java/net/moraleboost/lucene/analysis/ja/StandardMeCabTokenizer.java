@@ -16,17 +16,16 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import java.io.Reader;
-import java.io.IOException;
-
 import net.moraleboost.mecab.Lattice;
+import net.moraleboost.mecab.Node;
+import net.moraleboost.mecab.Tagger;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
-import net.moraleboost.mecab.Node;
-import net.moraleboost.mecab.Tagger;
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * MeCabを用いて入力を分かち書きするTokenizerのベース。

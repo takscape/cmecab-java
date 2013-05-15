@@ -16,9 +16,8 @@
  */
 package net.moraleboost.solr;
 
-import org.apache.lucene.analysis.TokenStream;
-
 import net.moraleboost.lucene.analysis.ja.FeatureRegexFilter;
+import org.apache.lucene.analysis.TokenStream;
 
 import java.util.Map;
 

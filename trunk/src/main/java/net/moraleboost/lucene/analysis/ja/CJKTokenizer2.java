@@ -19,12 +19,10 @@ package net.moraleboost.lucene.analysis.ja;
 import net.moraleboost.io.BasicCodePointReader;
 import net.moraleboost.io.CodePointReader;
 import net.moraleboost.io.PushbackCodePointReader;
-
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.apache.lucene.util.AttributeSource;
 
 import java.io.IOException;
 import java.io.Reader;

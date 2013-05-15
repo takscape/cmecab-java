@@ -16,14 +16,9 @@
  */
 package net.moraleboost.io;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
-import java.nio.CharBuffer;
 import java.nio.ByteBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.UnsupportedCharsetException;
+import java.nio.CharBuffer;
+import java.nio.charset.*;
 
 /**
  * 文字コード変換用のヘルパークラス。

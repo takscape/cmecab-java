@@ -16,12 +16,7 @@
  */
 package net.moraleboost.solr;
 
-import java.io.Reader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-
-import java.util.Map;
-
+import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
 import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.mecab.Tagger;
 import net.moraleboost.mecab.impl.StandardTagger;
@@ -29,7 +24,10 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeSource;
 
-import net.moraleboost.lucene.analysis.ja.MeCabTokenizerException;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 /**
  * {@link StandardMeCabTokenizer}のファクトリ。

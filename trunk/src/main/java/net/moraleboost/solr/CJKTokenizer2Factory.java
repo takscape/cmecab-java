@@ -16,14 +16,13 @@
  */
 package net.moraleboost.solr;
 
-import java.io.Reader;
-import java.util.Map;
-
+import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
-
-import net.moraleboost.lucene.analysis.ja.CJKTokenizer2;
 import org.apache.lucene.util.AttributeSource;
+
+import java.io.Reader;
+import java.util.Map;
 
 /**
  * {@link CJKTokenizer2}のファクトリ。

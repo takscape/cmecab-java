@@ -16,22 +16,21 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import static org.junit.Assert.fail;
-
 import net.moraleboost.mecab.impl.StandardTagger;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.util.BytesRef;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.Version;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 public class StandardMeCabAnalyzerTest
 {
@@ -63,22 +62,12 @@ public class StandardMeCabAnalyzerTest
     }
 
     @Test
-    public void testAnalyze()
+    public void testAnalyze() throws Exception
     {
-        try {
-            // タームベクタを取得
-            IndexReader reader = DirectoryReader.open(directory);
-            AtomicReader areader = SlowCompositeReaderWrapper.wrap(reader);
-
-            Term term = new Term("text", "晴天");
-            DocsEnum docs = areader.termDocsEnum(term);
-            if (docs.nextDoc() == DocsEnum.NO_MORE_DOCS) {
-                fail("Index term not found.");
-            }
-            Terms terms = reader.getTermVector(docs.docID(), "text");
-
-            // vecに助詞が含まれていないことを確認。
-            TermsEnum termsEnum = terms.iterator(null);
+        // タームベクタを取得
+        IndexReader reader = DirectoryReader.open(directory);
+        for (AtomicReaderContext ar: reader.getContext().leaves()) {
+            TermsEnum termsEnum = ar.reader().terms("text").iterator(null);
             BytesRef bytesRef;
             while ((bytesRef = termsEnum.next()) != null) {
                 String t = bytesRef.utf8ToString();
@@ -87,29 +76,22 @@ public class StandardMeCabAnalyzerTest
                 }
                 System.out.println("Index term = " + t);
             }
-        } catch (Exception e) {
-            fail(e.toString());
         }
     }
 
     @Test
-    public void testSearch()
+    public void testSearch() throws Exception
     {
-        try {
-            IndexReader reader = DirectoryReader.open(directory);
-            IndexSearcher searcher = new IndexSearcher(reader);
-            QueryParser parser = new QueryParser(Version.LUCENE_43, "text", analyzer);
-            parser.setDefaultOperator(QueryParser.Operator.OR);
+        IndexReader reader = DirectoryReader.open(directory);
+        IndexSearcher searcher = new IndexSearcher(reader);
+        QueryParser parser = new QueryParser(Version.LUCENE_43, "text", analyzer);
+        parser.setDefaultOperator(QueryParser.Operator.OR);
 
-            Query query = parser.parse("本日も晴天");
-            System.out.println("Parsed query = " + query.toString());
-            TopDocs topDocs = searcher.search(query, 100);
-            if (topDocs.scoreDocs.length <= 0) {
-                fail("No hit.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.toString());
+        Query query = parser.parse("本日も晴天");
+        System.out.println("Parsed query = " + query.toString());
+        TopDocs topDocs = searcher.search(query, 100);
+        if (topDocs.scoreDocs.length <= 0) {
+            fail("No hit.");
         }
     }
 }
