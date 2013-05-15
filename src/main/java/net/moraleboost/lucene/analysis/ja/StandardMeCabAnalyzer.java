@@ -16,15 +16,12 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import java.io.Reader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-
 import net.moraleboost.mecab.Tagger;
-import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
+
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * {@link StandardMeCabTokenizer}を用いて入力を分かち書きするAnalyzer。

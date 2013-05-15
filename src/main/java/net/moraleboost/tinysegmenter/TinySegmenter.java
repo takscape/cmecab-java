@@ -8,17 +8,12 @@
  */
 package net.moraleboost.tinysegmenter;
 
-import static net.moraleboost.tinysegmenter.TinySegmenterConstants.*;
-
 import net.moraleboost.io.CodePointReader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static net.moraleboost.tinysegmenter.TinySegmenterConstants.*;
 
 /**
  * TinySegmenterのJava移植版。

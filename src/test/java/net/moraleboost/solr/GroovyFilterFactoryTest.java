@@ -1,8 +1,5 @@
 package net.moraleboost.solr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import net.moraleboost.lucene.analysis.ja.StandardMeCabTokenizer;
 import net.moraleboost.mecab.impl.StandardTagger;
 import org.apache.lucene.analysis.TokenStream;
@@ -14,6 +11,8 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class GroovyFilterFactoryTest
 {

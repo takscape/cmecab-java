@@ -6,6 +6,9 @@ group = 'net.moraleboost.cmecab-java'
 archivesBaseName = 'cmecab-java'
 version = '2.1.0'
 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 [compileJava, compileTestJava].each { it.options.encoding = 'UTF-8' }
 
 configurations {

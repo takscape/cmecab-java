@@ -16,14 +16,13 @@
  */
 package net.moraleboost.solr;
 
-import java.io.Reader;
-import java.util.Map;
-
 import net.moraleboost.lucene.analysis.ja.TinySegmenterTokenizer;
-
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeSource;
+
+import java.io.Reader;
+import java.util.Map;
 
 /**
  * {@link TinySegmenterTokenizer}のファクトリ。

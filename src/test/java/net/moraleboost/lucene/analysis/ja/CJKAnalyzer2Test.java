@@ -1,7 +1,5 @@
 package net.moraleboost.lucene.analysis.ja;
 
-import static org.junit.Assert.fail;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -14,6 +12,8 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 
 public class CJKAnalyzer2Test

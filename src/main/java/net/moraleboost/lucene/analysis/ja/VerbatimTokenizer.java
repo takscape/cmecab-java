@@ -1,11 +1,11 @@
 package net.moraleboost.lucene.analysis.ja;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * 入力を単一のトークンとして出力するTokenizer

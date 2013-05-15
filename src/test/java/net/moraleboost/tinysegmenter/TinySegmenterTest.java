@@ -16,13 +16,13 @@
  */
 package net.moraleboost.tinysegmenter;
 
-import static org.junit.Assert.*;
+import net.moraleboost.io.BasicCodePointReader;
+import org.junit.Test;
 
 import java.io.StringReader;
 
-import net.moraleboost.io.BasicCodePointReader;
-
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TinySegmenterTest
 {

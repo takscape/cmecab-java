@@ -16,12 +16,12 @@
  */
 package net.moraleboost.lucene.analysis.ja;
 
-import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
+import net.moraleboost.mecab.impl.StandardTagger;
+import org.junit.Test;
 
 import java.io.StringReader;
 
-import net.moraleboost.mecab.impl.StandardTagger;
-import org.junit.Test;
+import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
 
 public class StandardMeCabTokenizerTest
 {

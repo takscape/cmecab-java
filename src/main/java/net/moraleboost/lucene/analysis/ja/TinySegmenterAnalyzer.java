@@ -1,8 +1,8 @@
 package net.moraleboost.lucene.analysis.ja;
 
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Analyzer;
+
+import java.io.Reader;
 
 public class TinySegmenterAnalyzer extends Analyzer
 {

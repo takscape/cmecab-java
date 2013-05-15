@@ -16,17 +16,12 @@
  */
 package net.moraleboost.tinysegmenter;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+
+import java.io.*;
 
 public class ModelExporter
 {

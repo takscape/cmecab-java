@@ -16,15 +16,14 @@
  */
 package net.moraleboost.solr;
 
-import static org.junit.Assert.fail;
-
 import org.apache.lucene.analysis.TokenStream;
 import org.junit.Test;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.io.StringReader;
+import static org.junit.Assert.fail;
 
 public class StandardMeCabTokenizerFactoryTest
 {

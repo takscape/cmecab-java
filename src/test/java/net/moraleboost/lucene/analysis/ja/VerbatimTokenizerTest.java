@@ -1,10 +1,10 @@
 package net.moraleboost.lucene.analysis.ja;
 
-import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
+import org.junit.Test;
 
 import java.io.StringReader;
 
-import org.junit.Test;
+import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
 
 public class VerbatimTokenizerTest
 {
