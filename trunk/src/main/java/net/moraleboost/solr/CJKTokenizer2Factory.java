@@ -42,6 +42,11 @@ public class CJKTokenizer2Factory extends TokenizerFactory
     public CJKTokenizer2Factory(Map<String, String> args)
     {
         super(args);
+        init(args);
+    }
+
+    protected void init(Map<String, String> args)
+    {
         String argNgram = args.get("ngram");
         if (argNgram != null) {
             ngram = Integer.parseInt(argNgram);

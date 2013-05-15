@@ -22,31 +22,24 @@ import java.util.Map;
 import net.moraleboost.lucene.analysis.ja.TinySegmenterTokenizer;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
+import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource;
 
 /**
  * {@link TinySegmenterTokenizer}のファクトリ。
  * @author taketa
  *
  */
-public class TinySegmenterTokenizerFactory extends BaseTokenizerFactory
+public class TinySegmenterTokenizerFactory extends TokenizerFactory
 {
-    public TinySegmenterTokenizerFactory()
+    public TinySegmenterTokenizerFactory(Map<String, String> args)
     {
-        super();
+        super(args);
     }
     
-    /**
-     * パラメータは存在しない。
-     */
-    public void init(Map<String, String> args)
+    @Override
+    public Tokenizer create(AttributeSource.AttributeFactory factory, Reader input)
     {
-        super.init(args);
-        // 初期化項目なし
-    }
-    
-    public Tokenizer create(Reader in)
-    {
-        return new TinySegmenterTokenizer(in);
+        return new TinySegmenterTokenizer(factory, input);
     }
 }

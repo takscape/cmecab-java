@@ -10,8 +10,8 @@ import java.nio.CharBuffer;
 
 public class TermRegexFilter extends AbstractRegexFilter
 {
-    private CharTermAttribute termAttribute = null;
-    private PositionIncrementAttribute posIncAttribute = null;
+    private CharTermAttribute termAttribute;
+    private PositionIncrementAttribute posIncAttribute;
 
     public TermRegexFilter(TokenStream input, String[] stopPatterns)
     {

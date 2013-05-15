@@ -37,7 +37,13 @@ public class VerbatimTokenizer extends Tokenizer
     
     public VerbatimTokenizer(Reader in, int bufferSize)
     {
-        super(in);
+        this(AttributeFactory.DEFAULT_ATTRIBUTE_FACTORY, in, bufferSize);
+    }
+
+    public VerbatimTokenizer(AttributeFactory factory, Reader in, int bufferSize)
+    {
+        super(factory, in);
+
         buffer = new char[bufferSize];
         termAttribute = addAttribute(CharTermAttribute.class);
         offsetAttribute = addAttribute(OffsetAttribute.class);
@@ -67,5 +73,11 @@ public class VerbatimTokenizer extends Tokenizer
             offsetAttribute.setOffset(correctOffset(0), builder.length());
             return true;
         }
+    }
+
+    public void reset() throws IOException
+    {
+        super.reset();
+        clearAttributes();
     }
 }

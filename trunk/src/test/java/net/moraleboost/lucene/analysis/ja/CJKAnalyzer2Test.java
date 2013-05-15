@@ -3,11 +3,11 @@ package net.moraleboost.lucene.analysis.ja;
 import static org.junit.Assert.fail;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
@@ -62,30 +62,23 @@ public class CJKAnalyzer2Test
     {
         directory = new RAMDirectory();
         analyzer = new CJKAnalyzer2(ngram);
-        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_30, analyzer);
+        IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_43, analyzer);
         writer = new IndexWriter(directory, config);
     }
     
     private void setUpSearcher() throws Exception
     {
-        IndexReader reader = IndexReader.open(directory, true);
+        IndexReader reader = DirectoryReader.open(directory);
         searcher = new IndexSearcher(reader);
-        parser = new QueryParser(Version.LUCENE_30, "text", analyzer);
+        parser = new QueryParser(Version.LUCENE_43, "text", analyzer);
         parser.setDefaultOperator(QueryParser.Operator.OR);
     }
     
     private void addDocument(String id, String text) throws Exception
     {
         Document doc = new Document();
-        addField(doc, "id", id);
-        addField(doc, "text", text);
+        Util.addField(doc, "id", id);
+        Util.addField(doc, "text", text);
         writer.addDocument(doc);
-    }
-
-    private void addField(Document doc, String name, String value)
-    {
-        Field field = new Field(name, value, Field.Store.YES,
-                Field.Index.ANALYZED, Field.TermVector.YES);
-        doc.add(field);
     }
 }

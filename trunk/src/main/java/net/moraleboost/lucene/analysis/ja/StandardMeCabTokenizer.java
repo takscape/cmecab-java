@@ -42,29 +42,29 @@ public class StandardMeCabTokenizer extends Tokenizer
     public static final int DEFAULT_BUFFER_SIZE = 8192;
     public static final int DEFAULT_MAX_SIZE = 10 * 1024 * 1024;
 
-    private int maxSize = DEFAULT_MAX_SIZE;
+    private int maxSize;
 
-    private Tagger tagger = null;
-    private Lattice lattice = null;
-    private Node node = null;
-    private int offset = 0;
+    private Tagger tagger;
+    private Lattice lattice;
+    private Node node;
+    private int offset;
 
     /**
      * トークンのターム属性
      */
-    private CharTermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute;
     /**
      * トークンのオフセット属性
      */
-    private OffsetAttribute offsetAttribute = null;
+    private OffsetAttribute offsetAttribute;
     /**
      * トークンのタイプ属性
      */
-    private TypeAttribute typeAttribute = null;
+    private TypeAttribute typeAttribute;
 
     /**
      * オブジェクトを構築する。
-     * 
+     *
      * @param in 入力
      * @param tagger 形態素解析器
      * @param maxSize 入力から読み込む最大文字数(in chars)
@@ -73,7 +73,22 @@ public class StandardMeCabTokenizer extends Tokenizer
     public StandardMeCabTokenizer(Reader in, Tagger tagger, int maxSize)
     throws IOException
     {
-        super(in);
+        this(AttributeFactory.DEFAULT_ATTRIBUTE_FACTORY, in, tagger, maxSize);
+    }
+
+    /**
+     * オブジェクトを構築する。
+     *
+     * @param factory 使用するAttributeFactory
+     * @param in 入力
+     * @param tagger 形態素解析器
+     * @param maxSize 入力から読み込む最大文字数(in chars)
+     * @throws IOException
+     */
+    public StandardMeCabTokenizer(AttributeFactory factory, Reader in, Tagger tagger, int maxSize)
+    throws IOException
+    {
+        super(factory, in);
 
         this.maxSize = maxSize;
         
@@ -142,27 +157,15 @@ public class StandardMeCabTokenizer extends Tokenizer
     public void reset() throws IOException
     {
         offset = 0;
-        if (lattice != null) {
-            node = lattice.bosNode();
-            if (node != null) {
-                node = node.next();
-            }
-        }
-    }
-
-    @Override
-    public void reset(Reader in) throws IOException
-    {
-        super.reset(in); // this.input = in;
         try {
             if (lattice != null) {
                 lattice.destroy();
             }
         } finally {
-            offset = 0;
             node = null;
             lattice = null;
         }
+        clearAttributes();
         parse();
     }
 
