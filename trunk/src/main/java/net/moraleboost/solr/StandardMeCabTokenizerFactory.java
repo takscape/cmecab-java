@@ -36,14 +36,15 @@ import java.util.Map;
  */
 public class StandardMeCabTokenizerFactory extends TokenizerFactory
 {
-    private String dicCharset = null;
-    private String mecabArg = null;
-    private int maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
+    private String dicCharset;
+    private String mecabArg;
+    private int maxSize;
     private Tagger tagger;
 
     public StandardMeCabTokenizerFactory(Map<String, String> args)
     {
         super(args);
+        maxSize = StandardMeCabTokenizer.DEFAULT_MAX_SIZE;
         init(args);
     }
     

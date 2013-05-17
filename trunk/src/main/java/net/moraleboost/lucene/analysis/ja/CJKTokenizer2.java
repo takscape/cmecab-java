@@ -441,23 +441,23 @@ public class CJKTokenizer2 extends Tokenizer
     /**
      * コードポイントを読み出すreader
      */
-    private PushbackCodePointReader pbinput = null;
+    private PushbackCodePointReader pbinput;
     /**
      * 現在解析中のトークンの情報
      */
-    private TokenInfo tokenInfo = null;
+    private TokenInfo tokenInfo;
     /**
      * トークンのターム属性
      */
-    private CharTermAttribute termAttribute = null;
+    private CharTermAttribute termAttribute;
     /**
      * トークンのオフセット属性
      */
-    private OffsetAttribute offsetAttribute = null;
+    private OffsetAttribute offsetAttribute;
     /**
      * トークンのタイプ属性
      */
-    private TypeAttribute typeAttribute = null;
+    private TypeAttribute typeAttribute;
     
     public CJKTokenizer2(Reader in)
     {

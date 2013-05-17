@@ -34,8 +34,8 @@ import static org.junit.Assert.fail;
 
 public class StandardMeCabAnalyzerTest
 {
-    private StandardMeCabAnalyzer analyzer = null;
-    private RAMDirectory directory = null;
+    private StandardMeCabAnalyzer analyzer;
+    private RAMDirectory directory;
 
     @Before
     public void setUp() throws Exception
@@ -49,6 +49,7 @@ public class StandardMeCabAnalyzerTest
 
         // ドキュメント追加
         Document doc = new Document();
+        Util.addField(doc, "id", "1");
         Util.addField(doc, "text", "本日は晴天なり。");
         writer.addDocument(doc);
         writer.commit();

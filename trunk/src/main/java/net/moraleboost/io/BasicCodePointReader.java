@@ -34,10 +34,10 @@ public class BasicCodePointReader implements CodePointReader
      */
     public static final int DEFAULT_ALTERNATION_CODEPOINT = '〓';
 
-    private PushbackReader reader = null;
-    private long position = 0;
-    private int alternationCodePoint = DEFAULT_ALTERNATION_CODEPOINT;
-    private boolean eos = false;
+    private PushbackReader reader;
+    private long position;
+    private int alternationCodePoint;
+    private boolean eos;
 
     /**
      * コードポイントイテレータを構築する。
@@ -48,6 +48,7 @@ public class BasicCodePointReader implements CodePointReader
     public BasicCodePointReader(Reader reader)
     {
         this.reader = new PushbackReader(reader, 1);
+        this.alternationCodePoint = DEFAULT_ALTERNATION_CODEPOINT;
     }
 
     public void setAlternationCodePoint(int cp)

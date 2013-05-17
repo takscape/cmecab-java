@@ -17,8 +17,8 @@ public class GroovyTokenizerFactoryTest
     public void test() throws Exception
     {
         Map<String, String> args = new HashMap<String, String>();
-        args.put("file", "test/groovy/TestGroovyTokenizer.groovy");
-        args.put("classpath", "test\\groovy");
+        args.put("file", "src/test/groovy/TestGroovyTokenizer.groovy");
+        args.put("classpath", "src\\test\\groovy");
         args.put("encoding", "UTF-8");
 
         GroovyTokenizerFactory factory = new GroovyTokenizerFactory(args);

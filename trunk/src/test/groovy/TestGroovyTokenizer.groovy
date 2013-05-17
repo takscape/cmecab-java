@@ -4,6 +4,7 @@ import foo.TestObject
 import org.apache.lucene.analysis.Tokenizer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute
+import org.apache.lucene.util.AttributeSource
 
 class TestGroovyTokenizer extends Tokenizer
 {
@@ -11,9 +12,9 @@ class TestGroovyTokenizer extends Tokenizer
     private TypeAttribute typeAttr
     private Iterator<String> iter
 
-    TestGroovyTokenizer(Reader input, Map<String, String> args)
+    TestGroovyTokenizer(AttributeSource.AttributeFactory factory, Reader input, Map<String, String> args)
     {
-        super(input)
+        super(factory, input)
         termAttr = addAttribute(CharTermAttribute.class)
         typeAttr = addAttribute(TypeAttribute.class)
         iter = Arrays.asList("本日", "は", "晴天", "なり", "。").iterator()

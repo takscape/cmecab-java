@@ -9,7 +9,10 @@ version = '2.1.0'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-[compileJava, compileTestJava].each { it.options.encoding = 'UTF-8' }
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
+javadoc.options.charSet = 'UTF-8'
 
 configurations {
     deployerJars
@@ -17,10 +20,10 @@ configurations {
 
 repositories {
     maven {
-        url "http://maven.restlet.org/"
+        url 'http://maven.restlet.org/'
     }
     maven {
-        url "http://jcenter.bintray.com/"
+        url 'http://jcenter.bintray.com/'
     }
     mavenCentral()
 }

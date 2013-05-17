@@ -136,8 +136,8 @@ public class CSVUtil
     /**
      * elementsの要素をカラムとして、一行のCSVデータを作成して返す。
      *
-     * @param elements
-     * @return
+     * @param elements 各項目の値
+     * @return 一行分のCSVデータ
      */
     public static final String join(Collection<String> elements)
     {
@@ -159,8 +159,8 @@ public class CSVUtil
     /**
      * elementsの要素をカラムとして、一行のCSVデータを作成して返す。
      *
-     * @param elements
-     * @return
+     * @param elements 各項目の値
+     * @return 一行分のCSVデータ
      */
     public static final String join(String[] elements)
     {

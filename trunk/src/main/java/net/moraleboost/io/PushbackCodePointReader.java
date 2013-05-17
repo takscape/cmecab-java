@@ -23,29 +23,30 @@ public class PushbackCodePointReader implements CodePointReader
     /**
      * ベースとなるCodePointReader
      */
-    private CodePointReader reader = null;
+    private CodePointReader reader;
     /**
      * ストリームに戻された各コードポイントを保持するスタック
      */
-    private int codepoints[] = null;
+    private int codepoints[];
     /**
      * ストリームに戻された各コードポイントの幅を保持するスタック
      */
-    private int lengths[] = null;
+    private int lengths[];
     /**
      * readerのpositionからのoffset
      */
-    private int offset = 0;
+    private int offset;
     /**
      * スタックトップの位置
      */
-    private int stackpos = -1;
+    private int stackpos;
 
     public PushbackCodePointReader(CodePointReader reader, int size)
     {
         this.reader = reader;
         this.codepoints = new int[size];
         this.lengths = new int[size];
+        this.stackpos = -1;
     }
 
     public void setAlternationCodePoint(int cp)

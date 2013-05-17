@@ -17,7 +17,7 @@ import java.util.Map;
 public class GroovyTokenizerFactory extends TokenizerFactory
 {
     private File file;
-    private boolean recompile = false;
+    private boolean recompile;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 

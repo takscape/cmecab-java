@@ -8,13 +8,16 @@ import java.util.Map;
 
 public class JapaneseNormalizationFilterFactory extends TokenFilterFactory
 {
-    private boolean normAscii = true;
-    private boolean normKana = true;
-    private boolean normBlank = true;
+    private boolean normAscii;
+    private boolean normKana;
+    private boolean normBlank;
 
     public JapaneseNormalizationFilterFactory(Map<String, String> args)
     {
         super(args);
+        normAscii = true;
+        normKana = true;
+        normBlank = true;
         init(args);
     }
 

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class AbstractRegexFilterFactory extends TokenFilterFactory
 {
-    private String[] stopPattern = null;
+    private String[] stopPattern;
 
     public AbstractRegexFilterFactory(Map<String, String> args)
     {
