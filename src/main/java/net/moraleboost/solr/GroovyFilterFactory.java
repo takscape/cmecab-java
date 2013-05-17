@@ -15,7 +15,7 @@ import java.util.Map;
 public class GroovyFilterFactory extends TokenFilterFactory
 {
     private File file;
-    private boolean recompile = false;
+    private boolean recompile;
     private GroovyClassLoader classLoader;
     private Map<String, String> arguments;
 

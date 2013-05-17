@@ -10,11 +10,12 @@ import java.util.Map;
 
 public class VerbatimTokenizerFactory extends TokenizerFactory
 {
-    private int bufferSize = VerbatimTokenizer.DEFAULT_BUFFER_SIZE;
+    private int bufferSize;
 
     public VerbatimTokenizerFactory(Map<String, String> args)
     {
         super(args);
+        bufferSize = VerbatimTokenizer.DEFAULT_BUFFER_SIZE;
         init(args);
     }
     

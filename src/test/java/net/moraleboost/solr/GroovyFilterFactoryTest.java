@@ -20,7 +20,7 @@ public class GroovyFilterFactoryTest
     public void test() throws Exception
     {
         Map<String, String> args = new HashMap<String, String>();
-        args.put("file", "test/groovy/TestGroovyFilter.groovy");
+        args.put("file", "src/test/groovy/TestGroovyFilter.groovy");
 
         GroovyFilterFactory factory = new GroovyFilterFactory(args);
 

@@ -2,50 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="24157d0e-7539-4c47-a4da-725589ba34df" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/io/BasicCodePointReaderTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/io/BasicCodePointReaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2Test.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2Test.java" />
+      <change type="DELETED" beforePath="C:\Users\takedaku\idea\cmecab-java\build.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/AbstractRegexFilterFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/AbstractRegexFilterFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/BasicCodePointReader.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/BasicCodePointReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/CJKTokenizer2Factory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/CJKTokenizer2Factory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2Test.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/util/CSVUtilTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/util/CSVUtilTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/CharsetUtil.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/CharsetUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/FeatureRegexFilter.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/FeatureRegexFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/FeatureRegexFilterFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/FeatureRegexFilterFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/util/CSVUtil.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/util/CSVUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/FeatureRegexFilterFactoryTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/FeatureRegexFilterFactoryTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyFilterFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyFilterFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyFilterFactoryTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyFilterFactoryTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyTokenizerFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyTokenizerFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyTokenizerFactoryTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyTokenizerFactoryTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/JapaneseNormalizationFilterTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/JapaneseNormalizationFilterTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/ModelExporter.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/ModelExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/io/PushbackCodePointReaderTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/io/PushbackCodePointReaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzer.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/JapaneseNormalizationFilterFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/JapaneseNormalizationFilterFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/PushbackCodePointReader.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/io/PushbackCodePointReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizer.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/StandardMeCabTokenizerFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/StandardMeCabTokenizerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/StandardMeCabTokenizerFactoryTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/StandardMeCabTokenizerFactoryTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizerTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/mecab/impl/StandardTaggerTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/mecab/impl/StandardTaggerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/groovy/TestGroovyTokenizer.groovy" afterPath="$PROJECT_DIR$/src/test/groovy/TestGroovyTokenizer.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenter.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterAnalyzer.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterAnalyzer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenterConstants.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenterConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/tinysegmenter/TinySegmenterTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/tinysegmenter/TinySegmenterTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterTokenizer.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterTokenizer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/TinySegmenterTokenizerFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/TinySegmenterTokenizerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/TinySegmenterTokenizerTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/TinySegmenterTokenizerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/VerbatimTokenizer.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/VerbatimTokenizer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/VerbatimTokenizerFactory.java" afterPath="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/VerbatimTokenizerFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/VerbatimTokenizerTest.java" afterPath="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/VerbatimTokenizerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmecab-java.ipr" afterPath="$PROJECT_DIR$/cmecab-java.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmecab-java.iws" afterPath="$PROJECT_DIR$/cmecab-java.iws" />
     </list>
     <ignored path="cmecab-java.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/build.gradle" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368607564760" ignored="false" />
+    <file path="/build.gradle" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769034963" ignored="false" />
     <file path="/fragment.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368604597593" ignored="false" />
     <file path="/CJKTokenizer2Factory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601062178" ignored="false" />
     <file path="/CJKTokenizer2.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601358246" ignored="false" />
-    <file path="/Dummy.txt" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368610409390" ignored="false" />
+    <file path="/Dummy.txt" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368610621148" ignored="false" />
     <file path="/CJKAnalyzer2.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601221106" ignored="false" />
     <file path="/StandardMeCabTokenizer.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601551148" ignored="false" />
     <file path="/StandardMeCabAnalyzer.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601425147" ignored="false" />
@@ -55,19 +38,24 @@
     <file path="/GroovyFilterFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601082295" ignored="false" />
     <file path="/GroovyTokenizerFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601092736" ignored="false" />
     <file path="/FeatureRegexFilterFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368600127242" ignored="false" />
-    <file path="/JapaneseNormalizationFilterFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601112626" ignored="false" />
-    <file path="/StandardMeCabTokenizerFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601123896" ignored="false" />
+    <file path="/JapaneseNormalizationFilterFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769671887" ignored="false" />
+    <file path="/StandardMeCabTokenizerFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769703289" ignored="false" />
     <file path="/VerbatimTokenizer.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601660433" ignored="false" />
     <file path="/TinySegmenterTokenizerFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368600845129" ignored="false" />
     <file path="/VerbatimTokenizerFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601162811" ignored="false" />
     <file path="/TermRegexFilterFactory.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368601145997" ignored="false" />
-    <file path="/StandardMeCabAnalyzerTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368610324872" ignored="false" />
+    <file path="/StandardMeCabAnalyzerTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368768184029" ignored="false" />
     <file path="/CJKAnalyzer2Test.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368602849305" ignored="false" />
     <file path="/Util.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368602778430" ignored="false" />
-    <file path="/FeatureRegexFilterFactoryTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368602984413" ignored="false" />
+    <file path="/FeatureRegexFilterFactoryTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368767599218" ignored="false" />
     <file path="/GroovyFilterFactoryTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368602993498" ignored="false" />
     <file path="/GroovyTokenizerFactoryTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368603002980" ignored="false" />
     <file path="/StandardMeCabTokenizerFactoryTest.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368603016996" ignored="false" />
+    <file path="/TestGroovyTokenizer.groovy" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368767442877" ignored="false" />
+    <file path="/CSVUtil.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769250551" ignored="false" />
+    <file path="/BasicCodePointReader.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769434230" ignored="false" />
+    <file path="/PushbackCodePointReader.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769510793" ignored="false" />
+    <file path="/TinySegmenter.java" changelist="24157d0e-7539-4c47-a4da-725589ba34df" time="1368769808687" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,93 +116,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StandardMeCabAnalyzerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="0" selection-start="3123" selection-end="3123" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TinySegmenterAnalyzer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="11" selection-start="179" selection-end="179" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="0" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JapaneseNormalizationFilterTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/JapaneseNormalizationFilterTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="279" selection-end="279" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CharsetUtil.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/io/CharsetUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="22" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardTaggerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/mecab/impl/StandardTaggerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="20" selection-start="4834" selection-end="4834" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardDictionaryInfo.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/mecab/impl/StandardDictionaryInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="36" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BridJUtil.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/bridj/BridJUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.37470725">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CJKAnalyzer2.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="0" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardMeCabTokenizerTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizerTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="0" selection-start="1940" selection-end="1940" vertical-scroll-proportion="0.0">
+            <state line="55" column="0" selection-start="1449" selection-end="1449" vertical-scroll-proportion="1.2528474">
               <folding />
             </state>
           </provider>
@@ -309,26 +214,38 @@
         <entry key="cmecab-java" value="true" />
       </map>
     </option>
+    <option name="recentTasks">
+      <list>
+        <GradleTaskDescriptor>
+          <option name="executorId" value="Run" />
+          <option name="name" value="test" />
+        </GradleTaskDescriptor>
+        <GradleTaskDescriptor>
+          <option name="executorId" value="Run" />
+          <option name="name" value="javadoc" />
+        </GradleTaskDescriptor>
+      </list>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TermRegexFilter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterTokenizer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/VerbatimTokenizer.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/Util.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/CJKAnalyzer2Test.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/FeatureRegexFilterFactoryTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyFilterFactoryTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/GroovyTokenizerFactoryTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/StandardMeCabTokenizerFactoryTest.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/test/groovy/TestGroovyTokenizer.groovy" />
+        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/solr/FeatureRegexFilterFactoryTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/JapaneseNormalizationFilterTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/net/moraleboost/mecab/impl/StandardTaggerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/util/CSVUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/io/BasicCodePointReader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/io/PushbackCodePointReader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/CJKTokenizer2.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/AbstractRegexFilterFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyFilterFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyTokenizerFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/JapaneseNormalizationFilterFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/StandardMeCabTokenizerFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/solr/VerbatimTokenizerFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenter.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
   </component>
@@ -349,7 +266,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="2" />
+    <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -393,84 +310,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cmecab-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ja" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -519,6 +358,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -596,6 +439,58 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="impl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cmecab-java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cmecab-java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mecab" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cmecab-java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="cmecab-java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ja" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -610,7 +505,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="io" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -674,7 +581,126 @@
       <recent name="C:\Users\takedaku\idea\cmecab-java\lib" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UnitTest">
+  <component name="RunManager" selected="Groovy.gradle:test">
+    <configuration default="false" name="GroovyFilterFactoryTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.moraleboost.solr.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="cmecab-java" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="net.moraleboost.solr" />
+      <option name="MAIN_CLASS_NAME" value="net.moraleboost.solr.GroovyFilterFactoryTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GroovyTokenizerFactoryTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.moraleboost.solr.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="cmecab-java" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="net.moraleboost.solr" />
+      <option name="MAIN_CLASS_NAME" value="net.moraleboost.solr.GroovyTokenizerFactoryTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="StandardMeCabAnalyzerTest.testSearch" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.moraleboost.lucene.analysis.ja.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="cmecab-java" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="net.moraleboost.lucene.analysis.ja" />
+      <option name="MAIN_CLASS_NAME" value="net.moraleboost.lucene.analysis.ja.StandardMeCabAnalyzerTest" />
+      <option name="METHOD_NAME" value="testSearch" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="gradle:javadoc" type="GroovyScriptRunConfiguration" factoryName="Groovy" temporary="true">
+      <module name="cmecab-java" />
+      <setting name="path" value="file://$PROJECT_DIR$/build.gradle" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="javadoc" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="false" name="gradle:test" type="GroovyScriptRunConfiguration" factoryName="Groovy" temporary="true">
+      <module name="cmecab-java" />
+      <setting name="path" value="file://$PROJECT_DIR$/build.gradle" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="test" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -762,9 +788,23 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="JUnit.UnitTest" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.GroovyFilterFactoryTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.GroovyTokenizerFactoryTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.StandardMeCabAnalyzerTest.testSearch" />
+      <item index="4" class="java.lang.String" itemvalue="Groovy.gradle:javadoc" />
+      <item index="5" class="java.lang.String" itemvalue="Groovy.gradle:test" />
     </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Groovy.gradle:test" />
+        <item index="1" class="java.lang.String" itemvalue="Groovy.gradle:javadoc" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.StandardMeCabAnalyzerTest.testSearch" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.GroovyTokenizerFactoryTest" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.GroovyFilterFactoryTest" />
+      </list>
+    </recent_temporary>
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -824,7 +864,11 @@
       <created>1368605136133</created>
       <updated>1368605136133</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="TODO: Make all tests pass!">
+      <created>1368610666131</created>
+      <updated>1368610666131</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -852,7 +896,7 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19935863" sideWeight="0.6714443" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19935863" sideWeight="0.6703418" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977018" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -868,13 +912,13 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21699625" sideWeight="0.6714443" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21699625" sideWeight="0.6703418" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -945,107 +989,86 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabTokenizerTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/mecab/impl/StandardTagger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="1940" selection-end="1940" vertical-scroll-proportion="0.0">
+        <state line="12" column="13" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/search/DocIdSetIterator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/AbstractRegexFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="22" selection-start="1850" selection-end="1850" vertical-scroll-proportion="0.33333334">
+        <state line="13" column="32" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/index/SlowCompositeReaderWrapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/FeatureRegexFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="62" selection-start="2057" selection-end="2057" vertical-scroll-proportion="0.49122807">
+        <state line="28" column="13" selection-start="694" selection-end="694" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/index/AtomicReader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="22" selection-start="2113" selection-end="2113" vertical-scroll-proportion="-2.3333333">
+        <state line="26" column="0" selection-start="735" selection-end="735" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/index/IndexReaderContext.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/GroovyTokenizerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="44" selection-start="2521" selection-end="2521" vertical-scroll-proportion="0.69590646">
+        <state line="19" column="29" selection-start="603" selection-end="603" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/index/IndexWriter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/JapaneseNormalizationFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2849" column="34" selection-start="102922" selection-end="102922" vertical-scroll-proportion="0.11876485">
+        <state line="22" column="0" selection-start="604" selection-end="604" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/index/DirectoryReader.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/StandardMeCabTokenizerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="32" selection-start="2611" selection-end="2611" vertical-scroll-proportion="-1.0926366">
+        <state line="49" column="4" selection-start="1394" selection-end="1394" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/artifacts-24/filestore/org.apache.lucene/lucene-core/4.3.0/source/86c29288b1930e33ba7ffea1b866af9a52d3d24a/lucene-core-4.3.0-sources.jar!/org/apache/lucene/store/RAMDirectory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/TermRegexFilterFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="14" selection-start="6540" selection-end="6540" vertical-scroll-proportion="1.2807018">
+        <state line="7" column="13" selection-start="174" selection-end="174" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/StandardMeCabAnalyzerTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/TinySegmenterTokenizerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="0" selection-start="3123" selection-end="3123" vertical-scroll-proportion="0.0">
+        <state line="31" column="13" selection-start="827" selection-end="827" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/lucene/analysis/ja/TinySegmenterAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/solr/VerbatimTokenizerFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="11" selection-start="179" selection-end="179" vertical-scroll-proportion="0.0">
+        <state line="35" column="0" selection-start="963" selection-end="963" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/lucene/analysis/ja/JapaneseNormalizationFilterTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/ModelExporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="279" selection-end="279" vertical-scroll-proportion="0.0">
+        <state line="25" column="13" selection-start="691" selection-end="691" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/io/CharsetUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenterConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="22" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/net/moraleboost/mecab/impl/StandardTaggerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="20" selection-start="4834" selection-end="4834" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/mecab/impl/StandardDictionaryInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="36" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.0">
+        <state line="7" column="13" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1053,6 +1076,20 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/bridj/BridJUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.37470725">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/moraleboost/tinysegmenter/TinySegmenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="29" selection-start="3684" selection-end="3684" vertical-scroll-proportion="0.5922551">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="0" selection-start="1449" selection-end="1449" vertical-scroll-proportion="1.2528474">
           <folding />
         </state>
       </provider>

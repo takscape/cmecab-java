@@ -114,19 +114,19 @@ public class TinySegmenter
         }});
     
     private CodePointReader reader;
-    private boolean eos = false;
-    private int eosCount = 0;
+    private boolean eos;
+    private int eosCount;
     
     private CharInfo[] buffer;
-    private int end = 0;
-    private int position = 0;
-    private boolean done = false;
-    private String p1 = "U";
-    private String p2 = "U";
-    private String p3 = "U";
+    private int end;
+    private int position;
+    private boolean done;
+    private String p1;
+    private String p2;
+    private String p3;
     
     private CharInfo[] tokenBuffer;
-    private int tokenPosition = 0;
+    private int tokenPosition;
     
     public TinySegmenter(CodePointReader reader)
     {
@@ -145,6 +145,9 @@ public class TinySegmenter
         assert (maxTokenSize > 1);
         
         this.reader = reader;
+        this.p1 = "U";
+        this.p2 = "U";
+        this.p3 = "U";
         this.buffer = new CharInfo[bufferSize];
         this.tokenBuffer = new CharInfo[maxTokenSize];
     }

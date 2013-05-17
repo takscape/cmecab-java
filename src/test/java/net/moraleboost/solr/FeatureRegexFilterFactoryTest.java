@@ -21,6 +21,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class FeatureRegexFilterFactoryTest
     {
         Map<String, String> args = new HashMap<String, String>();
         args.put("charset", "Shift_JIS");
-        args.put("source", "test" + java.io.File.separator + "regexfilter.txt");
+        args.put("source", "src" + File.separator + "test" + File.separator + "regexfilter.txt");
 
         FeatureRegexFilterFactory factory = new FeatureRegexFilterFactory(args);
 
