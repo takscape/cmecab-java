@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.io.StringReader;
 
-import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
+import static net.moraleboost.lucene.analysis.ja.Util.compareTokens;
 
 public class VerbatimTokenizerTest
 {

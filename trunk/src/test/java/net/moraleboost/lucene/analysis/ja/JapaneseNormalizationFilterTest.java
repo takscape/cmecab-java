@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.io.StringReader;
 
-import static net.moraleboost.lucene.analysis.ja.CJKTokenizer2Test.compareTokens;
+import static net.moraleboost.lucene.analysis.ja.Util.compareTokens;
 
 public class JapaneseNormalizationFilterTest
 {
@@ -33,8 +33,8 @@ public class JapaneseNormalizationFilterTest
     public void testAlphaDigits() throws Exception
     {
         StringReader reader = new StringReader("Ｖｉｅｗカードを５１枚作った～。");
-        StandardMeCabTokenizer tokenizer =
-                new StandardMeCabTokenizer(reader, new StandardTagger(""), Integer.MAX_VALUE);
+        TinySegmenterTokenizer tokenizer =
+                new TinySegmenterTokenizer(reader);
         JapaneseNormalizationFilter filter = new JapaneseNormalizationFilter(tokenizer, true, false, false);
 
         // 英数字は半角に統一。「～」はそのまま。
