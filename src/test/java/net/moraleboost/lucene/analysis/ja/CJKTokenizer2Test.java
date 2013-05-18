@@ -24,36 +24,12 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.StringReader;
 
+import static net.moraleboost.lucene.analysis.ja.Util.compareTokens;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CJKTokenizer2Test
 {
-    public static void compareTokens(TokenStream ts, String[] terms, int[][] offsets)
-    throws IOException
-    {
-        int i = 0;
-        
-        CharTermAttribute termAttr =
-            ts.getAttribute(CharTermAttribute.class);
-        OffsetAttribute offAttr =
-            ts.getAttribute(OffsetAttribute.class);
-        
-        while (ts.incrementToken()) {
-            String term = new String(termAttr.buffer(), 0, termAttr.length());
-            int startOff = offAttr.startOffset();
-            int endOff = offAttr.endOffset();
-            
-            //System.out.println(term);
-            assertEquals(terms[i], term);
-            assertEquals("Wrong start offset", offsets[i][0], startOff);
-            assertEquals("Wrong end offset", offsets[i][1], endOff);
-            ++i;
-        }
-        
-        assertEquals(terms.length, i);
-    }
-
     @Test
     public void testTokenizeSurrogate() throws Exception
     {
