@@ -29,7 +29,7 @@ public class CSVUtil
      *            max+1番目以降のカラムは、すべてmax番目のカラムにマージされる。
      * @return カラム配列。strが空文字列の場合は、空の配列が返される。
      */
-    public static final String[] tokenize(String str, int max)
+    public static String[] tokenize(String str, int max)
     {
         List<String> ret = new ArrayList<String>();
         CharacterIterator iter = new StringCharacterIterator(str);
@@ -99,7 +99,7 @@ public class CSVUtil
      * @param str エスケープする文字列
      * @return エスケープされた文字列
      */
-    public static final String escape(String str)
+    public static String escape(String str)
     {
         // 「 」「\t」「"」「,」のいずれかが含まれていれば、ダブルクォーテーションで囲む
         StringBuilder ret = null;
@@ -139,7 +139,7 @@ public class CSVUtil
      * @param elements 各項目の値
      * @return 一行分のCSVデータ
      */
-    public static final String join(Collection<String> elements)
+    public static String join(Collection<String> elements)
     {
         StringBuilder b = new StringBuilder();
 
@@ -162,7 +162,7 @@ public class CSVUtil
      * @param elements 各項目の値
      * @return 一行分のCSVデータ
      */
-    public static final String join(String[] elements)
+    public static String join(String[] elements)
     {
         return join(Arrays.asList(elements));
     }

@@ -1,7 +1,6 @@
 package net.moraleboost.mecab.impl;
 
 import net.moraleboost.mecab.DictionaryInfo;
-import org.bridj.BridJUtil;
 import org.bridj.Platform;
 import org.bridj.Pointer;
 import org.bridj.StructObject;
@@ -19,7 +18,7 @@ public class StandardDictionaryInfo extends StructObject implements DictionaryIn
     @Field(0)
     public Pointer<Byte> _filename()
     {
-        return BridJUtil.getPointerField(this, 0);
+        return this.io.getPointerField(this, 0);
     }
 
     public String filename()
@@ -40,7 +39,7 @@ public class StandardDictionaryInfo extends StructObject implements DictionaryIn
     @Field(1)
     public Pointer<Byte> _charset()
     {
-        return BridJUtil.getPointerField(this, 1);
+        return this.io.getPointerField(this, 1);
     }
 
     public String charset()
