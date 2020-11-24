@@ -20,10 +20,10 @@ configurations {
 
 repositories {
     maven {
-        url 'http://maven.restlet.org/'
+        url 'https://maven.restlet.org/'
     }
     maven {
-        url 'http://jcenter.bintray.com/'
+        url 'https://jcenter.bintray.com/'
     }
     mavenCentral()
 }
